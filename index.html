@@ -17,237 +17,119 @@
         .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .nav-active { color: var(--primary) !important; filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5)); }
         .tasbih-btn:active { transform: scale(0.92); }
+        .counter-glow { text-shadow: 0 0 30px rgba(245, 158, 11, 0.6); }
+        @keyframes pulse-slow { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #f59e0b10 0%, transparent 50%); pointer-events: none; z-index: -1; animation: pulse-slow 8s infinite; }
     </style>
 </head>
 <body class="pb-24 md:pb-0 md:pr-24 fire-gradient">
+    <div class="bg-glow"></div>
 
     <nav class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 flex justify-around p-4 z-50 md:top-0 md:right-0 md:left-auto md:flex-col md:w-24 md:h-screen md:border-l md:border-t-0 md:justify-center md:gap-8">
         <button onclick="showTab('home')" class="nav-btn flex flex-col items-center gap-1 nav-active" data-tab="home"><i data-lucide="home"></i></button>
         <button onclick="showTab('quran')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-tab="quran"><i data-lucide="book"></i></button>
         <button onclick="showTab('tasbih')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-tab="tasbih"><i data-lucide="refresh-cw"></i></button>
         <button onclick="showTab('azkar')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-tab="azkar"><i data-lucide="sun"></i></button>
+        <button onclick="showTab('heart')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-tab="heart"><i data-lucide="heart"></i></button>
         <button onclick="showTab('settings')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-tab="settings"><i data-lucide="settings"></i></button>
     </nav>
 
     <main class="max-w-4xl mx-auto p-6 md:p-12 relative">
         <header class="flex justify-between items-center mb-12">
-            <h1 class="text-3xl font-black text-white">رعد <span class="text-amber-500 text-sm">AI</span></h1>
-            <button onclick="toggleAiDrawer()" class="p-3 bg-amber-500 text-slate-950 rounded-xl"><i data-lucide="bot"></i></button>
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.4)] rounded-2xl"><i data-lucide="shield-check" class="text-slate-950 w-8 h-8"></i></div>
+                <h1 class="text-4xl font-black text-white tracking-tighter">رعد <span class="text-amber-500 text-sm font-bold block uppercase tracking-widest">مساعد إيماني ذكي</span></h1>
+            </div>
+            <button onclick="toggleAiDrawer()" class="p-4 bg-slate-900/50 hover:bg-amber-500 hover:text-slate-950 rounded-2xl border border-white/5 transition-colors"><i data-lucide="bot"></i></button>
         </header>
 
-        <section id="quran" class="tab-content space-y-6">
-            <div id="quran-header" class="flex justify-between items-center">
-                <h2 class="text-2xl font-black">القرآن الكريم</h2>
-            </div>
-            <div id="surah-list" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-            <div id="surah-reader" class="hidden bg-white text-slate-900 p-8 rounded-[2rem] text-right">
-                <button onclick="backToSurahList()" class="text-amber-600 font-bold mb-4">← العودة للفهرس</button>
-                <div id="surah-content" class="text-2xl quran-text"></div>
-            </div>
-        </section>
-
-        <section id="azkar" class="tab-content space-y-6">
-            <div class="flex gap-4">
-                <button onclick="fetchAzkar('أذكار الصباح')" class="bg-amber-500 text-slate-950 px-6 py-2 rounded-lg font-bold">أذكار الصباح</button>
-                <button onclick="fetchAzkar('أذكار المساء')" class="glass px-6 py-2 rounded-lg font-bold">أذكار المساء</button>
-            </div>
-            <div id="azkar-container" class="space-y-4 mt-6"></div>
-        </section>
-
-        <section id="home" class="tab-content active text-center py-20">
-            <h2 class="text-5xl font-black mb-4">أهلاً بك في رعد</h2>
-            <p class="text-slate-400">منصتك الإسلامية المتكاملة بالذكاء الاصطناعي</p>
-        </section>
-    </main>
-
-    <div id="ai-drawer" class="fixed inset-y-0 left-0 w-full md:w-[400px] glass z-[100] translate-x-full transition-transform duration-500 flex flex-col">
-        <div class="p-6 border-b border-white/5 flex justify-between items-center">
-            <span class="font-bold">رعد AI</span>
-            <button onclick="toggleAiDrawer()"><i data-lucide="x"></i></button>
-        </div>
-        <div id="ai-chat" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-        <div class="p-4 flex gap-2">
-            <input type="text" id="ai-input" placeholder="اسأل رعد..." class="flex-1 bg-white/5 p-3 rounded-xl outline-none border border-white/10">
-            <button onclick="askAi()" class="bg-amber-500 text-slate-950 p-3 rounded-xl"><i data-lucide="send"></i></button>
-        </div>
-    </div>
-
-    <script>
-        const apiKey = "AIzaSyBrW1NoWqgt3Edv6AtlvWb3ZEBOotld18Q"; 
-
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            loadQuranIndex();
-        });
-
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            lucide.createIcons();
-        }
-
-        async function loadQuranIndex() {
-            const res = await fetch('https://api.alquran.cloud/v1/surah');
-            const data = await res.json();
-            const container = document.getElementById('surah-list');
-            container.innerHTML = data.data.map(s => `
-                <button onclick="readSurah(${s.number})" class="glass p-4 rounded-xl hover:border-amber-500 transition-all">
-                    ${s.name}
-                </button>
-            `).join('');
-        }
-
-        async function readSurah(num) {
-            document.getElementById('surah-list').classList.add('hidden');
-            const reader = document.getElementById('surah-reader');
-            const content = document.getElementById('surah-content');
-            reader.classList.remove('hidden');
-            content.innerText = "جاري التحميل...";
-            
-            const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`);
-            const data = await res.json();
-            content.innerHTML = data.data.ayahs.map(a => `${a.text} <span>(${a.numberInSurah})</span>`).join(' ');
-        }
-
-        function backToSurahList() {
-            document.getElementById('surah-list').classList.remove('hidden');
-            document.getElementById('surah-reader').classList.add('hidden');
-        }
-
-        async function fetchAzkar(cat) {
-            const container = document.getElementById('azkar-container');
-            container.innerHTML = "جاري التحميل...";
-            const res = await fetch('https://raw.githubusercontent.com/nawafalqari/azkar-api/56df51279ab6eb86dc359620c7de2198fef59620/azkar.json');
-            const data = await res.json();
-            container.innerHTML = data[cat].map(z => `
-                <div class="glass p-4 rounded-xl text-right">
-                    <p class="text-lg">${z.zekr}</p>
-                    <span class="text-amber-500 text-sm">التكرار: ${z.count}</span>
+        <section id="home" class="tab-content active space-y-8">
+            <div class="relative overflow-hidden bg-gradient-to-br from-amber-500 to-orange-600 p-8 rounded-[2.5rem] shadow-2xl">
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-black text-slate-950 mb-2">مرحباً بك في رعد</h2>
+                    <p class="text-slate-900 font-medium opacity-80">منصتك الإسلامية الذكية</p>
                 </div>
-            `).join('');
-        }
+                <i data-lucide="moon" class="absolute -right-4 -top-4 w-32 h-32 text-white/10 rotate-12"></i>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div onclick="showTab('quran')" class="glass p-8 rounded-[2.5rem] cursor-pointer hover:border-amber-500/50 transition-all group">
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-500"><i data-lucide="book-open" class="text-amber-500 group-hover:text-slate-950"></i></div>
+                    <h3 class="text-xl font-bold">القرآن الكريم</h3>
+                </div>
+                <div onclick="toggleAiDrawer()" class="glass p-8 rounded-[2.5rem] cursor-pointer hover:border-blue-500/50 transition-all group border-blue-500/10">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500"><i data-lucide="sparkles" class="text-blue-500 group-hover:text-slate-950"></i></div>
+                    <h3 class="text-xl font-bold">رعد AI</h3>
+                </div>
+            </div>
+        </section>
 
-        function toggleAiDrawer() {
-            document.getElementById('ai-drawer').classList.toggle('translate-x-full');
-        }
+        <section id="quran" class="tab-content space-y-6">
+            <div id="quran-header" class="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+                <h2 class="text-2xl font-black">المصحف الشريف</h2>
+                <input type="text" id="surah-search" oninput="filterSurahs()" placeholder="ابحث عن سورة..." class="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-amber-500 w-full md:w-64 text-sm">
+            </div>
+            <div id="surah-list" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
+            <div id="surah-reader" class="hidden bg-white text-slate-900 p-8 rounded-[3rem] text-right shadow-2xl relative">
+                <button onclick="backToSurahList()" class="text-amber-700 font-bold mb-8 flex items-center gap-2"><i data-lucide="arrow-right"></i> الفهرس</button>
+                <h3 id="surah-title" class="text-center text-4xl font-black mb-12 font-serif text-amber-900"></h3>
+                <div id="surah-content" class="text-2xl quran-text text-justify px-2"></div>
+            </div>
+        </section>
 
-        async function askAi() {
-            const input = document.getElementById('ai-input');
-            const chat = document.getElementById('ai-chat');
-            const prompt = input.value;
-            if(!prompt) return;
-
-            chat.innerHTML += `<div class="text-amber-500 font-bold">أنت: ${prompt}</div>`;
-            input.value = '';
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                const data = await response.json();
-                const text = data.candidates[0].content.parts[0].text;
-                chat.innerHTML += `<div class="bg-white/5 p-3 rounded-lg">${text}</div>`;
-            } catch (e) {
-                chat.innerHTML += `<div class="text-red-500">حدث خطأ في الاتصال بالذكاء الاصطناعي.</div>`;
-            }
-        }
-    </script>
-</body>
-</html>
-َا إِلَهَ إِلَّا اللَّهُ" class="bg-slate-900">لَا إِلَهَ إِلَّا اللَّهُ</option>
+        <section id="tasbih" class="tab-content py-10">
+            <div class="max-w-md mx-auto glass p-10 rounded-[3rem] text-center">
+                <div id="tasbih-label" class="text-amber-500 font-bold mb-4 tracking-widest uppercase">سُبْحَانَ اللَّهِ</div>
+                <div id="tasbih-counter" class="text-9xl font-black counter-glow mb-10">0</div>
+                <button onclick="incrementTasbih()" class="tasbih-btn w-48 h-48 bg-amber-500 rounded-full mx-auto flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                    <i data-lucide="plus" class="w-16 h-16 text-slate-950"></i>
+                </button>
+                <div class="flex gap-4 mt-12">
+                    <button onclick="resetTasbih()" class="flex-1 py-4 glass rounded-2xl font-bold">تصفير</button>
+                    <select id="tasbih-type" onchange="changeTasbihType()" class="flex-[2] py-4 glass rounded-2xl bg-transparent px-4 outline-none border-none text-white">
+                        <option value="سُبْحَانَ اللَّهِ" class="bg-slate-900">سُبْحَانَ اللَّهِ</option>
+                        <option value="الْحَمْدُ لِلَّهِ" class="bg-slate-900">الْحَمْدُ لِلَّهِ</option>
                         <option value="اللَّهُ أَكْبَرُ" class="bg-slate-900">اللَّهُ أَكْبَرُ</option>
-                        <option value="أَسْتَغْفِرُ اللَّهَ" class="bg-slate-900">أَسْتَغْفِرُ اللَّهَ</option>
                     </select>
                 </div>
             </div>
         </section>
 
-        <!-- Quran Tab -->
-        <section id="quran" class="tab-content space-y-6">
-            <div id="quran-header" class="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
-                <h2 class="text-2xl font-black">المصحف الشريف</h2>
-                <div class="relative w-full md:w-64">
-                    <input type="text" id="surah-search" oninput="filterSurahs()" placeholder="ابحث عن سورة..." class="w-full bg-white/5 border border-white/10 p-3 pr-10 rounded-xl outline-none focus:border-amber-500 text-sm">
-                    <i data-lucide="search" class="absolute right-3 top-3.5 w-4 h-4 text-slate-500"></i>
-                </div>
-            </div>
-            <div id="surah-list" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
-            <div id="surah-reader" class="hidden bg-white text-slate-950 p-8 rounded-[3rem] text-right shadow-2xl relative overflow-hidden">
-                <button onclick="backToSurahList()" class="text-amber-700 font-bold flex items-center gap-2 mb-8"><i data-lucide="arrow-right"></i> الفهرس</button>
-                <h3 id="surah-title" class="text-center text-4xl font-black mb-10 text-amber-900 font-serif"></h3>
-                <div id="surah-content" class="text-3xl quran-text leading-[3] text-justify px-4"></div>
-            </div>
-        </section>
-
-        <!-- Azkar Tab -->
         <section id="azkar" class="tab-content space-y-6">
-            <h2 class="text-2xl font-black mb-6">الأذكار اليومية</h2>
-            <div class="flex flex-wrap gap-3 mb-8">
-                <button onclick="fetchAzkar('أذكار الصباح')" class="px-6 py-3 rounded-xl bg-amber-500 text-slate-950 font-bold text-sm">الصباح</button>
-                <button onclick="fetchAzkar('أذكار المساء')" class="px-6 py-3 rounded-xl glass border-white/10 text-white font-bold text-sm">المساء</button>
+            <div class="flex gap-3 mb-8">
+                <button onclick="fetchAzkar('أذكار الصباح')" class="px-8 py-3 bg-amber-500 text-slate-950 rounded-2xl font-bold">الصباح</button>
+                <button onclick="fetchAzkar('أذكار المساء')" class="px-8 py-3 glass rounded-2xl font-bold">المساء</button>
             </div>
             <div id="azkar-container" class="space-y-4"></div>
         </section>
 
-        <!-- Heart Tab -->
-        <section id="heart" class="tab-content space-y-8 text-center max-w-xl mx-auto">
-            <div class="relative p-8 bg-slate-900 border border-white/5 rounded-full inline-block">
-                <i data-lucide="heart" class="text-rose-500 w-16 h-16" fill="currentColor"></i>
-            </div>
-            <div>
-                <h2 class="text-4xl font-black mb-2">محراب المناجاة</h2>
-                <p class="text-slate-500">أرسل مشاعرك لله في صمت (تليجرام)</p>
-            </div>
-            <textarea id="tg-message" placeholder="اكتب ما بقلبك..." class="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-8 h-64 outline-none focus:border-amber-500 text-right text-xl shadow-inner resize-none transition-all"></textarea>
-            <button onclick="sendToTelegram()" class="w-full py-6 rounded-[2rem] font-black text-xl bg-amber-500 text-slate-950 hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] transition-all flex items-center justify-center gap-3">
-                <i data-lucide="send"></i> إرسال الآن
-            </button>
-        </section>
-
-        <!-- Settings Tab -->
         <section id="settings" class="tab-content space-y-8">
-            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="settings"></i> الإعدادات</h2>
-            <div class="glass p-10 rounded-[3rem] space-y-8 border-white/5">
+            <h2 class="text-3xl font-black">الإعدادات</h2>
+            <div class="glass p-10 rounded-[3rem] space-y-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-3">
-                        <label class="text-xs font-bold text-slate-500 tracking-widest px-2 uppercase">Telegram Token</label>
-                        <input type="password" id="input-token" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500 font-mono text-sm">
-                    </div>
-                    <div class="space-y-3">
-                        <label class="text-xs font-bold text-slate-500 tracking-widest px-2 uppercase">Chat ID</label>
-                        <input type="text" id="input-chatid" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500 font-mono text-sm">
-                    </div>
+                    <div><label class="text-xs font-bold text-slate-500 uppercase">Telegram Token</label><input type="password" id="input-token" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500 mt-2"></div>
+                    <div><label class="text-xs font-bold text-slate-500 uppercase">Chat ID</label><input type="text" id="input-chatid" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500 mt-2"></div>
                 </div>
-                <button onclick="saveSettings()" class="w-full bg-white text-slate-950 py-5 rounded-2xl font-black hover:bg-amber-500 transition-all">حفظ الإعدادات</button>
+                <button onclick="saveSettings()" class="w-full bg-white text-slate-950 py-5 rounded-2xl font-black">حفظ البيانات</button>
             </div>
         </section>
-
     </main>
 
-    <!-- AI Drawer -->
-    <div id="ai-drawer" class="fixed inset-y-0 left-0 w-full md:w-[450px] glass border-r border-white/10 z-[100] translate-x-full transition-transform duration-500 flex flex-col">
+    <div id="ai-drawer" class="fixed inset-y-0 left-0 w-full md:w-[450px] glass border-r border-white/10 z-[100] translate-x-full transition-transform duration-500 flex flex-col shadow-2xl">
         <div class="p-6 border-b border-white/5 flex justify-between items-center bg-slate-900/50">
-            <div class="flex items-center gap-3">
-                <div class="p-2 bg-amber-500 rounded-lg"><i data-lucide="bot" class="text-slate-950 w-5 h-5"></i></div>
-                <span class="font-black text-xl">رعد AI</span>
-            </div>
-            <button onclick="toggleAiDrawer()" class="p-2 text-slate-500"><i data-lucide="x"></i></button>
+            <span class="font-black text-xl">رعد AI</span>
+            <button onclick="toggleAiDrawer()"><i data-lucide="x"></i></button>
         </div>
         <div id="ai-chat" class="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col"></div>
         <div class="p-6 bg-slate-900/50 border-t border-white/5">
             <div class="relative flex items-center gap-2">
-                <input type="text" id="ai-input" onkeypress="if(event.key === 'Enter') askAi()" placeholder="اسأل رعد..." class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500 text-sm">
-                <button onclick="askAi()" class="absolute left-2 p-2 bg-amber-500 text-slate-950 rounded-xl">
-                    <i data-lucide="send" class="w-5 h-5"></i>
-                </button>
+                <input type="text" id="ai-input" onkeypress="if(event.key === 'Enter') askAi()" placeholder="اسأل رعد..." class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500">
+                <button onclick="askAi()" class="absolute left-2 p-2 bg-amber-500 text-slate-950 rounded-xl"><i data-lucide="send"></i></button>
             </div>
         </div>
     </div>
 
     <script>
-        const apiKey = "";
+        const apiKey = "AIzaSyBrW1NoWqgt3Edv6AtlvWb3ZEBOotld18Q"; //
         let allSurahs = [];
         let tasbihCount = parseInt(localStorage.getItem('tasbih_count')) || 0;
 
@@ -255,35 +137,107 @@
             lucide.createIcons();
             loadQuranIndex();
             updateTasbihDisplay();
-            document.getElementById('input-token').value = localStorage.getItem('raad_tg_token') || '';
-            document.getElementById('input-chatid').value = localStorage.getItem('raad_tg_chat_id') || '';
         });
 
-        // --- Tasbih Logic ---
-        function incrementTasbih() {
-            tasbihCount++;
-            updateTasbihDisplay();
-            if (window.navigator.vibrate) window.navigator.vibrate(50);
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('nav-active');
+                if(btn.dataset.tab === tabId) btn.classList.add('nav-active');
+            });
+            lucide.createIcons();
         }
 
-        function resetTasbih() {
-            tasbihCount = 0;
-            updateTasbihDisplay();
-        }
-
-        function updateTasbihDisplay() {
-            document.getElementById('tasbih-counter').innerText = tasbihCount;
-            localStorage.setItem('tasbih_count', tasbihCount);
-        }
-
-        function changeTasbihType() {
-            const type = document.getElementById('tasbih-type').value;
-            document.getElementById('tasbih-label').innerText = type;
-        }
-
-        // --- Quran Logic ---
         async function loadQuranIndex() {
             try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const data = await res.json();
+                allSurahs = data.data;
+                renderSurahList(allSurahs);
+            } catch (e) { console.error("Error loading Quran index", e); }
+        }
+
+        function renderSurahList(list) {
+            const container = document.getElementById('surah-list');
+            container.innerHTML = list.map(s => `
+                <button onclick="readSurah(${s.number}, '${s.name}')" class="glass p-5 rounded-3xl border-white/5 hover:border-amber-500 transition-all text-center">
+                    <div class="font-black text-lg">${s.name}</div>
+                </button>
+            `).join('');
+        }
+
+        async function readSurah(num, name) {
+            document.getElementById('quran-header').classList.add('hidden');
+            document.getElementById('surah-list').classList.add('hidden');
+            const reader = document.getElementById('surah-reader');
+            const content = document.getElementById('surah-content');
+            reader.classList.remove('hidden');
+            document.getElementById('surah-title').innerText = `سورة ${name}`;
+            content.innerText = "جاري التحميل...";
+            try {
+                const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`);
+                const data = await res.json();
+                content.innerHTML = data.data.ayahs.map(a => `${a.text} <span>(${a.numberInSurah})</span>`).join(' ');
+            } catch (e) { content.innerText = "تعذر تحميل السورة."; }
+        }
+
+        function backToSurahList() {
+            document.getElementById('quran-header').classList.remove('hidden');
+            document.getElementById('surah-list').classList.remove('hidden');
+            document.getElementById('surah-reader').classList.add('hidden');
+        }
+
+        async function fetchAzkar(category) {
+            const container = document.getElementById('azkar-container');
+            container.innerHTML = "جاري التحميل...";
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/nawafalqari/azkar-api/56df51279ab6eb86dc359620c7de2198fef59620/azkar.json');
+                const data = await res.json();
+                container.innerHTML = (data[category] || []).map(item => `
+                    <div class="glass p-6 rounded-3xl border-white/5 text-right">
+                        <p class="text-xl font-serif">${item.zekr}</p>
+                        <span class="text-amber-500 text-sm">التكرار: ${item.count}</span>
+                    </div>
+                `).join('');
+            } catch (e) { container.innerHTML = "خطأ في جلب الأذكار."; }
+        }
+
+        function incrementTasbih() { tasbihCount++; updateTasbihDisplay(); if(window.navigator.vibrate) window.navigator.vibrate(40); }
+        function resetTasbih() { tasbihCount = 0; updateTasbihDisplay(); }
+        function updateTasbihDisplay() { document.getElementById('tasbih-counter').innerText = tasbihCount; localStorage.setItem('tasbih_count', tasbihCount); }
+        function changeTasbihType() { document.getElementById('tasbih-label').innerText = document.getElementById('tasbih-type').value; }
+        function toggleAiDrawer() { const dr = document.getElementById('ai-drawer'); dr.classList.toggle('translate-x-full'); dr.classList.toggle('translate-x-0'); }
+
+        async function askAi() {
+            const input = document.getElementById('ai-input');
+            const chat = document.getElementById('ai-chat');
+            const prompt = input.value.trim();
+            if(!prompt) return;
+            chat.innerHTML += `<div class="self-end bg-amber-500 text-slate-950 p-4 rounded-2xl text-sm font-bold max-w-[80%]">${prompt}</div>`;
+            input.value = '';
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "أجب باختصار وأدب كخبير شرعي: " + prompt }] }] })
+                });
+                const result = await response.json();
+                const aiRes = result.candidates[0].content.parts[0].text;
+                chat.innerHTML += `<div class="self-start bg-white/5 p-4 rounded-2xl text-sm border border-white/5 max-w-[85%] text-right">${aiRes}</div>`;
+                chat.scrollTo(0, chat.scrollHeight);
+            } catch (e) { chat.innerHTML += `<div class="text-rose-500 text-xs">خطأ في الاتصال.</div>`; }
+        }
+
+        function saveSettings() {
+            localStorage.setItem('raad_tg_token', document.getElementById('input-token').value);
+            localStorage.setItem('raad_tg_chat_id', document.getElementById('input-chatid').value);
+            alert('تم الحفظ ✅');
+        }
+    </script>
+</body>
+</html>
+       try {
                 const res = await fetch('https://api.alquran.cloud/v1/surah');
                 const data = await res.json();
                 allSurahs = data.data;
