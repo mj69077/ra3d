@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تطبيق رعد</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --g:#000000;
+  --g2:#d4af37;
+  --bg:#0f0f0f;
+  --fg:#f5f5f5;
+}
+*{transition:.25s ease}
+body{margin:0;font-family:'Amiri',serif;background:var(--bg);color:var(--fg)}
+header{background:var(--g);color:var(--g2);text-align:center;padding:14px;font-size:26px}
+nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px}
+nav button{padding:8px 12px;border:none;border-radius:10px;background:var(--g2);color:black;font-weight:bold;cursor:pointer}
+nav button:hover{transform:scale(1.05)}
+section{display:none;padding:12px;animation:fade .4s ease}
+.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card{background:#1a1a1a;border-radius:12px;padding:10px;margin:8px 0}
+.ayah{line-height:2}
+input{width:100%;padding:8px;border-radius:8px;border:none;margin:6px 0}
+.counter{font-size:40px;text-align:center}
+#compass{width:220px;height:220px;border:4px solid var(--g2);border-radius:50%;margin:20px auto;position:relative}
+#needle{width:4px;height:90px;background:var(--g2);position:absolute;bottom:50%;left:50%;transform-origin:bottom}
+#splash{position:fixed;inset:0;background:linear-gradient(135deg,#000,#333);color:var(--g2);display:grid;place-items:center;font-size:32px;font-weight:bold;z-index:999}
+#splash small{font-size:14px;margin-top:8px}
+</style>
+</head>
+
+<body>
+
+<div id="splash">🌿 تطبيق رعد <small>قرآن • أذكار • أحاديث • قبلة • صلاة</small></div>
+
+<header>🌿 تطبيق رعد</header>
+
+<nav>
+<button onclick="openTab('quran')">المصحف</button>
+<button onclick="openTab('adhkar')">الأذكار</button>
+<button onclick="openTab('hadith')">الأحاديث</button>
+<button onclick="openTab('qibla')">القبلة</button>
+<button onclick="openTab('prayer')">أوقات الصلاة</button>
+<button onclick="openTab('tasbeeh')">المسبحة</button>
+</nav>
+
+<section id="quran" class="active">
+<input id="search" placeholder="🔍 بحث في الآيات" oninput="searchAyah()">
+<div id="surahList"></div>
+<div id="ayahs"></div>
+</section>
+
+<section id="adhkar"></section>
+<section id="hadith"></section>
+
+<section id="qibla">
+<div class="card" style="text-align:center">
+<h3>🧭 اتجاه القبلة</h3>
+<div id="compass"><div id="needle"></div></div>
+<div id="qiblaDeg"></div>
+</div>
+</section>
+
+<section id="prayer"></section>
+
+<section id="tasbeeh">
+<div class="card" style="text-align:center">
+<h3>📿 المسبحة</h3>
+<div class="counter" id="count">0</div>
+<button onclick="inc()">سبّح</button>
+<button onclick="reset()">تصفير</button>
+<br><br>
+<label><input type="checkbox" id="soundToggle"> صوت التسبيح</label>
+<audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
+</div>
+</section>
+
+<script>
+function openTab(id){
+ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+
+setTimeout(()=>{
+  const splash = document.getElementById("splash");
+  splash.style.opacity = "0";
+  splash.style.pointerEvents = "none";
+  setTimeout(()=> splash.remove(), 400);
+},2000);
+
+/* قرآن */
+let allAyahs=[];
+fetch("https://api.alquran.cloud/v1/quran/quran-uthmani")
+.then(r=>r.json()).then(d=>{
+ d.data.surahs.forEach(s=>{
+   let b=document.createElement("button");
+   b.textContent=s.number+" "+s.name;
+   b.onclick=()=>showSurah(s);
+   surahList.appendChild(b);
+ });
+});
+function showSurah(s){
+ allAyahs=s.ayahs;
+ ayahs.innerHTML=s.ayahs.map(a=>`<div class="card ayah">${a.numberInSurah}. ${a.text}</div>`).join("");
+}
+function searchAyah(){
+ let q=search.value;
+ ayahs.innerHTML=allAyahs.filter(a=>a.text.includes(q)).map(a=>`<div class="card ayah">${a.numberInSurah}. ${a.text}</div>`).join("");
+}
+
+/* أذكار */
+fetch("https://api.azkar.vercel.app/api/azkar").then(r=>r.json()).then(d=>{
+ adhkar.innerHTML="<h3>🤲 الأذكار</h3>"+d.data.map(z=>`<div class='card'>${z.zekr}</div>`).join("");
+});
+
+/* أحاديث */
+fetch("https://api.hadith.gading.dev/books/muslim?range=1-60").then(r=>r.json()).then(d=>{
+ hadith.innerHTML="<h3>🧾 الأحاديث</h3>"+d.data.hadiths.map(h=>`<div class='card'>${h.arab}</div>`).join("");
+});
+
+/* قبلة */
+let bearing=0;
+navigator.geolocation.getCurrentPosition(p=>{
+ const lat=p.coords.latitude,lon=p.coords.longitude;
+ const Klat=21.4225,Klon=39.8262;
+ const dLon=(Klon-lon)*Math.PI/180;
+ const y=Math.sin(dLon)*Math.cos(Klat*Math.PI/180);
+ const x=Math.cos(lat*Math.PI/180)*Math.sin(Klat*Math.PI/180)-Math.sin(lat*Math.PI/180)*Math.cos(Klat*Math.PI/180)*Math.cos(dLon);
+ bearing=(Math.atan2(y,x)*180/Math.PI+360)%360;
+ qiblaDeg.innerText="الزاوية: "+Math.round(bearing)+"°";
+});
+window.addEventListener("deviceorientation",e=>{
+ let a=e.alpha||0;
+ needle.style.transform=`rotate(${bearing-a}deg)`;
+});
+
+/* أوقات الصلاة */
+navigator.geolocation.getCurrentPosition(pos=>{
+ const lat=pos.coords.latitude, lon=pos.coords.longitude;
+ fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`)
+ .then(r=>r.json())
+ .then(d=>{
+   const t=d.data.timings;
+   prayer.innerHTML=`
+   <div class="card" style="text-align:center">
+     <h3>🕌 أوقات الصلاة</h3>
+     <p>الفجر: ${t.Fajr}</p>
+     <p>الشروق: ${t.Sunrise}</p>
+     <p>الظهر: ${t.Dhuhr}</p>
+     <p>العصر: ${t.Asr}</p>
+     <p>المغرب: ${t.Maghrib}</p>
+     <p>العشاء: ${t.Isha}</p>
+   </div>`;
+ });
+});
+
+/* مسبحة */
+let c=0;
+function inc(){c++;count.innerText=c;if(soundToggle.checked) clickSound.play()}
+function reset(){c=0;count.innerText=0}
+</script>
+</body>
+</html>
