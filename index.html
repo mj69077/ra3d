@@ -2,11 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>تطبيق رعد</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
-
 <style>
 body{margin:0;background:#000;color:#f5f5f5;font-family:'Amiri',serif}
 header{text-align:center;color:#d4af37;font-size:24px;padding:14px}
@@ -16,13 +14,9 @@ section{display:none;padding:15px}
 .active{display:block}
 .card{background:#111;border-radius:12px;padding:12px;margin:10px 0}
 .ayah{line-height:2}
-#compass{width:200px;height:200px;border:4px solid #d4af37;border-radius:50%;margin:20px auto;position:relative}
-#needle{width:4px;height:90px;background:#d4af37;position:absolute;bottom:50%;left:50%;transform-origin:bottom}
 .counter{text-align:center;font-size:40px}
-.notice{color:#aaa;text-align:center;margin-top:10px}
 </style>
 </head>
-
 <body>
 
 <header>🌿 تطبيق رعد</header>
@@ -31,23 +25,17 @@ section{display:none;padding:15px}
 <button onclick="openTab('quran')">المصحف</button>
 <button onclick="openTab('adhkar')">الأذكار</button>
 <button onclick="openTab('hadith')">الأحاديث</button>
-<button onclick="openTab('qibla')">القبلة</button>
 <button onclick="openTab('prayer')">أوقات الصلاة</button>
 <button onclick="openTab('tasbeeh')">المسبحة</button>
 </nav>
 
-<section id="quran" class="active"><div id="surahList"></div><div id="ayahs"></div></section>
-<section id="adhkar"></section>
-<section id="hadith"></section>
-
-<section id="qibla">
-<div class="card" style="text-align:center">
-<div id="compass"><div id="needle"></div></div>
-<div id="qiblaDeg"></div>
-<div class="notice" id="qiblaMsg"></div>
-</div>
+<section id="quran" class="active">
+<div id="surahList"></div>
+<div id="ayahs"></div>
 </section>
 
+<section id="adhkar"></section>
+<section id="hadith"></section>
 <section id="prayer"></section>
 
 <section id="tasbeeh">
@@ -66,7 +54,7 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* المصحف */
+// القرآن
 fetch("https://api.quran.com/api/v4/chapters")
 .then(r=>r.json())
 .then(d=>{
@@ -76,26 +64,56 @@ b.textContent=s.id+" "+s.name_arabic;
 b.onclick=()=>loadSurah(s.id);
 surahList.appendChild(b);
 });
-}).catch(()=>surahList.innerHTML="<p>تعذر تحميل المصحف</p>");
+});
 
 function loadSurah(id){
 fetch("https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number="+id)
 .then(r=>r.json())
 .then(d=>{
-ayahs.innerHTML=d.verses.map(a=>`<div class='card ayah'>${a.verse_key.replace(id+":","")}. ${a.text_uthmani}</div>`).join("");
-}).catch(()=>ayahs.innerHTML="<p>تعذر تحميل السورة</p>");
+ayahs.innerHTML=d.verses.map(a=>`<div class="card ayah">${a.verse_key.replace(id+":","")}. ${a.text_uthmani}</div>`).join("");
+});
 }
 
-/* الأذكار */
+// الأذكار
 fetch("https://api.npoint.io/9a8e5f9b7c4a9f8e3a4b")
 .then(r=>r.json())
 .then(d=>{
 adhkar.innerHTML="<h3>الأذكار</h3>"+d.map(z=>`<div class='card'>${z}</div>`).join("");
-}).catch(()=>adhkar.innerHTML="<p>تعذر تحميل الأذكار</p>");
+});
 
-/* الأحاديث */
+// الأحاديث
 fetch("https://api.hadith.gading.dev/books/muslim?range=1-40")
 .then(r=>r.json())
+.then(d=>{
+hadith.innerHTML="<h3>الأحاديث</h3>"+d.data.hadiths.map(h=>`<div class='card'>${h.arab}</div>`).join("");
+});
+
+// أوقات الصلاة
+navigator.geolocation.getCurrentPosition(p=>{
+fetch(`https://api.aladhan.com/v1/timings?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&method=2`)
+.then(r=>r.json())
+.then(d=>{
+const t=d.data.timings;
+prayer.innerHTML=`
+<div class="card">
+<p>الفجر: ${t.Fajr}</p>
+<p>الشروق: ${t.Sunrise}</p>
+<p>الظهر: ${t.Dhuhr}</p>
+<p>العصر: ${t.Asr}</p>
+<p>المغرب: ${t.Maghrib}</p>
+<p>العشاء: ${t.Isha}</p>
+</div>`;
+});
+});
+
+// المسبحة
+let c=0;
+function inc(){c++;count.innerText=c}
+function reset(){c=0;count.innerText=0}
+</script>
+
+</body>
+</html>r=>r.json())
 .then(d=>{
 hadith.innerHTML="<h3>الأحاديث</h3>"+
 d.data.hadiths.map(h=>`<div class='card'>${h.arab}</div>`).join("");
