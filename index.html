@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>تطبيق رعد</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+
 <style>
 body{margin:0;background:#000;color:#f5f5f5;font-family:'Amiri',serif}
-header{text-align:center;color:#d4af37;font-size:24px;padding:14px}
+header{text-align:center;color:#d4af37;font-size:26px;padding:14px}
 nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px}
 button{background:#d4af37;border:none;border-radius:10px;padding:8px 14px;font-weight:bold}
 section{display:none;padding:15px}
@@ -17,6 +18,7 @@ section{display:none;padding:15px}
 .counter{text-align:center;font-size:40px}
 </style>
 </head>
+
 <body>
 
 <header>🌿 تطبيق رعد</header>
@@ -54,10 +56,9 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-// القرآن
+/* المصحف */
 fetch("https://api.quran.com/api/v4/chapters")
-.then(r=>r.json())
-.then(d=>{
+.then(r=>r.json()).then(d=>{
 d.chapters.forEach(s=>{
 let b=document.createElement("button");
 b.textContent=s.id+" "+s.name_arabic;
@@ -68,56 +69,60 @@ surahList.appendChild(b);
 
 function loadSurah(id){
 fetch("https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number="+id)
-.then(r=>r.json())
-.then(d=>{
-ayahs.innerHTML=d.verses.map(a=>`<div class="card ayah">${a.verse_key.replace(id+":","")}. ${a.text_uthmani}</div>`).join("");
+.then(r=>r.json()).then(d=>{
+let html="";
+d.verses.forEach(a=>{
+html+="<div class='card ayah'>"+a.verse_key.split(':')[1]+" - "+a.text_uthmani+"</div>";
+});
+ayahs.innerHTML=html;
 });
 }
 
-// الأذكار
+/* الأذكار */
 fetch("https://api.npoint.io/9a8e5f9b7c4a9f8e3a4b")
-.then(r=>r.json())
-.then(d=>{
-adhkar.innerHTML="<h3>الأذكار</h3>"+d.map(z=>`<div class='card'>${z}</div>`).join("");
+.then(r=>r.json()).then(d=>{
+let html="<h3>الأذكار</h3>";
+d.forEach(z=>{
+html+="<div class='card'>"+z+"</div>";
+});
+adhkar.innerHTML=html;
 });
 
-// الأحاديث
+/* الأحاديث */
 fetch("https://api.hadith.gading.dev/books/muslim?range=1-40")
-.then(r=>r.json())
-.then(d=>{
-hadith.innerHTML="<h3>الأحاديث</h3>"+d.data.hadiths.map(h=>`<div class='card'>${h.arab}</div>`).join("");
+.then(r=>r.json()).then(d=>{
+let html="<h3>الأحاديث</h3>";
+d.data.hadiths.forEach(h=>{
+html+="<div class='card'>"+h.arab+"</div>";
+});
+hadith.innerHTML=html;
 });
 
-// أوقات الصلاة
+/* أوقات الصلاة */
 navigator.geolocation.getCurrentPosition(p=>{
-fetch(`https://api.aladhan.com/v1/timings?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&method=2`)
-.then(r=>r.json())
-.then(d=>{
-const t=d.data.timings;
-prayer.innerHTML=`
-<div class="card">
-<p>الفجر: ${t.Fajr}</p>
-<p>الشروق: ${t.Sunrise}</p>
-<p>الظهر: ${t.Dhuhr}</p>
-<p>العصر: ${t.Asr}</p>
-<p>المغرب: ${t.Maghrib}</p>
-<p>العشاء: ${t.Isha}</p>
-</div>`;
+fetch("https://api.aladhan.com/v1/timings?latitude="+p.coords.latitude+"&longitude="+p.coords.longitude+"&method=2")
+.then(r=>r.json()).then(d=>{
+let t=d.data.timings;
+let html="<div class='card'>";
+html+="<p>الفجر: "+t.Fajr+"</p>";
+html+="<p>الشروق: "+t.Sunrise+"</p>";
+html+="<p>الظهر: "+t.Dhuhr+"</p>";
+html+="<p>العصر: "+t.Asr+"</p>";
+html+="<p>المغرب: "+t.Maghrib+"</p>";
+html+="<p>العشاء: "+t.Isha+"</p>";
+html+="</div>";
+prayer.innerHTML=html;
 });
 });
 
-// المسبحة
+/* المسبحة */
 let c=0;
-function inc(){c++;count.innerText=c}
-function reset(){c=0;count.innerText=0}
+function inc(){c++;count.innerText=c;}
+function reset(){c=0;count.innerText=0;}
 </script>
 
 </body>
-</html>r=>r.json())
-.then(d=>{
-hadith.innerHTML="<h3>الأحاديث</h3>"+
-d.data.hadiths.map(h=>`<div class='card'>${h.arab}</div>`).join("");
-}).catch(()=>hadith.innerHTML="<p>تعذر تحميل الأحاديث</p>");
+</html>ML="<p>تعذر تحميل الأحاديث</p>");
 
 /* أوقات الصلاة */
 if(navigator.geolocation){
