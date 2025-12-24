@@ -25,9 +25,7 @@ section{display:none;padding:15px}
 
 <nav>
 <button onclick="openTab('quran')">المصحف</button>
-<button onclick="openTab('adhkar')">الأذكار</button>
 <button onclick="openTab('hadith')">الأحاديث</button>
-<button onclick="openTab('prayer')">أوقات الصلاة</button>
 <button onclick="openTab('tasbeeh')">المسبحة</button>
 </nav>
 
@@ -36,9 +34,7 @@ section{display:none;padding:15px}
 <div id="ayahs"></div>
 </section>
 
-<section id="adhkar"></section>
 <section id="hadith"></section>
-<section id="prayer"></section>
 
 <section id="tasbeeh">
 <div class="card">
@@ -58,7 +54,8 @@ document.getElementById(id).classList.add("active");
 
 /* المصحف */
 fetch("https://api.quran.com/api/v4/chapters")
-.then(r=>r.json()).then(d=>{
+.then(r=>r.json())
+.then(d=>{
 d.chapters.forEach(s=>{
 let b=document.createElement("button");
 b.textContent=s.id+" "+s.name_arabic;
@@ -69,23 +66,35 @@ surahList.appendChild(b);
 
 function loadSurah(id){
 fetch("https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number="+id)
-.then(r=>r.json()).then(d=>{
+.then(r=>r.json())
+.then(d=>{
 let html="";
 d.verses.forEach(a=>{
-html+="<div class='card ayah'>"+a.verse_key.split(':')[1]+" - "+a.text_uthmani+"</div>";
+html += `<div class="card ayah">${a.verse_key.split(":")[1]} - ${a.text_uthmani}</div>`;
 });
-ayahs.innerHTML=html;
+ayahs.innerHTML = html;
 });
 }
 
-/* الأذكار */
-fetch("https://api.npoint.io/9a8e5f9b7c4a9f8e3a4b")
-.then(r=>r.json()).then(d=>{
-let html="<h3>الأذكار</h3>";
-d.forEach(z=>{
-html+="<div class='card'>"+z+"</div>";
+/* الأحاديث */
+fetch("https://api.hadith.gading.dev/books/muslim?range=1-40")
+.then(r=>r.json())
+.then(d=>{
+let html = "<h3>الأحاديث</h3>";
+d.data.hadiths.forEach(h=>{
+html += `<div class="card">${h.arab}</div>`;
 });
-adhkar.innerHTML=html;
+hadith.innerHTML = html;
+});
+
+/* المسبحة */
+let c=0;
+function inc(){c++;count.innerText=c;}
+function reset(){c=0;count.innerText=0;}
+</script>
+
+</body>
+</html>ML=html;
 });
 
 /* الأحاديث */
