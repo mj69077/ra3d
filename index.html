@@ -105,7 +105,9 @@
                 const d = await r.json();
                 c.innerHTML = "";
                 d.verses.forEach(v => {
-                    c.innerHTML += `<div class="card">${v.text_uthmani} <small style="color:gray; font-size:0.7rem;">[${v.verse_key.split(':')[1]}]</small></div>`;
+                    const splitKey = v.verse_key.split(':');
+                    const verseNum = splitKey[1];
+                    c.innerHTML += `<div class="card">${v.text_uthmani} <small style="color:gray; font-size:0.7rem;">[${verseNum}]</small></div>`;
                 });
                 window.scrollTo({top: c.offsetTop, behavior: 'smooth'});
             } catch(e) { c.innerHTML = "خطأ في الشبكة"; }
@@ -175,10 +177,7 @@
         window.onresize = resize;
     </script>
 </body>
-</html>
-            if(navigator.vibrate) navigator.vibrate(20);
-                    }
-                };
+</html>  };
                 list.appendChild(div);
             });
         }
