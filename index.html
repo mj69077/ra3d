@@ -1,55 +1,173 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رعد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --gold: #FFD700; --dark-gold: #b8860b; --bg: #0a0a0a; --card: #161616; }
-        body { margin: 0; padding: 0; font-family: 'Amiri', serif; background: var(--bg); color: var(--gold); min-height: 100vh; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; position: relative; z-index: 2; }
-        header h1 { text-align: center; font-family: 'Reem Kufi', sans-serif; font-size: 3.5rem; margin: 20px 0; color: var(--gold); }
-        
-        nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
-        nav button { background: var(--card); border: 1px solid var(--dark-gold); color: var(--gold); padding: 12px 5px; border-radius: 8px; cursor: pointer; font-family: 'Reem Kufi'; }
-        nav button.active { background: var(--gold); color: black; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رعد</title>
 
-        .section { display: none; }
-        .active-section { display: block; }
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
 
-        .surah-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px; max-height: 250px; overflow-y: auto; padding: 10px; background: #000; border-radius: 10px; border: 1px solid #333; }
-        .surah-btn { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
-        .surah-btn:hover { border-color: var(--gold); }
-
-        .card { background: var(--card); padding: 20px; margin-bottom: 15px; border-radius: 10px; border-right: 4px solid var(--gold); font-size: 1.5rem; line-height: 2; }
-
-        .zekr-box { background: var(--card); padding: 15px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; border: 1px solid #333; position: relative; }
-        .progress-bar { position: absolute; bottom: 0; right: 0; height: 3px; background: var(--gold); width: 0%; transition: 0.3s; }
-
-        .counter { font-size: 6rem; text-align: center; margin: 20px 0; font-family: 'Reem Kufi'; }
-        .tap-btn { width: 160px; height: 160px; border-radius: 50%; background: #000; border: 5px solid var(--gold); color: var(--gold); font-size: 1.5rem; cursor: pointer; display: block; margin: 0 auto; }
-        
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
-    </style>
+<style>
+:root { --gold:#FFD700; --dark-gold:#b8860b; --bg:#0a0a0a; --card:#161616; }
+body{margin:0;background:var(--bg);color:var(--gold);font-family:'Amiri';}
+.container{max-width:800px;margin:auto;padding:20px;position:relative;z-index:2}
+h1{text-align:center;font-family:'Reem Kufi';font-size:3.2rem}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:25px}
+nav button{background:var(--card);border:1px solid var(--dark-gold);color:var(--gold);padding:12px;border-radius:8px;cursor:pointer}
+nav button.active{background:var(--gold);color:black}
+.section{display:none}
+.active-section{display:block}
+.surah-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;max-height:250px;overflow:auto;padding:10px;background:black;border-radius:10px}
+.surah-btn{background:#1a1a1a;color:white;border:1px solid #444;border-radius:5px;padding:8px;cursor:pointer}
+.card{background:var(--card);padding:20px;border-radius:10px;border-right:4px solid var(--gold);margin-bottom:15px;font-size:1.4rem;line-height:2}
+.zekr-box{background:var(--card);padding:15px;border-radius:8px;margin-bottom:10px;border:1px solid #333;cursor:pointer;position:relative}
+.progress{height:4px;background:var(--gold);position:absolute;bottom:0;right:0;width:0}
+.counter{text-align:center;font-size:6rem}
+.tap{width:160px;height:160px;border-radius:50%;border:5px solid var(--gold);background:black;color:var(--gold);font-size:1.5rem;display:block;margin:auto}
+canvas{position:fixed;top:0;left:0;z-index:1;pointer-events:none}
+</style>
 </head>
+
 <body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+<h1>رعد</h1>
+
+<nav>
+<button class="active" onclick="show('quran')" id="m-quran">المصحف</button>
+<button onclick="show('azkar')" id="m-azkar">الأذكار</button>
+<button onclick="show('tasbih')" id="m-tasbih">المسبحة</button>
+<button onclick="show('hadith')" id="m-hadith">الحديث</button>
+</nav>
+
+<section id="quran" class="section active-section">
+<div id="grid" class="surah-grid">جاري التحميل...</div>
+<div id="content"></div>
+</section>
+
+<section id="azkar" class="section"><div id="azkarList"></div></section>
+
+<section id="tasbih" class="section">
+<div class="counter" id="count">0</div>
+<button class="tap" onclick="tap()">الله أكبر</button>
+<center><button onclick="reset()" style="background:none;border:none;color:gray;margin-top:15px">تصفير</button></center>
+</section>
+
+<section id="hadith" class="section">
+<div id="hadithBox" class="card">جاري التحميل...</div>
+<center><button onclick="loadHadith()" style="background:var(--gold);border:none;padding:10px 20px;border-radius:20px">حديث آخر</button></center>
+</section>
+</div>
+
+<script>
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'))
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'))
+document.getElementById(id).classList.add('active-section')
+document.getElementById('m-'+id).classList.add('active')
+}
+
+async function initQ(){
+const r=await fetch('https://api.quran.com/api/v4/chapters')
+const d=await r.json()
+const g=document.getElementById('grid')
+g.innerHTML=''
+d.chapters.forEach(s=>{
+let b=document.createElement('button')
+b.className='surah-btn'
+b.textContent=s.name_arabic
+b.onclick=()=>loadS(s.id)
+g.appendChild(b)
+})
+}
+
+async function loadS(id){
+const c=document.getElementById('content')
+c.innerHTML='جاري التحميل...'
+const r=await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`)
+const d=await r.json()
+c.innerHTML=''
+d.verses.forEach(v=>{
+const n=v.verse_key.split(':')[1]
+c.innerHTML+=`<div class="card">${v.text_uthmani} <small style="color:gray">[${n}]</small></div>`
+})
+}
+
+const azkar=[{t:"سبحان الله",g:33},{t:"الحمد لله",g:33},{t:"الله أكبر",g:34}]
+
+function initAzkar(){
+const l=document.getElementById('azkarList')
+azkar.forEach((z,i)=>{
+let n=0
+let d=document.createElement('div')
+d.className='zekr-box'
+d.innerHTML=`${z.t}<small id="z${i}">0 / ${z.g}</small><div class="progress" id="p${i}"></div>`
+d.onclick=()=>{
+if(n<z.g){
+n++
+document.getElementById('z'+i).innerText=`${n} / ${z.g}`
+document.getElementById('p'+i).style.width=(n/z.g*100)+'%'
+}
+}
+l.appendChild(d)
+})
+}
+
+let c=0
+function tap(){c++;document.getElementById('count').innerText=c}
+function reset(){c=0;document.getElementById('count').innerText=0}
+
+async function loadHadith(){
+const b=document.getElementById('hadithBox')
+const r=await fetch('https://api.hadith.gading.dev/books/muslim?range=1-40')
+const d=await r.json()
+const h=d.data.hadiths[Math.floor(Math.random()*d.data.hadiths.length)]
+b.innerText=h.arab
+}
+
+const canvas=document.getElementById('bg')
+const ctx=canvas.getContext('2d')
+let dots=[]
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+function setup(){
+resize()
+dots=Array.from({length:40},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,s:Math.random()*0.6}))
+}
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.fillStyle='rgba(255,215,0,0.3)'
+dots.forEach(d=>{d.y-=d.s;if(d.y<0)d.y=canvas.height;ctx.beginPath();ctx.arc(d.x,d.y,1.2,0,7);ctx.fill()})
+requestAnimationFrame(draw)
+}
+
+window.onload=()=>{initQ();initAzkar();loadHadith();setup();draw()}
+window.onresize=resize
+</script>
+
+</body>
+</html>
 
     <canvas id="bg"></canvas>
 
     <div class="container">
-        <header><h1>رعد</h1></header>
+        <header>
+            <h1>رعد</h1>
+        </header>
 
         <nav>
-            <button onclick="showSec('quran')" id="m-quran" class="active">المصحف</button>
-            <button onclick="showSec('azkar')" id="m-azkar">الأذكار</button>
-            <button onclick="showSec('tasbih')" id="m-tasbih">المسبحة</button>
-            <button onclick="showSec('hadith')" id="m-hadith">الحديث</button>
+            <button onclick="showSection('quran')" id="btn-quran" class="active">المصحف</button>
+            <button onclick="showSection('azkar')" id="btn-azkar">الأذكار</button>
+            <button onclick="showSection('tasbih')" id="btn-tasbih">المسبحة</button>
+            <button onclick="showSection('hadith')" id="btn-hadith">الحديث</button>
         </nav>
 
-        <section id="quran" class="section active-section">
-            <div id="grid" class="surah-grid">جاري التحميل...</div>
-            <div id="content"></div>
+        <section id="quran" class="section active">
+            <div id="surahGrid" class="surah-grid">
+                <div style="color: gray;">جاري التحميل...</div>
+            </div>
+            <div id="quranContent"></div>
         </section>
 
         <section id="azkar" class="section">
@@ -57,282 +175,212 @@
         </section>
 
         <section id="tasbih" class="section">
-            <div class="counter" id="t-num">0</div>
-            <button class="tap-btn" onclick="hit()">الله أكبر</button>
-            <center><button onclick="resT()" style="margin-top:20px; color:gray; background:none; border:none;">تصفير</button></center>
+            <div class="counter" id="counter">0</div>
+            <button class="tap-btn" onclick="increment()">الله أكبر</button>
+            <div class="hint-text" id="tasbeehHint"></div>
+            <center>
+                <button class="reset-btn" onclick="resetCounter()">تصفير</button>
+            </center>
         </section>
 
         <section id="hadith" class="section">
-            <div id="h-box" class="card" style="text-align:center;">جاري التحميل...</div>
-            <center><button onclick="getH()" style="background:var(--gold); border:none; padding:10px 20px; border-radius:20px; font-weight:bold;">حديث آخر</button></center>
+            <div id="hadithContent" class="hadith-card">جاري التحميل...</div>
+            <center>
+                <button class="btn-primary" onclick="loadNewHadith()">حديث آخر</button>
+            </center>
         </section>
     </div>
 
-</body>
-</html>
-<script>
-function showSec(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active-section');
-    document.getElementById('m-' + id).classList.add('active');
-}
-
-async function initQ() {
-    try {
-        const r = await fetch("https://api.quran.com/api/v4/chapters");
-        const d = await r.json();
-        const g = document.getElementById("grid");
-        g.innerHTML = "";
-        d.chapters.forEach(s => {
-            const b = document.createElement("button");
-            b.className = "surah-btn";
-            b.textContent = s.name_arabic;
-            b.onclick = () => loadS(s.id);
-            g.appendChild(b);
-        });
-    } catch(e) { console.log(e); }
-}
-
-async function loadS(id) {
-    const c = document.getElementById("content");
-    c.innerHTML = "جاري التحميل...";
-    try {
-        const r = await fetch("https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=" + id);
-        const d = await r.json();
-        c.innerHTML = "";
-        d.verses.forEach(v => {
-            const div = document.createElement("div");
-            div.className = "card";
-            const verseKey = v.verse_key.split(":");
-            div.innerHTML = v.text_uthmani + ' <small style="color:gray; font-size:0.7rem;">[' + verseKey[1] + ']</small>';
-            c.appendChild(div);
-        });
-        window.scrollTo({top: c.offsetTop, behavior: 'smooth'});
-    } catch(e) { c.innerHTML = "خطأ في الشبكة"; }
-}
-
-const az = [
-    {t: "سبحان الله وبحمده", g: 33},
-    {t: "أستغفر الله", g: 100},
-    {t: "اللهم صلِ على محمد", g: 10},
-    {t: "لا إله إلا الله", g: 10}
-];
-
-function initA() {
-    const l = document.getElementById("azkarList");
-    az.forEach((x, i) => {
-        let n = 0;
-        const d = document.createElement("div");
-        d.className = "zekr-box";
-        d.innerHTML = '<div>' + x.t + '</div><small id="c-' + i + '">0 / ' + x.g + '</small><div class="progress-bar" id="p-' + i + '"></div>';
-        d.onclick = () => {
-            if(n < x.g) {
-                n++;
-                document.getElementById("c-" + i).innerText = n + " / " + x.g;
-                document.getElementById("p-" + i).style.width = (n/x.g*100) + "%";
-                if(n === x.g) d.style.opacity = "0.5";
-                if(navigator.vibrate) navigator.vibrate(10);
+    <script type="text/javascript">
+        var currentSection = 'quran';
+        
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
             }
+            
+            var buttons = document.querySelectorAll('nav button');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('btn-' + sectionId).classList.add('active');
+            currentSection = sectionId;
+        }
+        
+        function loadSurahs() {
+            fetch('https://api.quran.com/api/v4/chapters')
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    var grid = document.getElementById('surahGrid');
+                    grid.innerHTML = '';
+                    
+                    data.chapters.forEach(function(surah) {
+                        var btn = document.createElement('button');
+                        btn.className = 'surah-btn';
+                        btn.textContent = surah.name_arabic;
+                        btn.onclick = function() { loadSurah(surah.id); };
+                        grid.appendChild(btn);
+                    });
+                })
+                .catch(function(error) {
+                    document.getElementById('surahGrid').innerHTML = '<div style="color: red;">خطأ في التحميل</div>';
+                });
+        }
+        
+        function loadSurah(surahId) {
+            var content = document.getElementById('quranContent');
+            content.innerHTML = '<div class="card">جاري التحميل...</div>';
+            
+            fetch('https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=' + surahId)
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    content.innerHTML = '';
+                    
+                    data.verses.forEach(function(verse) {
+                        var card = document.createElement('div');
+                        card.className = 'card';
+                        
+                        var verseKey = verse.verse_key.split(':');
+                        var verseNum = verseKey[1];
+                        
+                        card.innerHTML = verse.text_uthmani + ' <span class="verse-number">[' + verseNum + ']</span>';
+                        content.appendChild(card);
+                    });
+                    
+                    window.scrollTo({top: content.offsetTop - 100, behavior: 'smooth'});
+                })
+                .catch(function(error) {
+                    content.innerHTML = '<div class="card" style="color: red;">خطأ في الشبكة</div>';
+                });
+        }
+        
+        var dhikrs = [
+            {text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "الصباح"},
+            {text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "المساء"},
+            {text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا", ref: "صباحًا ومساءً"},
+            {text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ", ref: "مرة واحدة"}
+        ];
+        
+        function loadAzkar() {
+            var list = document.getElementById('azkarList');
+            list.innerHTML = '';
+            
+            dhikrs.forEach(function(dhikr) {
+                var box = document.createElement('div');
+                box.className = 'zekr-box';
+                
+                var textDiv = document.createElement('div');
+                textDiv.textContent = dhikr.text;
+                box.appendChild(textDiv);
+                
+                var refDiv = document.createElement('div');
+                refDiv.className = 'zekr-ref';
+                refDiv.textContent = '(' + dhikr.ref + ')';
+                box.appendChild(refDiv);
+                
+                list.appendChild(box);
+            });
+        }
+        
+        var counter = 0;
+        
+        function increment() {
+            counter++;
+            document.getElementById('counter').textContent = counter;
+            
+            var hint = document.getElementById('tasbeehHint');
+            hint.textContent = '';
+            
+            if (counter === 33) {
+                hint.textContent = 'أكملت ثُلث المسبحة! 🌟';
+            } else if (counter === 66) {
+                hint.textContent = 'أكملت ثُلثيها! 🌙';
+            } else if (counter === 100) {
+                hint.textContent = 'أكملت المسبحة! 🌺';
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(20);
+            }
+        }
+        
+        function resetCounter() {
+            counter = 0;
+            document.getElementById('counter').textContent = '0';
+            document.getElementById('tasbeehHint').textContent = '';
+        }
+        
+        function loadNewHadith() {
+            var box = document.getElementById('hadithContent');
+            box.textContent = 'جاري التحميل...';
+            
+            fetch('https://api.hadith.gading.dev/books/muslim?range=1-50')
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    var hadiths = data.data.hadiths;
+                    var randomIndex = Math.floor(Math.random() * hadiths.length);
+                    var hadith = hadiths[randomIndex];
+                    box.textContent = hadith.arab;
+                })
+                .catch(function(error) {
+                    box.textContent = 'تعذر تحميل الحديث';
+                });
+        }
+        
+        var canvas = document.getElementById('bg');
+        var ctx = canvas.getContext('2d');
+        var dots = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        function setupDots() {
+            resizeCanvas();
+            dots = [];
+            for (var i = 0; i < 40; i++) {
+                dots.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    speed: Math.random() * 0.5
+                });
+            }
+        }
+        
+        function animateDots() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.2)';
+            
+            for (var i = 0; i < dots.length; i++) {
+                var dot = dots[i];
+                dot.y -= dot.speed;
+                
+                if (dot.y < 0) {
+                    dot.y = canvas.height;
+                }
+                
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, 1, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            requestAnimationFrame(animateDots);
+        }
+        
+        window.onload = function() {
+            loadSurahs();
+            loadAzkar();
+            loadNewHadith();
+            setupDots();
+            animateDots();
         };
-        l.appendChild(d);
-    });
-}
+        
+        window.onresize = resizeCanvas;
+    </script>
 
-let tc = 0;
-function hit() { 
-    tc++; 
-    document.getElementById("t-num").innerText = tc; 
-    if(navigator.vibrate) navigator.vibrate(20); 
-}
-function resT() { 
-    tc = 0; 
-    document.getElementById("t-num").innerText = "0"; 
-}
-
-async function getH() {
-    const b = document.getElementById("h-box");
-    try {
-        const r = await fetch("https://api.hadith.gading.dev/books/muslim?range=1-50");
-        const d = await r.json();
-        const h = d.data.hadiths[Math.floor(Math.random() * 50)];
-        b.innerText = h.arab;
-    } catch(e) { b.innerText = "تعذر تحميل الحديث"; }
-}
-
-const can = document.getElementById("bg");
-const ctx = can.getContext("2d");
-let dots = [];
-
-function resize() { 
-    can.width = window.innerWidth; 
-    can.height = window.innerHeight; 
-}
-
-function setup() {
-    resize();
-    dots = Array.from({length:40}, () => ({
-        x:Math.random()*can.width, 
-        y:Math.random()*can.height, 
-        s:Math.random()*0.5
-    }));
-}
-
-function draw() {
-    ctx.clearRect(0,0,can.width, can.height);
-    ctx.fillStyle = "rgba(255,215,0,0.2)";
-    dots.forEach(d => { 
-        d.y -= d.s; 
-        if(d.y<0) d.y=can.height; 
-        ctx.beginPath(); 
-        ctx.arc(d.x, d.y, 1, 0, 7); 
-        ctx.fill(); 
-    });
-    requestAnimationFrame(draw);
-}
-
-window.onload = () => { 
-    initQ(); 
-    initA(); 
-    getH(); 
-    setup(); 
-    draw(); 
-};
-window.onresize = resize;
-</script>
-SurahId < 114) loadSurah(currentSurahId + 1);
-    }
-    function prevSurah() {
-      if (currentSurahId > 1) loadSurah(currentSurahId - 1);
-    }
-
-    // === الأحاديث ===
-    fetch("https://api.hadith.gading.dev/books/muslim?range=1-40")
-      .then(r => r.json())
-      .then(d => {
-        let html = "";
-        d.data?.hadiths?.forEach(h => {
-          html += `<div class="card">${h.arab}</div>`;
-        });
-        document.getElementById("hadithContent").innerHTML = html || "<div class='card'>لا توجد أحاديث متاحة.</div>";
-      })
-      .catch(() => {
-        document.getElementById("hadithContent").innerHTML = "<div class='card'>تعذر تحميل الأحاديث.</div>";
-      });
-
-    // === المسبحة ===
-    let counter = 0;
-    function inc() {
-      counter++;
-      const el = document.getElementById("count");
-      el.innerText = counter;
-      el.style.transform = "scale(1.1)";
-      setTimeout(() => el.style.transform = "scale(1)", 200);
-
-      const hintEl = document.getElementById("tasbeehHint");
-      hintEl.innerText = "";
-      if (counter === 33) hintEl.innerText = "أكملت ثُلث المسبحة! 🌟";
-      else if (counter === 66) hintEl.innerText = "أكملت ثُلثيها! 🌙";
-      else if (counter === 100) hintEl.innerText = "أكملت المسبحة! 🌺";
-    }
-    function reset() {
-      counter = 0;
-      document.getElementById("count").innerText = counter;
-      document.getElementById("tasbeehHint").innerText = "";
-    }
-
-    // === الأذكار ===
-    const dhikrs = [
-      { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "الصباح" },
-      { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "المساء" },
-      { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا", ref: "صباحًا ومساءً" },
-      { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ", ref: "مرة واحدة" }
-    ];
-
-    let dhikrHtml = "";
-    dhikrs.forEach(d => {
-      dhikrHtml += `<div class="card dhikr-item">${d.text}<br><span class="small">(${d.ref})</span></div>`;
-    });
-    document.getElementById("dhikrList").innerHTML = dhikrHtml;
-  </script>
-</body>
-</html>
-�ْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "الصباح" },
-      { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "المساء" },
-      { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا", ref: "صباحًا ومساءً" },
-      { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ", ref: "مرة واحدة" }
-    ];
-
-    let dhikrHtml = "";
-    dhikrs.forEach(d => {
-      dhikrHtml += `<div class="card dhikr-item">${d.text}<br><span class="small">(${d.ref})</span></div>`;
-    });
-    document.getElementById("dhikrList").innerHTML = dhikrHtml;
-
-    // === أوقات الصلاة - دعم عالمي ===
-    function loadPrayerTimesByCity() {
-      const cityName = document.getElementById("cityInput").value.trim();
-      if (!cityName) {
-        alert("يرجى إدخال اسم المدينة");
-        return;
-      }
-
-      const proxy = "https://api.allorigins.win/raw?url=";
-      const encodedUrl = encodeURIComponent(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(cityName)}&method=5`);
-      const fullUrl = proxy + encodedUrl;
-
-      document.getElementById("location").innerText = "جاري التحميل...";
-      document.getElementById("prayerTimes").innerHTML = "";
-
-      fetch(fullUrl)
-        .then(r => {
-          if (!r.ok) throw new Error("استجابة غير صحيحة");
-          return r.json();
-        })
-        .then(d => {
-          const times = d.data.timings;
-          const city = d.data.meta.timezone.city || cityName;
-          const date = new Date(d.data.date.gregorian.date);
-          const today = date.toLocaleDateString('ar-EG', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          });
-          document.getElementById("location").innerText = `أوقات الصلاة في ${city} - ${today}`;
-          
-          let html = `<div class="card">`;
-          const labels = {
-            Fajr: "الفجر",
-            Dhuhr: "الظهر",
-            Asr: "العصر",
-            Maghrib: "المغرب",
-            Isha: "العشاء"
-          };
-          ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(name => {
-            html += `<div>${labels[name]}: <span class="highlight">${times[name]}</span></div>`;
-          });
-          html += `</div>`;
-          document.getElementById("prayerTimes").innerHTML = html;
-        })
-        .catch(err => {
-          console.error("Error:", err);
-          document.getElementById("location").innerText = "🛑 لم نعثر على المدينة. جرّب كتابة الاسم بالإنجليزية (مثل: Beirut, Paris).";
-          document.getElementById("prayerTimes").innerHTML = "";
-        });
-    }
-  </script>
-</body>
-</html>�َأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", ref: "المساء" },
-      { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا", ref: "صباحًا ومساءً" },
-      { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ", ref: "مرة واحدة" }
-    ];
-
-    let dhikrHtml = "";
-    dhikrs.forEach(d => {
-      dhikrHtml += `<div class="card dhikr-item">${d.text}<br><span class="small">(${d.ref})</span></div>`;
-    });
-    document.getElementById("dhikrList").innerHTML = dhikrHtml;
-  </script>
 </body>
 </html>
