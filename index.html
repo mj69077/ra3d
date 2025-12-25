@@ -325,7 +325,7 @@
 
         // --- Quran Logic ---
         async function loadSurahList() {
-            const res = await fetch('https://api.alquran.cloud/v1/surah');
+            const res = await fetch('https://api.quran.com/api/v4/chapters');
             const data = await res.json();
             const select = document.getElementById('surahSelect');
             data.data.forEach(surah => {
