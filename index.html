@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رعد</title>
+    <title>رعد - التطبيق الإسلامي</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -25,7 +25,6 @@
             min-height: 100vh;
         }
 
-        /* Particles Background Effect */
         #particles {
             position: fixed;
             top: 0;
@@ -122,6 +121,7 @@
             width: 100%;
             max-width: 300px;
             cursor: pointer;
+            outline: none;
         }
 
         .ayah-card {
@@ -130,10 +130,11 @@
             padding: 25px;
             margin-bottom: 20px;
             border-radius: 0 15px 15px 0;
-            line-height: 2;
-            font-size: 1.4rem;
+            line-height: 2.2;
+            font-size: 1.5rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: 0.3s;
+            position: relative;
         }
 
         .ayah-card:hover {
@@ -143,10 +144,13 @@
         .ayah-num {
             color: var(--dark-gold);
             font-size: 1rem;
-            margin-right: 10px;
+            margin-left: 10px;
             border: 1px solid var(--dark-gold);
             padding: 2px 8px;
             border-radius: 50%;
+            display: inline-block;
+            min-width: 25px;
+            text-align: center;
         }
 
         /* Tasbih Styles */
@@ -174,12 +178,10 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,215,0,0.2);
             transition: transform 0.1s, box-shadow 0.3s;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .tasbih-btn:active {
             transform: scale(0.95);
-            box-shadow: 0 5px 20px rgba(255,215,0,0.4);
         }
 
         .reset-btn {
@@ -192,16 +194,12 @@
             cursor: pointer;
         }
 
-        /* Azkar Styles */
-        .azkar-grid {
-            display: grid;
-            gap: 15px;
-        }
-
+        /* Azkar & Hadith */
         .zekr-card {
             background: var(--card-bg);
             padding: 20px;
             border-radius: 12px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255,215,0,0.1);
             cursor: pointer;
             position: relative;
@@ -219,7 +217,6 @@
             transition: width 0.3s;
         }
 
-        /* Hadith Styles */
         .hadith-content {
             background: var(--card-bg);
             padding: 30px;
@@ -240,7 +237,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-
     </style>
 </head>
 <body>
@@ -259,10 +255,9 @@
             <button onclick="showSection('hadith')" id="btn-hadith">الحديث</button>
         </nav>
 
-        <!-- Quran Section -->
         <section id="quran" class="section active-section">
             <div class="quran-controls">
-                <select id="surahSelect" onchange="fetchSurah(this.value)">
+                <select id="surahSelect" onchange="loadSurah(this.value)">
                     <option value="">اختر السورة...</option>
                 </select>
             </div>
@@ -271,14 +266,10 @@
             </div>
         </section>
 
-        <!-- Azkar Section -->
         <section id="azkar" class="section">
-            <div class="azkar-grid" id="azkarContent">
-                <!-- Populated by JS -->
-            </div>
+            <div class="azkar-grid" id="azkarContent"></div>
         </section>
 
-        <!-- Tasbih Section -->
         <section id="tasbih" class="section">
             <div class="tasbih-container">
                 <div class="counter-display" id="count">0</div>
@@ -288,11 +279,8 @@
             </div>
         </section>
 
-        <!-- Hadith Section -->
         <section id="hadith" class="section">
-            <div class="hadith-content" id="hadithDisplay">
-                جاري تحميل حديث شريف...
-            </div>
+            <div class="hadith-content" id="hadithDisplay">جاري تحميل حديث شريف...</div>
             <center><button class="refresh-hadith" onclick="getRandomHadith()">حديث آخر</button></center>
         </section>
     </div>
@@ -308,7 +296,7 @@
             playFeedback(440, 0.05);
         }
 
-        // --- Audio & Haptics ---
+        // --- Audio Feedback ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playFeedback(freq, duration) {
             const osc = audioCtx.createOscillator();
@@ -323,35 +311,39 @@
             if (navigator.vibrate) navigator.vibrate(10);
         }
 
-        // --- Quran Logic ---
-        async function loadSurahList() {
-            const res = await fetch('https://api.quran.com/api/v4/chapters');
-            const data = await res.json();
-            const select = document.getElementById('surahSelect');
-            data.data.forEach(surah => {
-                const opt = document.createElement('option');
-                opt.value = surah.number;
-                opt.textContent = `${surah.number}. ${surah.name} (${surah.englishName})`;
-                select.appendChild(opt);
-            });
+        // === Quran Logic (Updated to use api.quran.com) ===
+        async function fetchSurahList() {
+            try {
+                const res = await fetch("https://api.quran.com/api/v4/chapters");
+                const d = await res.json();
+                const select = document.getElementById("surahSelect");
+                d.chapters.forEach(s => {
+                    const opt = document.createElement("option");
+                    opt.value = s.id;
+                    opt.textContent = `${s.id}. ${s.name_arabic}`;
+                    select.appendChild(opt);
+                });
+            } catch (e) { console.error("Error loading chapters"); }
         }
 
-        async function fetchSurah(num) {
-            if (!num) return;
-            const container = document.getElementById('quranContent');
-            container.innerHTML = '<div class="ayah-card">جاري التحميل...</div>';
+        async function loadSurah(id) {
+            if (!id) return;
+            const container = document.getElementById("quranContent");
+            container.innerHTML = '<div class="ayah-card" style="text-align: center;">جاري التحميل...</div>';
+            
             try {
-                const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}`);
-                const data = await res.json();
-                container.innerHTML = '';
-                data.data.ayahs.forEach(ayah => {
-                    const div = document.createElement('div');
-                    div.className = 'ayah-card';
-                    div.innerHTML = `<span class="ayah-num">${ayah.numberInSurah}</span> ${ayah.text}`;
+                const res = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`);
+                const d = await res.json();
+                container.innerHTML = "";
+                d.verses.forEach(a => {
+                    const verseNum = a.verse_key.split(":")[1];
+                    const div = document.createElement("div");
+                    div.className = "ayah-card";
+                    div.innerHTML = `<span class="ayah-num">${verseNum}</span> ${a.text_uthmani}`;
                     container.appendChild(div);
                 });
             } catch (e) {
-                container.innerHTML = 'خطأ في التحميل. تأكد من الاتصال.';
+                container.innerHTML = '<div class="ayah-card">تعذر تحميل السورة. تأكد من اتصالك بالإنترنت.</div>';
             }
         }
 
@@ -374,8 +366,7 @@
             { text: "أستغفر الله وأتوب إليه", target: 100 },
             { text: "لا إله إلا الله وحده لا شريك له", target: 10 },
             { text: "اللهم صلِ وسلم على نبينا محمد", target: 10 },
-            { text: "سبحان الله العظيم", target: 33 },
-            { text: "لا حول ولا قوة إلا بالله", target: 33 }
+            { text: "سبحان الله العظيم", target: 33 }
         ];
 
         function loadAzkar() {
@@ -392,7 +383,7 @@
                         document.getElementById(`cur-${i}`).innerText = current;
                         playFeedback(300 + (current * 5), 0.1);
                         if (current === z.target) {
-                            card.style.background = 'rgba(0, 255, 0, 0.05)';
+                            card.style.background = 'rgba(255, 215, 0, 0.1)';
                             playFeedback(1200, 0.3);
                         }
                     }
@@ -406,14 +397,13 @@
             const display = document.getElementById('hadithDisplay');
             display.innerText = "جاري البحث في السنّة النبوية...";
             try {
-                // استخدام API عام للحديث (كمثال)
-                const res = await fetch('https://api.hadith.gading.dev/books/muslim?range=1-100');
-                const data = await res.json();
-                const randomIdx = Math.floor(Math.random() * data.data.hadiths.length);
-                const hadith = data.data.hadiths[randomIdx];
-                display.innerHTML = `<p>${hadith.arab}</p><small style="color: var(--dark-gold)">صحيح مسلم</small>`;
+                const res = await fetch("https://api.hadith.gading.dev/books/muslim?range=1-40");
+                const d = await res.json();
+                const randomIdx = Math.floor(Math.random() * d.data.hadiths.length);
+                const h = d.data.hadiths[randomIdx];
+                display.innerHTML = `<p>${h.arab}</p><small style="color: var(--dark-gold)">صحيح مسلم</small>`;
             } catch (e) {
-                display.innerText = "قَالَ رَسُولُ اللَّهِ ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ»";
+                display.innerText = "تعذر تحميل الحديث. (قَالَ ﷺ: البخيل من ذكرت عنده فلم يصل عليّ)";
             }
         }
 
@@ -442,11 +432,23 @@
             pts.forEach(p => {
                 p.y -= p.v;
                 if(p.y < 0) p.y = canvas.height;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
             });
             requestAnimationFrame(animate);
+        }
+
+        window.onload = () => {
+            fetchSurahList();
+            loadAzkar();
+            getRandomHadith();
+            initParticles();
+            animate();
+        };
+        window.onresize = initParticles;
+    </script>
+</body>
+</html>
+   requestAnimationFrame(animate);
         }
 
         window.onload = () => {
