@@ -3,116 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رعد</title>
+    <title>تطبيق رعد الإسلامي</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #FFD700;
             --dark-gold: #b8860b;
             --bg-black: #0a0a0a;
-            --card-bg: rgba(20, 20, 20, 0.9);
+            --card-bg: rgba(25, 25, 25, 0.95);
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Amiri', serif;
             background: var(--bg-black);
             color: var(--gold);
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 80%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         #particles {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0; pointer-events: none;
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
+            max-width: 800px; margin: 0 auto; padding: 20px;
+            position: relative; z-index: 1;
         }
 
         header h1 {
-            text-align: center;
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 3.5rem;
-            margin: 20px 0;
+            text-align: center; font-family: 'Reem Kufi', sans-serif;
+            font-size: 3.5rem; margin-bottom: 30px;
             background: linear-gradient(to bottom, #FFD700, #b8860b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         nav {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; margin-bottom: 30px;
         }
 
-        @media (min-width: 600px) { nav { grid-template-columns: repeat(4, 1fr); } }
-
         nav button {
-            background: var(--card-bg);
-            border: 1px solid var(--dark-gold);
-            color: var(--gold);
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Reem Kufi', sans-serif;
-            transition: 0.3s;
+            background: var(--card-bg); border: 1px solid var(--dark-gold);
+            color: var(--gold); padding: 12px 5px; border-radius: 8px;
+            cursor: pointer; font-family: 'Reem Kufi', sans-serif; font-size: 0.9rem;
         }
 
         nav button.active { background: var(--gold); color: black; }
 
+        .section { display: none; animation: fadeIn 0.5s; }
+        .section.active-section { display: block; }
+
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
         /* تنسيق أزرار السور */
         .surah-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
-            background: rgba(0,0,0,0.3);
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 8px; margin-bottom: 25px; padding: 15px;
+            background: rgba(255,215,0,0.05); border-radius: 12px;
+            max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,215,0,0.2);
         }
 
         .surah-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--dark-gold);
-            color: var(--gold);
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.2s;
+            background: #1a1a1a; border: 1px solid #333; color: #ccc;
+            padding: 8px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
         }
 
-        .surah-btn:hover { background: var(--dark-gold); color: white; }
+        .surah-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-        .ayah-card {
-            background: var(--card-bg);
-            border-right: 4px solid var(--gold);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 0 12px 12px 0;
-            line-height: 2.2;
-            font-size: 1.4rem;
+        /* الكروت */
+        .card {
+            background: var(--card-bg); border-right: 4px solid var(--gold);
+            padding: 20px; margin-bottom: 15px; border-radius: 4px 12px 12px 4px;
+            font-size: 1.4rem; line-height: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .section { display: none; }
-        .active-section { display: block; }
+        /* الأذكار */
+        .zekr-card {
+            background: var(--card-bg); padding: 20px; margin-bottom: 10px;
+            border-radius: 10px; border: 1px solid #333; cursor: pointer;
+            position: relative; overflow: hidden;
+        }
 
-        .counter-display { font-size: 6rem; text-align: center; margin: 20px 0; font-family: 'Reem Kufi'; }
-        .tasbih-btn {
-            width: 150px; height: 150px; border-radius: 50%;
+        .zekr-progress {
+            position: absolute; bottom: 0; right: 0; height: 4px;
+            background: var(--gold); width: 0%; transition: width 0.3s;
+        }
+
+        .counter-display { font-size: 5rem; text-align: center; margin: 20px 0; }
+        .circle-btn {
+            width: 140px; height: 140px; border-radius: 50%;
             background: #111; border: 4px solid var(--gold);
             color: var(--gold); font-size: 1.2rem; cursor: pointer;
             display: block; margin: 0 auto;
@@ -134,28 +115,30 @@
         </nav>
 
         <section id="quran" class="section active-section">
-            <div id="surahContainer" class="surah-grid">
-                </div>
+            <div id="surahGrid" class="surah-grid">جاري تحميل السور...</div>
             <div id="quranContent">
-                <div class="ayah-card" style="text-align: center;">اختر سورة من الأعلى للبدء</div>
+                <div class="card" style="text-align: center;">اختر سورة للبدء</div>
             </div>
         </section>
 
         <section id="azkar" class="section">
-            <div id="azkarContent"></div>
+            <div id="azkarList"></div>
         </section>
 
         <section id="tasbih" class="section">
-            <div class="counter-display" id="count">0</div>
-            <button class="tasbih-btn" onclick="tapTasbih()">الله أكبر</button>
+            <div class="counter-display" id="tasbihCount">0</div>
+            <button class="circle-btn" onclick="incTasbih()">الله أكبر</button>
+            <center><button onclick="resetTasbih()" style="margin-top:20px; background:none; border:none; color:gray; cursor:pointer;">تصفير</button></center>
         </section>
 
         <section id="hadith" class="section">
-            <div id="hadithDisplay" class="ayah-card" style="text-align:center;">جاري التحميل...</div>
+            <div id="hadithBox" class="card" style="text-align: center;">جاري جلب حديث...</div>
+            <center><button onclick="loadHadith()" style="background:var(--gold); border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">حديث آخر</button></center>
         </section>
     </div>
 
     <script>
+        // دالة التنقل
         function showSection(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -163,127 +146,115 @@
             document.getElementById('btn-' + id).classList.add('active');
         }
 
-        // --- جلب السور كأزرار ---
-        async function loadSurahButtons() {
+        // --- المصحف ---
+        async function getSurahs() {
             try {
-                const res = await fetch("https://api.quran.com/api/v4/chapters");
-                const d = await res.json();
-                const container = document.getElementById("surahContainer");
-                container.innerHTML = "";
+                const r = await fetch("https://api.quran.com/api/v4/chapters");
+                const d = await r.json();
+                const grid = document.getElementById("surahGrid");
+                grid.innerHTML = "";
                 d.chapters.forEach(s => {
-                    const btn = document.createElement("button");
-                    btn.className = "surah-btn";
-                    btn.textContent = s.name_arabic;
-                    btn.onclick = () => {
-                        loadSurah(s.id);
-                        window.scrollTo({top: container.offsetTop + container.offsetHeight, behavior: 'smooth'});
-                    };
-                    container.appendChild(btn);
+                    const b = document.createElement("button");
+                    b.className = "surah-btn";
+                    b.textContent = s.name_arabic;
+                    b.onclick = () => loadAyahs(s.id);
+                    grid.appendChild(b);
                 });
-            } catch (e) { console.error("Error"); }
+            } catch(e) { document.getElementById("surahGrid").innerText = "خطأ في الاتصال"; }
         }
 
-        async function loadSurah(id) {
-            const content = document.getElementById("quranContent");
-            content.innerHTML = '<div class="ayah-card" style="text-align: center;">جاري تحميل الآيات...</div>';
+        async function loadAyahs(id) {
+            const box = document.getElementById("quranContent");
+            box.innerHTML = '<div class="card" style="text-align:center;">جاري تحميل الآيات...</div>';
             try {
-                const res = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`);
-                const d = await res.json();
-                content.innerHTML = "";
+                const r = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`);
+                const d = await r.json();
+                box.innerHTML = "";
                 d.verses.forEach(v => {
-                    const div = document.createElement("div");
-                    div.className = "ayah-card";
-                    div.innerHTML = `<small style="color:var(--dark-gold)">${v.verse_key.split(":")[1]}</small> ${v.text_uthmani}`;
-                    content.appendChild(div);
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    card.innerHTML = `<small style="color:var(--dark-gold); font-size:0.8rem;">[${v.verse_key.split(':')[1]}]</small> ${v.text_uthmani}`;
+                    box.appendChild(card);
                 });
-            } catch (e) { content.innerHTML = "خطأ في التحميل"; }
+                box.scrollIntoView({behavior: "smooth"});
+            } catch(e) { box.innerHTML = "تعذر تحميل السورة"; }
+        }
+
+        // --- الأذكار ---
+        const azkarData = [
+            { t: "سبحان الله وبحمده", m: 33 },
+            { t: "أستغفر الله وأتوب إليه", m: 70 },
+            { t: "اللهم صلِ وسلم على نبينا محمد", m: 10 },
+            { t: "لا إله إلا الله وحده لا شريك له", m: 10 }
+        ];
+
+        function initAzkar() {
+            const list = document.getElementById("azkarList");
+            azkarData.forEach((z, i) => {
+                let c = 0;
+                const div = document.createElement("div");
+                div.className = "zekr-card";
+                div.innerHTML = `<div>${z.t}</div><small>التكرار: <span id="zc-${i}">0</span> / ${z.m}</small><div class="zekr-progress" id="zp-${i}"></div>`;
+                div.onclick = () => {
+                    if(c < z.m) {
+                        c++;
+                        document.getElementById(`zc-${i}`).innerText = c;
+                        document.getElementById(`zp-${i}`).style.width = (c/z.m*100) + "%";
+                        if(c === z.m) div.style.opacity = "0.5";
+                        if(navigator.vibrate) navigator.vibrate(20);
+                    }
+                };
+                list.appendChild(div);
+            });
         }
 
         // --- المسبحة ---
-        let count = 0;
-        function tapTasbih() {
-            count++;
-            document.getElementById('count').innerText = count;
+        let tCount = 0;
+        function incTasbih() {
+            tCount++;
+            document.getElementById("tasbihCount").innerText = tCount;
+            if(navigator.vibrate) navigator.vibrate(30);
         }
+        function resetTasbih() { tCount = 0; document.getElementById("tasbihCount").innerText = "0"; }
 
         // --- الحديث ---
-        async function getRandomHadith() {
+        async function loadHadith() {
+            const hBox = document.getElementById("hadithBox");
             try {
-                const res = await fetch("https://api.hadith.gading.dev/books/muslim?range=1-50");
-                const d = await res.json();
+                const r = await fetch("https://api.hadith.gading.dev/books/muslim?range=1-50");
+                const d = await r.json();
                 const h = d.data.hadiths[Math.floor(Math.random() * 50)];
-                document.getElementById('hadithDisplay').innerText = h.arab;
-            } catch (e) { document.getElementById('hadithDisplay').innerText = "تعذر تحميل الحديث"; }
+                hBox.innerHTML = `<p>${h.arab}</p><small style="color:var(--dark-gold)">- صحيح مسلم</small>`;
+            } catch(e) { hBox.innerText = "قَالَ ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ»"; }
         }
 
-        // --- الجسيمات الخلفية ---
+        // --- تأثير الخلفية ---
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         let pts = [];
-        function init() {
+        function initCanvas() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            pts = Array.from({length:40}, () => ({x:Math.random()*canvas.width, y:Math.random()*canvas.height, v:Math.random()*0.5+0.1}));
+            pts = Array.from({length:40}, () => ({x:Math.random()*canvas.width, y:Math.random()*canvas.height, v:Math.random()*0.4+0.1}));
         }
-        function animate() {
+        function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(255,215,0,0.2)";
-            pts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=canvas.height; ctx.beginPath(); ctx.arc(p.x,p.y,1,0,Math.PI*2); ctx.fill(); });
-            requestAnimationFrame(animate);
+            ctx.fillStyle = "rgba(255,215,0,0.15)";
+            pts.forEach(p => { p.y -= p.v; if(p.y < 0) p.y = canvas.height; ctx.beginPath(); ctx.arc(p.x, p.y, 1.2, 0, Math.PI*2); ctx.fill(); });
+            requestAnimationFrame(draw);
         }
 
         window.onload = () => {
-            loadSurahButtons();
-            getRandomHadith();
-            init(); animate();
+            getSurahs();
+            initAzkar();
+            loadHadith();
+            initCanvas();
+            draw();
         };
+        window.onresize = initCanvas;
     </script>
 </body>
 </html>
-   document.getElementById('btn-' + id).classList.add('active');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            playFeedback(440, 0.05);
-        }
-
-        // --- Audio Feedback ---
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playFeedback(freq, duration) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.frequency.value = freq;
-            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
-            if (navigator.vibrate) navigator.vibrate(10);
-        }
-
-        // === Quran Logic (Updated to use api.quran.com) ===
-        async function fetchSurahList() {
-            try {
-                const res = await fetch("https://api.quran.com/api/v4/chapters");
-                const d = await res.json();
-                const select = document.getElementById("surahSelect");
-                d.chapters.forEach(s => {
-                    const opt = document.createElement("option");
-                    opt.value = s.id;
-                    opt.textContent = `${s.id}. ${s.name_arabic}`;
-                    select.appendChild(opt);
-                });
-            } catch (e) { console.error("Error loading chapters"); }
-        }
-
-        async function loadSurah(id) {
-            if (!id) return;
-            const container = document.getElementById("quranContent");
-            container.innerHTML = '<div class="ayah-card" style="text-align: center;">جاري التحميل...</div>';
-            
-            try {
-                const res = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`);
-                const d = await res.json();
-                container.innerHTML = "";
-                d.verses.forEach(a => {
+verses.forEach(a => {
                     const verseNum = a.verse_key.split(":")[1];
                     const div = document.createElement("div");
                     div.className = "ayah-card";
