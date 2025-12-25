@@ -19,14 +19,16 @@
       font-size: 26px;
       padding: 14px;
       background: #111;
+      border-bottom: 1px solid #d4af37;
     }
 
     .hamburger {
       display: none;
       flex-direction: column;
       cursor: pointer;
-      padding: 10px;
+      padding: 15px;
       background: #111;
+      align-items: center;
     }
     .hamburger span {
       width: 25px;
@@ -64,6 +66,8 @@
       display: none;
       padding: 15px;
       animation: fadeIn 0.5s ease-in-out;
+      max-width: 800px;
+      margin: auto;
     }
     .active {
       display: block;
@@ -80,257 +84,210 @@
       padding: 14px;
       margin: 12px 0;
       border: 1px solid #333;
-      transition: all 0.3s ease;
     }
-    .card:hover {
-      border-color: #d4af37;
+    .ayah { line-height: 2.2; font-size: 20px; }
+    .counter { text-align: center; font-size: 50px; margin: 20px 0; color: #d4af37; }
+    .highlight { color: #d4af37; font-weight: bold; }
+    .small { font-size: 14px; color: #aaa; }
+    
+    /* ستايل مواقيت الصلاة */
+    .prayer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
     }
-    .ayah {
-      line-height: 2.2;
-      font-size: 20px;
-    }
-    .counter {
-      text-align: center;
-      font-size: 50px;
-      margin: 20px 0;
-      color: #d4af37;
-      transition: transform 0.3s;
-    }
-    .highlight {
-      color: #d4af37;
-      font-weight: bold;
-    }
-    .small {
-      font-size: 14px;
-      color: #aaa;
-    }
-    .tafsir {
+    .prayer-item {
       background: #222;
-      border-left: 3px solid #d4af37;
-      padding: 10px;
-      margin-top: 8px;
-      font-size: 16px;
-      display: none;
-      animation: slideDown 0.4s ease;
-    }
-    @keyframes slideDown {
-      from { max-height: 0; opacity: 0; padding: 0 10px; }
-      to { max-height: 200px; opacity: 1; padding: 10px; }
-    }
-    .dhikr-item {
-      padding: 12px 0;
-      border-bottom: 1px solid #333;
-    }
-    .audio-btn, .copy-btn {
-      background: #444;
-      color: #fff;
-      font-size: 14px;
-      padding: 4px 8px;
-      margin: 0 4px;
-      border-radius: 5px;
-    }
-
-    #location {
+      padding: 15px;
+      border-radius: 10px;
       text-align: center;
-      color: #d4af37;
-      margin: 10px 0;
-      font-weight: bold;
+      border-bottom: 3px solid #d4af37;
+    }
+    .search-box {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d4af37;
+      background: #111;
+      color: #fff;
     }
 
     @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
+      .hamburger { display: flex; }
       nav {
         display: none;
         flex-direction: column;
-        align-items: center;
         position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
+        top: 60px; left: 0; right: 0;
         background: #111;
         z-index: 100;
-        padding: 10px;
       }
-      nav.active {
-        display: flex;
-      }
-      nav button {
-        width: 90%;
-        margin: 5px 0;
-        justify-content: center;
-      }
-    }
-
-    input[type="text"] {
-      background: #222;
-      color: #f5f5f5;
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 16px;
-      width: 80%;
-      margin: 5px 0;
-      direction: ltr;
-      text-align: left;
+      nav.active { display: flex; }
+      nav button { width: 90%; margin: 5px auto; }
     }
   </style>
 </head>
-
 <body>
+
   <header>🌿 تطبيق رعد</header>
 
   <div class="hamburger" onclick="toggleMenu()">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span>
   </div>
 
   <nav id="mainNav">
+    <button onclick="openTab('prayer')">مواقيت الصلاة</button>
     <button onclick="openTab('quran')">المصحف</button>
-    <button onclick="openTab('tafsir')">التفسير</button>
     <button onclick="openTab('hadith')">الأحاديث</button>
     <button onclick="openTab('tasbeeh')">المسبحة</button>
-    <button onclick="openTab('prayer')">أوقات الصلاة</button>
     <button onclick="openTab('dhikr')">الأذكار</button>
   </nav>
 
-  <!-- المصحف -->
-  <section id="quran" class="active">
+  <section id="prayer" class="active">
+    <h3>🌍 مواقيت الصلاة حسب الموقع</h3>
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="ادخل اسم المدينة (مثلاً: Cairo أو مكة)">
+      <button onclick="getPrayerByCity()">بحث</button>
+    </div>
+    <div id="locationInfo" class="small" style="text-align: center;">جاري تحميل البيانات...</div>
+    <div id="prayerTimes" class="prayer-grid"></div>
+  </section>
+
+  <section id="quran">
     <div style="text-align: center; margin-bottom: 10px;">
       <button onclick="prevSurah()" class="small">السورة السابقة</button>
       <button onclick="nextSurah()" class="small">السورة التالية</button>
     </div>
-    <div id="surahList"></div>
+    <div id="surahList" style="max-height: 150px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #333; padding: 5px;"></div>
     <div id="ayahs"></div>
   </section>
 
-  <!-- التفسير -->
-  <section id="tafsir">
-    <h3>التفسير يظهر أسفل الآية في قسم "المصحف"</h3>
-    <p class="small">انقر على أي آية لرؤية تفسيرها المختصر.</p>
-  </section>
-
-  <!-- الأحاديث -->
   <section id="hadith">
-    <h3>صحيح مسلم (1-40)</h3>
+    <h3>صحيح مسلم (مختارات)</h3>
     <div id="hadithContent"></div>
   </section>
 
-  <!-- المسبحة -->
   <section id="tasbeeh">
     <div class="card">
       <div class="counter" id="count">0</div>
       <div style="text-align: center;">
-        <button onclick="inc()">سبّح</button>
+        <button onclick="inc()" style="padding: 15px 30px; font-size: 20px;">سبّح</button>
         <button onclick="reset()">تصفير</button>
       </div>
       <div id="tasbeehHint" style="text-align: center; margin-top: 10px; color: #d4af37;"></div>
     </div>
   </section>
 
-  <!-- أوقات الصلاة - دعم عالمي -->
-  <section id="prayer">
-    <h3>أوقات الصلاة في أي مدينة</h3>
-    <div style="text-align: center; margin: 15px 0;">
-      <input type="text" id="cityInput" placeholder="اكتب اسم مدينتك (مثل: Beirut, London, Jakarta)"
-             onkeyup="if(event.key==='Enter') loadPrayerTimesByCity()" />
-      <br><br>
-      <button onclick="loadPrayerTimesByCity()">عرض الأوقات</button>
-    </div>
-    <div id="location"></div>
-    <div id="prayerTimes"></div>
-  </section>
-
-  <!-- الأذكار -->
   <section id="dhikr">
-    <h3>أذكار الصباح والمساء</h3>
+    <h3>أذكار اليوم</h3>
     <div id="dhikrList"></div>
   </section>
 
   <script>
+    // التحكم في التبويبات
     function openTab(id) {
       document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
       document.getElementById(id).classList.add("active");
-      if (window.innerWidth <= 768) {
-        document.getElementById("mainNav").classList.remove("active");
-      }
+      if (window.innerWidth <= 768) toggleMenu();
     }
 
     function toggleMenu() {
       document.getElementById("mainNav").classList.toggle("active");
     }
 
-    let currentSurahId = 1;
+    // === مواقيت الصلاة ===
+    function getPrayerByCity() {
+      const city = document.getElementById("cityInput").value || "Mecca";
+      fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=&method=4`)
+        .then(r => r.json())
+        .then(d => {
+          if(d.code === 200) displayPrayers(d.data, city);
+          else alert("تعذر العثور على المدينة");
+        })
+        .catch(() => alert("خطأ في الاتصال بالخادم"));
+    }
 
-    // === المصحف ===
+    function displayPrayers(data, city) {
+      const t = data.timings;
+      document.getElementById("locationInfo").innerHTML = `الموقع: ${city} | التاريخ: ${data.date.hijri.day} ${data.date.hijri.month.ar}`;
+      
+      const names = { Fajr: "الفجر", Sunrise: "الشروق", Dhuhr: "الظهر", Asr: "العصر", Maghrib: "المغرب", Isha: "العشاء" };
+      let html = "";
+      for (let k in names) {
+        html += `<div class="prayer-item"><div class="highlight">${names[k]}</div><div>${t[k]}</div></div>`;
+      }
+      document.getElementById("prayerTimes").innerHTML = html;
+    }
+
+    // تشغيل افتراضي عند الفتح
+    window.onload = () => { getPrayerByCity(); loadSurah(1); };
+
+    // === المصحف والآيات ===
+    let currentSurahId = 1;
     fetch("https://api.quran.com/api/v4/chapters")
       .then(r => r.json())
       .then(d => {
         let list = "";
         d.chapters.forEach(s => {
-          list += `<button onclick="loadSurah(${s.id})">${s.id}. ${s.name_arabic}</button> `;
+          list += `<button class="small" style="margin:2px" onclick="loadSurah(${s.id})">${s.name_arabic}</button> `;
         });
         document.getElementById("surahList").innerHTML = list;
-        loadSurah(1);
       });
 
     function loadSurah(id) {
       currentSurahId = id;
-      document.getElementById("surahList").innerHTML = "";
+      document.getElementById("ayahs").innerHTML = "جاري تحميل السورة...";
       fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`)
         .then(r => r.json())
         .then(d => {
           let html = "";
           d.verses.forEach(a => {
-            const verseKey = a.verse_key;
-            html += `
-              <div class="card ayah">
-                <span class="highlight">${a.verse_key.split(":")[1]}</span> - ${a.text_uthmani}
-                <div style="margin-top: 8px;">
-                  <button class="audio-btn" onclick="window.open('https://quran.com/${verseKey}', '_blank')">سماع</button>
-                  <button class="copy-btn" onclick="copyVerse('${a.text_uthmani}')">نسخ</button>
-                  <button class="copy-btn" onclick="loadTafsir('${verseKey}')">تفسير</button>
-                </div>
-                <div id="tafsir-${verseKey}" class="tafsir"></div>
-              </div>`;
+            html += `<div class="card ayah"><span class="highlight">${a.verse_key.split(":")[1]}</span> - ${a.text_uthmani}</div>`;
           });
           document.getElementById("ayahs").innerHTML = html;
         });
     }
 
-    function loadTafsir(verseKey) {
-      const tafsirEl = document.getElementById(`tafsir-${verseKey}`);
-      if (tafsirEl.style.display === 'block') {
-        tafsirEl.style.display = 'none';
-        return;
-      }
-      if (tafsirEl.innerHTML) {
-        tafsirEl.style.display = 'block';
-        return;
-      }
-      fetch(`https://api.quran.com/api/v4/tafsirs/16/verses?verse_key=${verseKey}`)
-        .then(r => r.json())
-        .then(d => {
-          if (d.tafsir?.text) {
-            tafsirEl.innerHTML = d.tafsir.text;
-            tafsirEl.style.display = 'block';
-          } else {
-            tafsirEl.innerHTML = "لا يوجد تفسير متاح.";
-            tafsirEl.style.display = 'block';
-          }
-        })
-        .catch(() => {
-          tafsirEl.innerHTML = "تعذر تحميل التفسير.";
-          tafsirEl.style.display = 'block';
-        });
-    }
+    function nextSurah() { if (currentSurahId < 114) loadSurah(currentSurahId + 1); }
+    function prevSurah() { if (currentSurahId > 1) loadSurah(currentSurahId - 1); }
 
-    function copyVerse(text) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          alert("تم نسخ الآية!");
+    // === المسبحة ===
+    let counter = 0;
+    function inc() {
+      counter++;
+      document.getElementById("count").innerText = counter;
+    }
+    function reset() { counter = 0; document.getElementById("count").innerText = 0; }
+
+    // === الأذكار (بيانات ثابتة) ===
+    const dhikrs = [
+      { text: "سبحان الله وبحمده", ref: "100 مرة" },
+      { text: "لا إله إلا الله وحده لا شريك له", ref: "10 مرة" },
+      { text: "اللهم صلِ وسلم على نبينا محمد", ref: "10 مرة" }
+    ];
+    let dHtml = "";
+    dhikrs.forEach(d => dHtml += `<div class="card">${d.text} <br><span class="small">${d.ref}</span></div>`);
+    document.getElementById("dhikrList").innerHTML = dHtml;
+
+    // === الأحاديث ===
+    fetch("https://api.hadith.gading.dev/books/muslim?range=1-20")
+      .then(r => r.json())
+      .then(d => {
+        let hHtml = "";
+        d.data.hadiths.forEach(h => hHtml += `<div class="card small">${h.arab}</div>`);
+        document.getElementById("hadithContent").innerHTML = hHtml;
+      });
+
+  </script>
+</body>
+</html>
+
         });
       } else {
         alert("المتصفح لا يدعم النسخ التلقائي.");
