@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رعد ⚡ </title>
+    <title>رعد ⚡</title>
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -779,50 +779,6 @@
             font-weight: bold;
         }
         
-        /* ========== التحديات ========== */
-        .challenges-container {
-            padding: 20px;
-        }
-        
-        .stats-header {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, var(--card), #1a1a1a);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 2px solid var(--gold);
-            transition: transform 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-icon {
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--text);
-            font-family: 'Reem Kufi';
-        }
-        
-        .stat-label {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-        
         /* ========== الفوتر ========== */
         .footer-nav {
             position: fixed;
@@ -943,10 +899,6 @@
                 height: 85px;
             }
             
-            .stats-header {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
             .azkar-text {
                 font-size: 1.4rem;
             }
@@ -1054,6 +1006,18 @@
             --card: #ffffff;
             --text: #333333;
             --light-text: #555555;
+        }
+        
+        /* ========== أنماط API الجديدة ========== */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(20); opacity: 0; }
         }
     </style>
 </head>
@@ -1648,7 +1612,7 @@
             }, 200);
         }
         
-        // ==================== نظام القرآن المحسن ====================
+        // ==================== نظام القرآن المحسن مع API الجديد ====================
         let currentSurah = null;
         let surahsData = [];
         let isBookmarkMode = false;
@@ -1658,7 +1622,7 @@
         
         async function initQuran() {
             try {
-                // استخدام API لتحميل السور
+                // استخدام API لتحميل السور (نسخة محسنة)
                 await loadSurahsFromAPI();
                 
                 // تحميل آخر سورة تمت قراءتها
@@ -1671,13 +1635,16 @@
                 
             } catch (error) {
                 console.error('خطأ في تحميل القرآن:', error);
-                showNotification('خطأ', 'حدث خطأ في تحميل القرآن');
+                // استخدام بيانات افتراضية في حالة فشل API
+                loadDefaultSurahs();
+                showNotification('تحذير', 'تم تحميل بيانات افتراضية للقرآن');
             }
         }
         
         async function loadSurahsFromAPI() {
             try {
-                const response = await fetch('https://api.quran.com/api/v4/chapters?language=ar');
+                // استخدام API محسن عبر CORS proxy
+                const response = await fetch('https://api.allorigins.win/raw?url=https://api.quran.com/api/v4/chapters?language=ar');
                 
                 if (!response.ok) {
                     throw new Error('فشل في تحميل السور');
@@ -1699,12 +1666,31 @@
                     renderSurahs();
                     showNotification('تم التحميل', `تم تحميل ${surahsData.length} سورة`);
                 } else {
-                    showNotification('خطأ', 'لم يتم العثور على بيانات السور');
+                    throw new Error('بيانات غير صحيحة');
                 }
             } catch (error) {
                 console.error('خطأ في تحميل السور:', error);
-                showNotification('خطأ', 'حدث خطأ في تحميل السور');
+                // استخدام البيانات الافتراضية
+                loadDefaultSurahs();
             }
+        }
+        
+        function loadDefaultSurahs() {
+            // بيانات سور افتراضية في حالة فشل API
+            surahsData = [
+                { id: 1, name_arabic: "الفاتحة", name_simple: "Al-Fatihah", verses_count: 7, revelation_place: "makkah" },
+                { id: 2, name_arabic: "البقرة", name_simple: "Al-Baqarah", verses_count: 286, revelation_place: "madinah" },
+                { id: 3, name_arabic: "آل عمران", name_simple: "Ali 'Imran", verses_count: 200, revelation_place: "madinah" },
+                { id: 4, name_arabic: "النساء", name_simple: "An-Nisa", verses_count: 176, revelation_place: "madinah" },
+                { id: 5, name_arabic: "المائدة", name_simple: "Al-Ma'idah", verses_count: 120, revelation_place: "madinah" },
+                { id: 6, name_arabic: "الأنعام", name_simple: "Al-An'am", verses_count: 165, revelation_place: "makkah" },
+                { id: 7, name_arabic: "الأعراف", name_simple: "Al-A'raf", verses_count: 206, revelation_place: "makkah" },
+                { id: 8, name_arabic: "الأنفال", name_simple: "Al-Anfal", verses_count: 75, revelation_place: "madinah" },
+                { id: 9, name_arabic: "التوبة", name_simple: "At-Tawbah", verses_count: 129, revelation_place: "madinah" },
+                { id: 10, name_arabic: "يونس", name_simple: "Yunus", verses_count: 109, revelation_place: "makkah" }
+            ];
+            
+            renderSurahs();
         }
         
         function renderSurahs() {
@@ -1783,98 +1769,118 @@
         
         async function loadAyahs(surahId) {
             const container = document.getElementById('ayahsContent');
-            container.innerHTML = '<div class="loading">جاري تحميل الآيات...</div>';
+            container.innerHTML = '<div class="loading" style="text-align:center; padding:40px; color:#aaa;">جاري تحميل الآيات...</div>';
             
             try {
-                // استخدام API القرآن الرسمي - نقطة النهاية الصحيحة للآيات
-                // للأسف API الرسمي يحتاج إلى نقطة نهاية مختلفة للآيات
-                // لحل المشكلة سنستخدم بيانات آيات تجريبية متنوعة
+                // استخدام API Quran.com مع CORS proxy
+                const response = await fetch(`https://api.allorigins.win/raw?url=https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surahId}`);
                 
-                // آيات حقيقية متنوعة من القرآن الكريم
-                const realQuranAyahs = [
-                    "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-                    "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-                    "الرَّحْمَٰنِ الرَّحِيمِ",
-                    "مَالِكِ يَوْمِ الدِّينِ",
-                    "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
-                    "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
-                    "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
-                    "الم",
-                    "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
-                    "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ",
-                    "وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ",
-                    "أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
-                    "إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ",
-                    "خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ",
-                    "وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ",
-                    "يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ",
-                    "فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ",
-                    "وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ",
-                    "أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ",
-                    "وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ",
-                    "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
-                    "لَا إِكْرَاهَ فِي الدِّينِ ۖ قَد تَّبَيَّنَ الرُّشْدُ مِنَ الْغَيِّ ۚ فَمَن يَكْفُرْ بِالطَّاغُوتِ وَيُؤْمِن بِاللَّهِ فَقَدِ اسْتَمْسَكَ بِالْعُرْوَةِ الْوُثْقَىٰ لَا انفِصَامَ لَهَا ۗ وَاللَّهُ سَمِيعٌ عَلِيمٌ",
-                    "اللَّهُ وَلِيُّ الَّذِينَ آمَنُوا يُخْرِجُهُم مِّنَ الظُّلُمَاتِ إِلَى النُّورِ ۖ وَالَّذِينَ كَفَرُوا أَوْلِيَاؤُهُمُ الطَّاغُوتُ يُخْرِجُونَهُم مِّنَ النُّورِ إِلَى الظُّلُمَاتِ ۗ أُولَٰئِكَ أَصْحَابُ النَّارِ ۖ هُمْ فِيهَا خَالِدُونَ",
-                    "قُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ",
-                    "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
-                    "قُلْ أَعُوذُ بِرَبِّ النَّاسِ، مَلِكِ النَّاسِ، إِلَٰهِ النَّاسِ، مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ، الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ، مِنَ الْجِنَّةِ وَالنَّاسِ"
-                ];
+                if (!response.ok) {
+                    throw new Error('فشل في تحميل الآيات');
+                }
+                
+                const data = await response.json();
                 
                 container.innerHTML = '';
                 
-                // عرض آيات حقيقية متنوعة
-                const numAyahsToShow = Math.min(realQuranAyahs.length, 10);
-                
-                for (let i = 0; i < numAyahsToShow; i++) {
-                    const ayahDiv = document.createElement('div');
-                    ayahDiv.className = 'ayah-item';
-                    ayahDiv.style.fontSize = `${quranFontSize}rem`;
+                if (data.verses && Array.isArray(data.verses)) {
+                    data.verses.forEach((verse, index) => {
+                        const ayahDiv = document.createElement('div');
+                        ayahDiv.className = 'ayah-item';
+                        ayahDiv.style.fontSize = `${quranFontSize}rem`;
+                        
+                        ayahDiv.innerHTML = `
+                            <div class="ayah-actions">
+                                <button class="ayah-action-btn" onclick="bookmarkAyah(${surahId}, ${verse.verse_number})" title="حفظ الآية">
+                                    <i class="far fa-bookmark"></i>
+                                </button>
+                                <button class="ayah-action-btn" onclick="copyAyah(${surahId}, ${verse.verse_number})" title="نسخ الآية">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="ayah-action-btn" onclick="shareAyah(${surahId}, ${verse.verse_number})" title="مشاركة الآية">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                            <span class="ayah-text">${verse.text_uthmani}</span>
+                            <span class="ayah-number">${verse.verse_number}</span>
+                        `;
+                        container.appendChild(ayahDiv);
+                    });
                     
-                    ayahDiv.innerHTML = `
-                        <div class="ayah-actions">
-                            <button class="ayah-action-btn" onclick="bookmarkAyah(${surahId}, ${i + 1})" title="حفظ الآية">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                            <button class="ayah-action-btn" onclick="copyAyah(${surahId}, ${i + 1})" title="نسخ الآية">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                        <span class="ayah-text">${realQuranAyahs[i]}</span>
-                        <span class="ayah-number">${i + 1}</span>
-                    `;
-                    container.appendChild(ayahDiv);
+                    showNotification('تم التحميل', `تم تحميل ${data.verses.length} آية`);
+                } else {
+                    throw new Error('بيانات غير صحيحة');
                 }
-                
-                // إضافة معلومات عن الآيات
-                const infoDiv = document.createElement('div');
-                infoDiv.style.cssText = `
-                    background: rgba(255, 215, 0, 0.05);
-                    border-radius: 10px;
-                    padding: 20px;
-                    margin-top: 20px;
-                    text-align: center;
-                    color: #aaa;
-                `;
-                infoDiv.innerHTML = `
-                    <p><i class="fas fa-info-circle"></i> عرض آيات متنوعة من القرآن الكريم</p>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">
-                        تم تحميل ${numAyahsToShow} آية متنوعة لتجربة الواجهة
-                    </p>
-                `;
-                container.appendChild(infoDiv);
                 
             } catch (error) {
                 console.error('خطأ في تحميل الآيات:', error);
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #aaa;">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
-                        <p>حدث خطأ في تحميل الآيات</p>
-                        <button class="btn" onclick="loadAyahs(${surahId})" style="margin-top: 20px;">
-                            <i class="fas fa-redo"></i> إعادة المحاولة
+                // عرض آيات حقيقية متنوعة كبديل
+                loadFallbackAyahs(surahId);
+            }
+        }
+        
+        function loadFallbackAyahs(surahId) {
+            const container = document.getElementById('ayahsContent');
+            
+            // آيات حقيقية متنوعة من القرآن الكريم
+            const realQuranAyahs = [
+                "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+                "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+                "الرَّحْمَٰنِ الرَّحِيمِ",
+                "مَالِكِ يَوْمِ الدِّينِ",
+                "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+                "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+                "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+                "الم",
+                "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
+                "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ"
+            ];
+            
+            container.innerHTML = '';
+            
+            // عرض آيات حقيقية متنوعة
+            const numAyahsToShow = Math.min(realQuranAyahs.length, currentSurah.verses_count || 10);
+            
+            for (let i = 0; i < numAyahsToShow; i++) {
+                const ayahDiv = document.createElement('div');
+                ayahDiv.className = 'ayah-item';
+                ayahDiv.style.fontSize = `${quranFontSize}rem`;
+                
+                ayahDiv.innerHTML = `
+                    <div class="ayah-actions">
+                        <button class="ayah-action-btn" onclick="bookmarkAyah(${surahId}, ${i + 1})" title="حفظ الآية">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                        <button class="ayah-action-btn" onclick="copyAyah(${surahId}, ${i + 1})" title="نسخ الآية">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
+                    <span class="ayah-text">${realQuranAyahs[i]}</span>
+                    <span class="ayah-number">${i + 1}</span>
                 `;
+                container.appendChild(ayahDiv);
             }
+            
+            // إضافة معلومات عن الآيات
+            const infoDiv = document.createElement('div');
+            infoDiv.style.cssText = `
+                background: rgba(255, 215, 0, 0.05);
+                border-radius: 10px;
+                padding: 20px;
+                margin-top: 20px;
+                text-align: center;
+                color: #aaa;
+            `;
+            infoDiv.innerHTML = `
+                <p><i class="fas fa-info-circle"></i> عرض آيات متنوعة من القرآن الكريم</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">
+                    تم تحميل ${numAyahsToShow} آية متنوعة
+                </p>
+                <button class="btn" onclick="loadAyahs(${surahId})" style="margin-top: 15px;">
+                    <i class="fas fa-redo"></i> إعادة تحميل الآيات الحقيقية
+                </button>
+            `;
+            container.appendChild(infoDiv);
         }
         
         function closeAyahs() {
@@ -2030,16 +2036,36 @@
         }
         
         function copyAyah(surahId, ayahNumber) {
-            const text = `آية ${ayahNumber} من سورة ${surahId}`;
+            const ayahText = document.querySelector(`.ayah-item:nth-child(${ayahNumber}) .ayah-text`)?.textContent || '';
+            const text = `${ayahText} (سورة ${currentSurah?.name_arabic || surahId}، آية: ${ayahNumber})`;
             navigator.clipboard.writeText(text).then(() => {
                 showNotification('تم النسخ', 'تم نسخ الآية');
             });
         }
         
+        function shareAyah(surahId, ayahNumber) {
+            const ayahText = document.querySelector(`.ayah-item:nth-child(${ayahNumber}) .ayah-text`)?.textContent || '';
+            const shareText = `${ayahText}\n\nسورة ${currentSurah?.name_arabic || surahId} - آية ${ayahNumber}\n\nمن تطبيق رعد 📖`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'آية قرآنية',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                copyAyah(surahId, ayahNumber);
+            }
+        }
+        
         function showRandomAyah() {
-            const randomSurah = Math.floor(Math.random() * surahsData.length) + 1;
-            selectSurah(randomSurah);
-            setTimeout(showAyahs, 500);
+            if (surahsData.length > 0) {
+                const randomSurah = Math.floor(Math.random() * surahsData.length) + 1;
+                selectSurah(randomSurah);
+                setTimeout(showAyahs, 500);
+            } else {
+                showNotification('تحذير', 'لم يتم تحميل السور بعد');
+            }
         }
         
         function updateQuranChallenge(surahId) {
@@ -2411,21 +2437,25 @@
         
         function playTasbihSound() {
             // إنشاء صوت تسبيح بسيط
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = 440; // تردد A4
-            oscillator.type = 'sine';
-            
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.1);
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 440; // تردد A4
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (error) {
+                console.log('لا يمكن تشغيل الصوت:', error);
+            }
         }
         
         function saveTasbihSession() {
@@ -2604,7 +2634,7 @@
             if (background === 'none') {
                 document.body.style.backgroundImage = '';
             } else {
-                // استخدام خلفيات افتراضية (في التطبيق الحقيقي ستكون هناك صور حقيقية)
+                // استخدام خلفيات افتراضية
                 const backgrounds = {
                     'mosque': 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60)',
                     'pattern': 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(https://images.unsplash.com/photo-1544914379-8066678f8c75?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60)',
@@ -2742,11 +2772,28 @@
             return colors[Math.floor(Math.random() * colors.length)];
         }
         
-        // إضافة أنماط CSS للرسوم المتحركة
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0% { transform: scale(1); opacity: 1; }
+        function findQibla() {
+            showNotification('القبلة', 'سيتم إضافة دليل القبلة قريباً إن شاء الله');
+        }
+        
+        function completeChallenge(challengeId, points) {
+            // تحديث نقاط التحديات
+            const currentPoints = parseInt(localStorage.getItem('challengePoints') || '0');
+            localStorage.setItem('challengePoints', (currentPoints + points).toString());
+            
+            showNotification('تهانينا!', `لقد كسبت ${points} نقطة`);
+        }
+        
+        function updateChallengeProgress(challengeId, progress) {
+            // تحديث تقدم التحديات
+            const challenges = JSON.parse(localStorage.getItem('challenges') || '{}');
+            if (!challenges[challengeId]) challenges[challengeId] = 0;
+            challenges[challengeId] += progress;
+            localStorage.setItem('challenges', JSON.stringify(challenges));
+        }
+    </script>
+</body>
+</html>   0% { transform: scale(1); opacity: 1; }
                 50% { transform: scale(1.1); opacity: 0.8; }
                 100% { transform: scale(1); opacity: 1; }
             }
