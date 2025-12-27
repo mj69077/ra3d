@@ -1517,9 +1517,6 @@
             </div>
         </section>
         
-        <!-- باقي الأقسام (مختصرة للاختصار) -->
-        <!-- ... الأقسام الأخرى كما هي في الكود الأصلي ... -->
-        
         <!-- الفوتر -->
         <div class="footer-nav">
             <button class="footer-btn" onclick="showSection('quran')">
@@ -1661,9 +1658,8 @@
         
         async function initQuran() {
             try {
-                // محاكاة تحميل السور (في التطبيق الحقيقي سيتم جلبها من API)
-                surahsData = generateSurahsData();
-                renderSurahs();
+                // استخدام API حقيقي لتحميل السور
+                await loadSurahsFromAPI();
                 
                 // تحميل آخر سورة تمت قراءتها
                 const lastRead = localStorage.getItem('lastReadSurah');
@@ -1679,27 +1675,36 @@
             }
         }
         
-        function generateSurahsData() {
-            const surahs = [];
-            const surahNames = [
-                "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة",
-                "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
-                "هود", "يوسف", "الرعد", "إبراهيم", "الحجر",
-                "النحل", "الإسراء", "الكهف", "مريم", "طه"
-            ];
-            
-            for (let i = 1; i <= 114; i++) {
-                const nameIndex = Math.min(i - 1, surahNames.length - 1);
-                surahs.push({
-                    id: i,
-                    name_arabic: surahNames[nameIndex] || `سورة ${i}`,
-                    name_simple: `Surah ${i}`,
-                    verses_count: Math.floor(Math.random() * 200) + 10,
-                    revelation_place: i <= 60 ? 'makkah' : 'madinah'
-                });
+        async function loadSurahsFromAPI() {
+            try {
+                const response = await fetch('https://api.quran.com/api/v4/chapters?language=ar');
+                
+                if (!response.ok) {
+                    throw new Error('فشل في تحميل السور');
+                }
+                
+                const data = await response.json();
+                
+                if (data.chapters && Array.isArray(data.chapters)) {
+                    surahsData = data.chapters.map(chapter => ({
+                        id: chapter.id,
+                        name_arabic: chapter.name_arabic,
+                        name_simple: chapter.name_simple,
+                        verses_count: chapter.verses_count,
+                        revelation_place: chapter.revelation_place,
+                        revelation_order: chapter.revelation_order,
+                        translated_name: chapter.translated_name ? chapter.translated_name.name : ''
+                    }));
+                    
+                    renderSurahs();
+                    showNotification('تم التحميل', `تم تحميل ${surahsData.length} سورة`);
+                } else {
+                    showNotification('خطأ', 'لم يتم العثور على بيانات السور');
+                }
+            } catch (error) {
+                console.error('خطأ في تحميل السور:', error);
+                showNotification('خطأ', 'حدث خطأ في تحميل السور');
             }
-            
-            return surahs;
         }
         
         function renderSurahs() {
@@ -1766,7 +1771,7 @@
             document.getElementById('ayahsContainer').style.display = 'block';
             document.getElementById('surahTitle').textContent = currentSurah.name_arabic;
             
-            // تحميل الآيات (محاكاة)
+            // تحميل الآيات الحقيقية من API
             await loadAyahs(currentSurah.id);
             
             // تمرير إلى الأعلى
@@ -1780,30 +1785,46 @@
             const container = document.getElementById('ayahsContent');
             container.innerHTML = '<div class="loading">جاري تحميل الآيات...</div>';
             
-            // محاكاة تحميل الآيات
-            setTimeout(() => {
+            try {
+                // استخدام API حقيقي للآيات
+                const response = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/ar.alafasy`);
+                
+                if (!response.ok) {
+                    throw new Error('فشل في تحميل الآيات');
+                }
+                
+                const data = await response.json();
                 container.innerHTML = '';
                 
-                // توليد آيات وهمية
-                for (let i = 1; i <= 10; i++) { // 10 آيات كعينة
-                    const ayahDiv = document.createElement('div');
-                    ayahDiv.className = 'ayah-item';
-                    ayahDiv.style.fontSize = `${quranFontSize}rem`;
-                    ayahDiv.innerHTML = `
-                        <div class="ayah-actions">
-                            <button class="ayah-action-btn" onclick="bookmarkAyah(${surahId}, ${i})" title="حفظ الآية">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                            <button class="ayah-action-btn" onclick="copyAyah(${surahId}, ${i})" title="نسخ الآية">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                        <span class="ayah-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ</span>
-                        <span class="ayah-number">${i}</span>
-                    `;
-                    container.appendChild(ayahDiv);
+                if (data.data && data.data.ayahs && Array.isArray(data.data.ayahs)) {
+                    const ayahs = data.data.ayahs;
+                    
+                    ayahs.forEach((ayah, index) => {
+                        const ayahDiv = document.createElement('div');
+                        ayahDiv.className = 'ayah-item';
+                        ayahDiv.style.fontSize = `${quranFontSize}rem`;
+                        
+                        ayahDiv.innerHTML = `
+                            <div class="ayah-actions">
+                                <button class="ayah-action-btn" onclick="bookmarkAyah(${surahId}, ${ayah.numberInSurah || index + 1})" title="حفظ الآية">
+                                    <i class="far fa-bookmark"></i>
+                                </button>
+                                <button class="ayah-action-btn" onclick="copyAyah(${surahId}, ${ayah.numberInSurah || index + 1})" title="نسخ الآية">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <span class="ayah-text">${ayah.text || 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'}</span>
+                            <span class="ayah-number">${ayah.numberInSurah || index + 1}</span>
+                        `;
+                        container.appendChild(ayahDiv);
+                    });
+                } else {
+                    showNotification('خطأ', 'لم يتم العثور على آيات هذه السورة');
                 }
-            }, 500);
+            } catch (error) {
+                console.error('خطأ في تحميل الآيات من API:', error);
+                showNotification('خطأ', 'حدث خطأ في تحميل الآيات');
+            }
         }
         
         function closeAyahs() {
@@ -2686,19 +2707,6 @@
             }
         `;
         document.head.appendChild(style);
-    </script>
-</body>
-</html>city: 1; }
-                    to { transform: translateX(-100%); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
-</body>
-</html>ission();
-            }
-        });
     </script>
 </body>
 </html>
