@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Tajawal:wght@400;700&family=Lateef:wght@400;700&family=Scheherazade:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -20,6 +20,8 @@
             --text: #FFD700;
             --light-text: #f8f9fa;
             --border: #333;
+            --font-family: 'Amiri', serif;
+            --bg-image: none;
         }
         
         * {
@@ -29,12 +31,16 @@
         }
         
         body {
-            font-family: 'Amiri', serif;
+            font-family: var(--font-family);
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             padding-bottom: 80px;
             transition: all 0.3s ease;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         
         .container {
@@ -89,6 +95,8 @@
             padding: 10px;
             border-radius: 15px;
             border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
         }
         
         nav button {
@@ -139,6 +147,8 @@
             margin-bottom: 15px;
             border: 2px solid var(--border);
             transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
         }
         
         .card:hover {
@@ -166,6 +176,8 @@
             border: 2px solid var(--border);
             transition: all 0.3s;
             cursor: pointer;
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
         }
         
         .surah-card:hover {
@@ -221,6 +233,8 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
         }
         
         .counter-btn:hover {
@@ -254,6 +268,8 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
         }
         
         .azkar-tab:hover {
@@ -282,6 +298,7 @@
             text-align: center;
             transition: all 0.3s;
             border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
         
         .prayer-time-card.current {
@@ -301,42 +318,151 @@
             color: black;
         }
         
-        /* ========== السمات ========== */
-        .theme-selector {
+        /* ========== الإعدادات ========== */
+        .settings-section {
+            padding: 20px;
+        }
+        
+        .settings-group {
+            margin-bottom: 25px;
+        }
+        
+        .settings-title {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
-            margin: 20px 0;
+            margin-top: 15px;
         }
         
-        .theme-card {
+        .setting-option {
             background: var(--card);
             border: 2px solid var(--border);
             border-radius: 12px;
             padding: 15px;
-            cursor: pointer;
             text-align: center;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
+        }
+        
+        .setting-option:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+        
+        .setting-option.active {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .option-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        /* ========== خلفيات ========== */
+        .bg-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--border);
+        }
+        
+        /* ========== أزرار ========== */
+        .btn {
+            background: var(--gold);
+            color: black;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.3s;
         }
         
-        .theme-card.active {
-            border-color: var(--gold);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        .btn:hover {
+            background: var(--dark-gold);
+            transform: translateY(-2px);
         }
         
-        .theme-preview {
-            width: 100%;
-            height: 50px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+        /* ========== شريط التحكم ========== */
+        .control-row {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .control-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-text);
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--text);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--gold);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+            background-color: black;
         }
         
         /* ========== صفحة المطور ========== */
@@ -399,6 +525,8 @@
             display: flex;
             justify-content: space-around;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(22, 22, 22, 0.8);
         }
         
         .footer-btn {
@@ -420,26 +548,6 @@
             font-weight: bold;
         }
         
-        /* ========== أزرار ========== */
-        .btn {
-            background: var(--gold);
-            color: black;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            background: var(--dark-gold);
-            transform: translateY(-2px);
-        }
-        
         /* ========== استجابة ========== */
         @media (max-width: 768px) {
             nav {
@@ -459,6 +567,10 @@
             .surahs-grid {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
+            
+            .settings-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         @media (max-width: 480px) {
@@ -474,6 +586,10 @@
                 width: 60px;
                 height: 60px;
                 font-size: 1.5rem;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -537,9 +653,30 @@
             --light-text: #212529;
             --border: #dee2e6;
         }
+        
+        /* ========== خلفيات ========== */
+        .bg-none {
+            background-image: none !important;
+        }
+        
+        .bg-mosque {
+            --bg-image: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        }
+        
+        .bg-nature {
+            --bg-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        }
+        
+        .bg-night {
+            --bg-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        }
+        
+        .bg-gradient {
+            --bg-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
     </style>
 </head>
-<body class="theme-gold">
+<body class="theme-gold bg-none">
     <!-- شاشة التحميل -->
     <div id="loadingScreen">
         <div class="loading-content">
@@ -574,9 +711,9 @@
                 <i class="fas fa-clock"></i>
                 <span>الصلاة</span>
             </button>
-            <button onclick="showSection('theme')" id="m-theme">
-                <i class="fas fa-palette"></i>
-                <span>السمات</span>
+            <button onclick="showSection('settings')" id="m-settings">
+                <i class="fas fa-cog"></i>
+                <span>الإعدادات</span>
             </button>
             <button onclick="showSection('developer')" id="m-developer">
                 <i class="fas fa-code"></i>
@@ -590,8 +727,8 @@
                 <h2><i class="fas fa-quran"></i> القرآن الكريم</h2>
                 <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">اقرأ وسمع القرآن الكريم</p>
                 
-                <div class="surahs-grid">
-                    <!-- سور القرآن -->
+                <div class="surahs-grid" id="surahsGrid">
+                    <!-- السور تظهر هنا -->
                 </div>
             </div>
         </section>
@@ -608,6 +745,9 @@
                     </button>
                     <button class="azkar-tab" onclick="showAzkarTab('evening')">
                         <i class="fas fa-moon"></i> المساء
+                    </button>
+                    <button class="azkar-tab" onclick="showAzkarTab('sleep')">
+                        <i class="fas fa-bed"></i> النوم
                     </button>
                 </div>
                 
@@ -643,6 +783,9 @@
                     <button class="btn" onclick="resetTasbih()">
                         <i class="fas fa-redo"></i> إعادة تعيين
                     </button>
+                    <button class="btn" style="margin-right: 10px; background: transparent; border: 2px solid var(--gold); color: var(--text);" onclick="playClickSound()">
+                        <i class="fas fa-volume-up"></i> صوت النقر
+                    </button>
                 </div>
             </div>
         </section>
@@ -660,75 +803,118 @@
                     </div>
                     
                     <div class="prayer-times">
-                        <div class="prayer-time-card">
+                        <div class="prayer-time-card" id="fajrCard">
                             <div style="font-size: 1.2rem; margin-bottom: 5px;">الفجر</div>
-                            <div class="time">05:30</div>
+                            <div class="time" id="fajrTime">05:30</div>
                         </div>
-                        <div class="prayer-time-card">
+                        <div class="prayer-time-card" id="dhuhrCard">
                             <div style="font-size: 1.2rem; margin-bottom: 5px;">الظهر</div>
-                            <div class="time">12:30</div>
+                            <div class="time" id="dhuhrTime">12:30</div>
                         </div>
-                        <div class="prayer-time-card">
+                        <div class="prayer-time-card" id="asrCard">
                             <div style="font-size: 1.2rem; margin-bottom: 5px;">العصر</div>
-                            <div class="time">15:45</div>
+                            <div class="time" id="asrTime">15:45</div>
                         </div>
-                        <div class="prayer-time-card">
+                        <div class="prayer-time-card" id="maghribCard">
                             <div style="font-size: 1.2rem; margin-bottom: 5px;">المغرب</div>
-                            <div class="time">18:20</div>
+                            <div class="time" id="maghribTime">18:20</div>
                         </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn" onclick="getLocation()">
+                            <i class="fas fa-location-dot"></i> تحديث الموقع
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- السمات -->
-        <section id="theme" class="section">
-            <div style="padding: 20px;">
-                <h2><i class="fas fa-palette"></i> تخصيص التطبيق</h2>
-                <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">اختر السمة المفضلة لديك</p>
+        <!-- الإعدادات -->
+        <section id="settings" class="section">
+            <div class="settings-section">
+                <h2><i class="fas fa-cog"></i> إعدادات التطبيق</h2>
+                <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">خصّص تطبيق رعد كما تريد</p>
                 
-                <div class="theme-selector">
-                    <div class="theme-card active" onclick="selectTheme('gold')">
-                        <div class="theme-preview" style="background: linear-gradient(135deg, #0a0a0a, #161616); border: 2px solid #FFD700;">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <div>الذهبية</div>
+                <!-- الثيمات -->
+                <div class="card">
+                    <div class="settings-title">
+                        <i class="fas fa-palette"></i>
+                        <span>الثيمات</span>
+                    </div>
+                    <div class="settings-grid" id="themesGrid">
+                        <!-- الثيمات تظهر هنا -->
+                    </div>
+                </div>
+                
+                <!-- الخطوط -->
+                <div class="card">
+                    <div class="settings-title">
+                        <i class="fas fa-font"></i>
+                        <span>الخطوط</span>
+                    </div>
+                    <div class="settings-grid" id="fontsGrid">
+                        <!-- الخطوط تظهر هنا -->
+                    </div>
+                </div>
+                
+                <!-- الأصوات -->
+                <div class="card">
+                    <div class="settings-title">
+                        <i class="fas fa-volume-up"></i>
+                        <span>الأصوات</span>
                     </div>
                     
-                    <div class="theme-card" onclick="selectTheme('green')">
-                        <div class="theme-preview" style="background: linear-gradient(135deg, #0a140a, #162016); border: 2px solid #2ecc71;">
-                            <i class="fas fa-leaf"></i>
+                    <div class="control-row">
+                        <div class="control-label">
+                            <i class="fas fa-bell"></i>
+                            <span>صوت النقر</span>
                         </div>
-                        <div>الخضراء</div>
+                        <label class="switch">
+                            <input type="checkbox" id="clickSoundToggle" checked>
+                            <span class="slider"></span>
+                        </label>
                     </div>
                     
-                    <div class="theme-card" onclick="selectTheme('blue')">
-                        <div class="theme-preview" style="background: linear-gradient(135deg, #0a0a14, #161620); border: 2px solid #3498db;">
-                            <i class="fas fa-cloud"></i>
+                    <div class="control-row">
+                        <div class="control-label">
+                            <i class="fas fa-cloud-rain"></i>
+                            <span>صوت المطر</span>
                         </div>
-                        <div>الزرقاء</div>
+                        <label class="switch">
+                            <input type="checkbox" id="rainSoundToggle">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                     
-                    <div class="theme-card" onclick="selectTheme('purple')">
-                        <div class="theme-preview" style="background: linear-gradient(135deg, #140a14, #201620); border: 2px solid #9b59b6;">
-                            <i class="fas fa-gem"></i>
+                    <div class="control-row">
+                        <div class="control-label">
+                            <i class="fas fa-birds"></i>
+                            <span>أصوات الطيور</span>
                         </div>
-                        <div>الأرجوانية</div>
+                        <label class="switch">
+                            <input type="checkbox" id="birdsSoundToggle">
+                            <span class="slider"></span>
+                        </label>
                     </div>
-                    
-                    <div class="theme-card" onclick="selectTheme('red')">
-                        <div class="theme-preview" style="background: linear-gradient(135deg, #140a0a, #201616); border: 2px solid #e74c3c;">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <div>الحمراء</div>
+                </div>
+                
+                <!-- الخلفيات -->
+                <div class="card">
+                    <div class="settings-title">
+                        <i class="fas fa-image"></i>
+                        <span>خلفية التطبيق</span>
                     </div>
-                    
-                    <div class="theme-card" onclick="selectTheme('white')">
-                        <div class="theme-preview" style="background: linear-gradient(135deg, #f8f9fa, #ffffff); border: 2px solid #2c3e50;">
-                            <i class="fas fa-sun"></i>
-                        </div>
-                        <div>النهارية</div>
+                    <div class="settings-grid" id="backgroundsGrid">
+                        <!-- الخلفيات تظهر هنا -->
                     </div>
+                </div>
+                
+                <!-- إعادة التعيين -->
+                <div class="card" style="text-align: center;">
+                    <button class="btn" onclick="resetSettings()" style="width: 100%;">
+                        <i class="fas fa-undo"></i> إعادة التعيين إلى الإعدادات الافتراضية
+                    </button>
                 </div>
             </div>
         </section>
@@ -753,16 +939,30 @@
                 </div>
                 
                 <div style="margin-top: 30px; color: #aaa; font-size: 0.9rem;">
-                    <div>الإصدار: 10.8.0</div>
+                    <div>الإصدار: 1.0.0</div>
                     <div>© 2024 جميع الحقوق محفوظة</div>
                 </div>
             </div>
         </section>
     </div>
 
+    <!-- عناصر صوتية -->
+    <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+    <audio id="rainSound" loop src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1244.mp3" preload="auto"></audio>
+    <audio id="birdsSound" loop src="https://assets.mixkit.co/sfx/preview/mixkit-birds-chirping-near-the-river-2464.mp3" preload="auto"></audio>
+    <audio id="prayerSound" src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" preload="auto"></audio>
+
     <script>
         // ==================== المتغيرات ====================
         let tasbihCount = 0;
+        let settings = {
+            theme: 'gold',
+            font: 'amiri',
+            clickSound: true,
+            rainSound: false,
+            birdsSound: false,
+            background: 'none'
+        };
         
         // ==================== تهيئة التطبيق ====================
         document.addEventListener('DOMContentLoaded', function() {
@@ -773,9 +973,13 @@
                 updateDateTime();
                 setInterval(updateDateTime, 1000);
                 
+                loadSettings();
                 loadQuranSurahs();
                 loadAzkar();
-                loadSettings();
+                loadThemes();
+                loadFonts();
+                loadBackgrounds();
+                updatePrayerTimes();
                 
                 showNotification('مرحباً بك', 'في تطبيق رعد الإسلامي');
             }, 1500);
@@ -794,74 +998,122 @@
             
             document.getElementById('currentTime').textContent = timeStr;
             document.getElementById('currentDate').textContent = dateStr;
+            
+            updateCurrentPrayer();
         }
         
         // ==================== وظائف القرآن ====================
-        function loadQuranSurahs() {
-            const surahs = [
-                { number: 1, name: 'الفاتحة', ayahs: 7, type: 'مكية' },
-                { number: 2, name: 'البقرة', ayahs: 286, type: 'مدنية' },
-                { number: 3, name: 'آل عمران', ayahs: 200, type: 'مدنية' },
-                { number: 4, name: 'النساء', ayahs: 176, type: 'مدنية' },
-                { number: 5, name: 'المائدة', ayahs: 120, type: 'مدنية' },
-                { number: 6, name: 'الأنعام', ayahs: 165, type: 'مكية' },
-                { number: 7, name: 'الأعراف', ayahs: 206, type: 'مكية' },
-                { number: 8, name: 'الأنفال', ayahs: 75, type: 'مدنية' },
-                { number: 9, name: 'التوبة', ayahs: 129, type: 'مدنية' },
-                { number: 10, name: 'يونس', ayahs: 109, type: 'مكية' }
-            ];
-            
-            const grid = document.querySelector('.surahs-grid');
+        async function loadQuranSurahs() {
+            try {
+                const response = await fetch('https://api.quran.com/api/v4/chapters');
+                const data = await response.json();
+                
+                const first10Surahs = data.chapters.slice(0, 10);
+                displaySurahs(first10Surahs);
+                
+            } catch (error) {
+                console.error('Error loading surahs:', error);
+                showNotification('خطأ', 'تعذر تحميل السور');
+                
+                // عرض سور افتراضية
+                const defaultSurahs = [
+                    { id: 1, name_arabic: 'الفاتحة', verses_count: 7, revelation_place: 'makkah' },
+                    { id: 2, name_arabic: 'البقرة', verses_count: 286, revelation_place: 'madinah' },
+                    { id: 3, name_arabic: 'آل عمران', verses_count: 200, revelation_place: 'madinah' },
+                    { id: 4, name_arabic: 'النساء', verses_count: 176, revelation_place: 'madinah' },
+                    { id: 5, name_arabic: 'المائدة', verses_count: 120, revelation_place: 'madinah' }
+                ];
+                displaySurahs(defaultSurahs);
+            }
+        }
+        
+        function displaySurahs(surahs) {
+            const grid = document.getElementById('surahsGrid');
             grid.innerHTML = '';
             
             surahs.forEach(surah => {
                 const card = document.createElement('div');
                 card.className = 'surah-card';
-                card.onclick = () => showSurah(surah);
+                card.onclick = () => playSurah(surah.id);
                 
                 card.innerHTML = `
-                    <div class="surah-number">${surah.number}</div>
-                    <div style="font-weight: bold; margin-bottom: 5px;">${surah.name}</div>
-                    <div style="color: #aaa; font-size: 0.9rem;">${surah.ayahs} آية</div>
-                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">${surah.type}</div>
+                    <div class="surah-number">${surah.id}</div>
+                    <div style="font-weight: bold; margin-bottom: 5px;">${surah.name_arabic}</div>
+                    <div style="color: #aaa; font-size: 0.9rem;">${surah.verses_count} آية</div>
+                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                        ${surah.revelation_place === 'makkah' ? 'مكية' : 'مدنية'}
+                    </div>
                 `;
                 
                 grid.appendChild(card);
             });
         }
         
-        function showSurah(surah) {
-            showNotification(`سورة ${surah.name}`, `عدد الآيات: ${surah.ayahs} - ${surah.type}`);
+        function playSurah(surahId) {
+            if (settings.clickSound) {
+                playClickSound();
+            }
+            
+            showNotification('جاري التشغيل', 'سيبدأ تشغيل السورة قريباً');
+            
+            // تشغيل تلاوة للسورة (استخدام مقطع صوتي افتراضي)
+            const audio = document.getElementById('prayerSound');
+            audio.currentTime = 0;
+            audio.play().catch(e => {
+                showNotification('تنبيه', 'اضغط على زر التشغيل للاستماع');
+            });
         }
         
         // ==================== وظائف الأذكار ====================
         function loadAzkar() {
-            const morningAzkar = [
-                {
-                    text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
-                    ref: "مسلم"
-                },
-                {
-                    text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
-                    ref: "الترمذي"
-                }
-            ];
-            
-            const eveningAzkar = [
-                {
-                    text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له",
-                    ref: "مسلم"
-                },
-                {
-                    text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
-                    ref: "الترمذي"
-                }
-            ];
-            
-            displayAzkar('morning', morningAzkar);
+            showAzkarTab('morning');
         }
         
-        function displayAzkar(type, azkarList) {
+        function showAzkarTab(tab) {
+            document.querySelectorAll('.azkar-tab').forEach(t => {
+                t.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            
+            const container = document.getElementById('azkarContent');
+            let azkarList = [];
+            
+            if (tab === 'morning') {
+                azkarList = [
+                    {
+                        text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+                        ref: "مسلم"
+                    },
+                    {
+                        text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
+                        ref: "الترمذي"
+                    }
+                ];
+            } else if (tab === 'evening') {
+                azkarList = [
+                    {
+                        text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له",
+                        ref: "مسلم"
+                    },
+                    {
+                        text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
+                        ref: "الترمذي"
+                    }
+                ];
+            } else {
+                azkarList = [
+                    {
+                        text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، إِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ",
+                        ref: "البخاري"
+                    }
+                ];
+            }
+            
+            displayAzkar(azkarList);
+        }
+        
+        function displayAzkar(azkarList) {
             const container = document.getElementById('azkarContent');
             container.innerHTML = '';
             
@@ -882,47 +1134,19 @@
             });
         }
         
-        function showAzkarTab(tab) {
-            document.querySelectorAll('.azkar-tab').forEach(t => {
-                t.classList.remove('active');
-            });
-            
-            event.target.classList.add('active');
-            
-            if (tab === 'morning') {
-                const morningAzkar = [
-                    {
-                        text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
-                        ref: "مسلم"
-                    },
-                    {
-                        text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
-                        ref: "الترمذي"
-                    }
-                ];
-                displayAzkar(tab, morningAzkar);
-            } else {
-                const eveningAzkar = [
-                    {
-                        text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له",
-                        ref: "مسلم"
-                    },
-                    {
-                        text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
-                        ref: "الترمذي"
-                    }
-                ];
-                displayAzkar(tab, eveningAzkar);
-            }
-        }
-        
         function completeAzkar() {
+            if (settings.clickSound) {
+                playClickSound();
+            }
             showNotification('مبارك', 'أحسنت! ثوابك عند الله');
         }
         
         // ==================== وظائف المسبحة ====================
         function incrementTasbih() {
             tasbihCount++;
+            if (settings.clickSound) {
+                playClickSound();
+            }
             updateTasbihDisplay();
             
             if (tasbihCount === 33 || tasbihCount === 66 || tasbihCount === 99) {
@@ -933,11 +1157,17 @@
         function changeTasbih(amount) {
             tasbihCount += amount;
             if (tasbihCount < 0) tasbihCount = 0;
+            if (settings.clickSound) {
+                playClickSound();
+            }
             updateTasbihDisplay();
         }
         
         function resetTasbih() {
             tasbihCount = 0;
+            if (settings.clickSound) {
+                playClickSound();
+            }
             updateTasbihDisplay();
             showNotification('تم', 'تم إعادة تعيين المسبحة');
         }
@@ -946,32 +1176,299 @@
             document.getElementById('counter').textContent = tasbihCount;
         }
         
-        // ==================== وظائف السمات ====================
-        function selectTheme(theme) {
-            document.querySelectorAll('.theme-card').forEach(card => {
-                card.classList.remove('active');
+        function playClickSound() {
+            const audio = document.getElementById('clickSound');
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log('Sound play failed'));
+        }
+        
+        // ==================== وظائف الصلاة ====================
+        function updatePrayerTimes() {
+            // أوقات افتراضية (يمكن استبدالها بـ API)
+            const times = {
+                fajr: "05:30",
+                dhuhr: "12:30",
+                asr: "15:45",
+                maghrib: "18:20",
+                isha: "19:45"
+            };
+            
+            document.getElementById('fajrTime').textContent = times.fajr;
+            document.getElementById('dhuhrTime').textContent = times.dhuhr;
+            document.getElementById('asrTime').textContent = times.asr;
+            document.getElementById('maghribTime').textContent = times.maghrib;
+        }
+        
+        function updateCurrentPrayer() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+            
+            // إزالة التحديد من جميع البطاقات
+            document.querySelectorAll('.prayer-time-card').forEach(card => {
+                card.classList.remove('current');
             });
             
-            document.body.className = `theme-${theme}`;
-            event.target.closest('.theme-card').classList.add('active');
+            // تحديد الصلاة الحالية (مثال مبسط)
+            const prayerTimes = {
+                fajr: 5 * 60 + 30,    // 05:30
+                dhuhr: 12 * 60 + 30,  // 12:30
+                asr: 15 * 60 + 45,    // 15:45
+                maghrib: 18 * 60 + 20 // 18:20
+            };
             
-            localStorage.setItem('theme', theme);
+            if (currentTime >= prayerTimes.fajr && currentTime < prayerTimes.dhuhr) {
+                document.getElementById('fajrCard').classList.add('current');
+            } else if (currentTime >= prayerTimes.dhuhr && currentTime < prayerTimes.asr) {
+                document.getElementById('dhuhrCard').classList.add('current');
+            } else if (currentTime >= prayerTimes.asr && currentTime < prayerTimes.maghrib) {
+                document.getElementById('asrCard').classList.add('current');
+            } else {
+                document.getElementById('maghribCard').classList.add('current');
+            }
+        }
+        
+        function getLocation() {
+            showNotification('جاري التحديث', 'جاري تحديد موقعك...');
+            setTimeout(() => {
+                showNotification('تم', 'تم تحديث أوقات الصلاة');
+            }, 1000);
+        }
+        
+        // ==================== وظائف الإعدادات ====================
+        function loadThemes() {
+            const themes = [
+                { id: 'gold', name: 'ذهبي', icon: 'fas fa-crown' },
+                { id: 'green', name: 'أخضر', icon: 'fas fa-leaf' },
+                { id: 'blue', name: 'أزرق', icon: 'fas fa-cloud' },
+                { id: 'purple', name: 'بنفسجي', icon: 'fas fa-gem' },
+                { id: 'red', name: 'أحمر', icon: 'fas fa-fire' },
+                { id: 'white', name: 'نهاري', icon: 'fas fa-sun' }
+            ];
             
-            showNotification('تم التغيير', `تم تطبيق السمة ${theme}`);
+            const grid = document.getElementById('themesGrid');
+            grid.innerHTML = '';
+            
+            themes.forEach(theme => {
+                const option = document.createElement('div');
+                option.className = `setting-option ${settings.theme === theme.id ? 'active' : ''}`;
+                option.onclick = () => selectTheme(theme.id);
+                
+                option.innerHTML = `
+                    <div class="option-icon">
+                        <i class="${theme.icon}"></i>
+                    </div>
+                    <div>${theme.name}</div>
+                `;
+                
+                grid.appendChild(option);
+            });
+        }
+        
+        function loadFonts() {
+            const fonts = [
+                { id: 'amiri', name: 'أميري', font: 'Amiri' },
+                { id: 'tajawal', name: 'تاجوال', font: 'Tajawal' },
+                { id: 'lateef', name: 'لطيف', font: 'Lateef' },
+                { id: 'scheherazade', name: 'شهرزاد', font: 'Scheherazade' }
+            ];
+            
+            const grid = document.getElementById('fontsGrid');
+            grid.innerHTML = '';
+            
+            fonts.forEach(font => {
+                const option = document.createElement('div');
+                option.className = `setting-option ${settings.font === font.id ? 'active' : ''}`;
+                option.onclick = () => selectFont(font.id);
+                option.style.fontFamily = font.font;
+                
+                option.innerHTML = `
+                    <div class="option-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <div>${font.name}</div>
+                `;
+                
+                grid.appendChild(option);
+            });
+        }
+        
+        function loadBackgrounds() {
+            const backgrounds = [
+                { id: 'none', name: 'بدون', icon: 'fas fa-ban' },
+                { id: 'mosque', name: 'مسجد', icon: 'fas fa-mosque' },
+                { id: 'nature', name: 'طبيعة', icon: 'fas fa-mountain' },
+                { id: 'night', name: 'ليل', icon: 'fas fa-moon' },
+                { id: 'gradient', name: 'تدرج', icon: 'fas fa-palette' }
+            ];
+            
+            const grid = document.getElementById('backgroundsGrid');
+            grid.innerHTML = '';
+            
+            backgrounds.forEach(bg => {
+                const option = document.createElement('div');
+                option.className = `setting-option ${settings.background === bg.id ? 'active' : ''}`;
+                option.onclick = () => selectBackground(bg.id);
+                
+                if (bg.id !== 'none') {
+                    option.innerHTML = `
+                        <div class="bg-preview" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');"></div>
+                        <div>${bg.name}</div>
+                    `;
+                } else {
+                    option.innerHTML = `
+                        <div class="option-icon">
+                            <i class="${bg.icon}"></i>
+                        </div>
+                        <div>${bg.name}</div>
+                    `;
+                }
+                
+                grid.appendChild(option);
+            });
+        }
+        
+        function selectTheme(themeId) {
+            settings.theme = themeId;
+            
+            // إزالة كل الثيمات
+            document.body.classList.remove('theme-gold', 'theme-green', 'theme-blue', 'theme-purple', 'theme-red', 'theme-white');
+            // إضافة الثيم الجديد
+            document.body.classList.add(`theme-${themeId}`);
+            
+            // تحديث الواجهة
+            document.querySelectorAll('#themesGrid .setting-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.setting-option').classList.add('active');
+            
+            saveSettings();
+            showNotification('تم', `تم تطبيق الثيم ${themeId}`);
+        }
+        
+        function selectFont(fontId) {
+            settings.font = fontId;
+            
+            // تحديث الخط
+            const fontFamilies = {
+                'amiri': 'Amiri, serif',
+                'tajawal': 'Tajawal, sans-serif',
+                'lateef': 'Lateef, serif',
+                'scheherazade': 'Scheherazade, serif'
+            };
+            
+            document.documentElement.style.setProperty('--font-family', fontFamilies[fontId]);
+            
+            // تحديث الواجهة
+            document.querySelectorAll('#fontsGrid .setting-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.setting-option').classList.add('active');
+            
+            saveSettings();
+            showNotification('تم', `تم تغيير الخط`);
+        }
+        
+        function selectBackground(bgId) {
+            settings.background = bgId;
+            
+            // إزالة كل الخلفيات
+            document.body.classList.remove('bg-none', 'bg-mosque', 'bg-nature', 'bg-night', 'bg-gradient');
+            // إضافة الخلفية الجديدة
+            document.body.classList.add(`bg-${bgId}`);
+            
+            // تحديث الواجهة
+            document.querySelectorAll('#backgroundsGrid .setting-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.setting-option').classList.add('active');
+            
+            saveSettings();
+            showNotification('تم', `تم تغيير الخلفية`);
+        }
+        
+        // التحكم في الأصوات
+        document.getElementById('clickSoundToggle').addEventListener('change', function() {
+            settings.clickSound = this.checked;
+            saveSettings();
+        });
+        
+        document.getElementById('rainSoundToggle').addEventListener('change', function() {
+            settings.rainSound = this.checked;
+            const audio = document.getElementById('rainSound');
+            if (this.checked) {
+                audio.play();
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            saveSettings();
+        });
+        
+        document.getElementById('birdsSoundToggle').addEventListener('change', function() {
+            settings.birdsSound = this.checked;
+            const audio = document.getElementById('birdsSound');
+            if (this.checked) {
+                audio.play();
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            saveSettings();
+        });
+        
+        function resetSettings() {
+            settings = {
+                theme: 'gold',
+                font: 'amiri',
+                clickSound: true,
+                rainSound: false,
+                birdsSound: false,
+                background: 'none'
+            };
+            
+            // تطبيق الإعدادات
+            selectTheme('gold');
+            selectFont('amiri');
+            selectBackground('none');
+            
+            document.getElementById('clickSoundToggle').checked = true;
+            document.getElementById('rainSoundToggle').checked = false;
+            document.getElementById('birdsSoundToggle').checked = false;
+            
+            // إيقاف الأصوات
+            document.getElementById('rainSound').pause();
+            document.getElementById('birdsSound').pause();
+            
+            saveSettings();
+            showNotification('تم', 'تمت إعادة التعيين إلى الإعدادات الافتراضية');
+        }
+        
+        function saveSettings() {
+            localStorage.setItem('raadSettings', JSON.stringify(settings));
         }
         
         function loadSettings() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.className = `theme-${savedTheme}`;
+            const saved = localStorage.getItem('raadSettings');
+            if (saved) {
+                settings = JSON.parse(saved);
                 
-                document.querySelectorAll('.theme-card').forEach(card => {
-                    card.classList.remove('active');
-                });
+                // تطبيق الإعدادات
+                selectTheme(settings.theme);
+                selectFont(settings.font);
+                selectBackground(settings.background);
                 
-                const activeCard = document.querySelector(`.theme-card[onclick*="${savedTheme}"]`);
-                if (activeCard) {
-                    activeCard.classList.add('active');
+                document.getElementById('clickSoundToggle').checked = settings.clickSound;
+                document.getElementById('rainSoundToggle').checked = settings.rainSound;
+                document.getElementById('birdsSoundToggle').checked = settings.birdsSound;
+                
+                // تشغيل الأصوات المفعّلة
+                if (settings.rainSound) {
+                    document.getElementById('rainSound').play();
+                }
+                if (settings.birdsSound) {
+                    document.getElementById('birdsSound').play();
                 }
             }
         }
@@ -1004,6 +1501,7 @@
                 max-width: 300px;
                 animation: slideIn 0.3s ease;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                backdrop-filter: blur(10px);
             `;
             
             notification.innerHTML = `
