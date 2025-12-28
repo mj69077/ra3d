@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Tajawal:wght@400;700&family=Lateef:wght@400;700&family=Scheherazade:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Tajawal:wght@400;700&family=Lateef:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -21,7 +21,6 @@
             --light-text: #f8f9fa;
             --border: #333;
             --font-family: 'Amiri', serif;
-            --bg-image: none;
         }
         
         * {
@@ -37,10 +36,10 @@
             min-height: 100vh;
             padding-bottom: 80px;
             transition: all 0.3s ease;
-            background-image: var(--bg-image);
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
         }
         
         .container {
@@ -91,12 +90,11 @@
             grid-template-columns: repeat(6, 1fr);
             gap: 8px;
             margin-bottom: 20px;
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             padding: 10px;
             border-radius: 15px;
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         nav button {
@@ -141,14 +139,13 @@
         
         /* ========== البطاقات العامة ========== */
         .card {
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 15px;
             border: 2px solid var(--border);
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         .card:hover {
@@ -169,7 +166,7 @@
         }
         
         .surah-card {
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border-radius: 12px;
             padding: 15px;
             text-align: center;
@@ -177,7 +174,6 @@
             transition: all 0.3s;
             cursor: pointer;
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         .surah-card:hover {
@@ -221,7 +217,7 @@
         }
         
         .counter-btn {
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border: 3px solid var(--gold);
             color: var(--text);
             width: 80px;
@@ -234,7 +230,6 @@
             justify-content: center;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         .counter-btn:hover {
@@ -257,7 +252,7 @@
         }
         
         .azkar-tab {
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border: 2px solid var(--border);
             color: var(--text);
             padding: 12px 20px;
@@ -269,7 +264,6 @@
             gap: 8px;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         .azkar-tab:hover {
@@ -344,7 +338,7 @@
         }
         
         .setting-option {
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border: 2px solid var(--border);
             border-radius: 12px;
             padding: 15px;
@@ -352,7 +346,6 @@
             cursor: pointer;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         .setting-option:hover {
@@ -496,7 +489,7 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border: 2px solid var(--gold);
             color: var(--text);
             display: flex;
@@ -505,6 +498,7 @@
             font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
         
         .social-btn:hover {
@@ -519,14 +513,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: var(--card);
+            background: rgba(22, 22, 22, 0.95);
             border-top: 2px solid var(--gold);
             padding: 10px;
             display: flex;
             justify-content: space-around;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background: rgba(22, 22, 22, 0.8);
         }
         
         .footer-btn {
@@ -655,28 +648,24 @@
         }
         
         /* ========== خلفيات ========== */
-        .bg-none {
-            background-image: none !important;
+        body.bg-mosque {
+            background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
         }
         
-        .bg-mosque {
-            --bg-image: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        body.bg-nature {
+            background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
         }
         
-        .bg-nature {
-            --bg-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        body.bg-night {
+            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
         }
         
-        .bg-night {
-            --bg-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-        }
-        
-        .bg-gradient {
-            --bg-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        body.bg-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
     </style>
 </head>
-<body class="theme-gold bg-none">
+<body class="theme-gold">
     <!-- شاشة التحميل -->
     <div id="loadingScreen">
         <div class="loading-content">
@@ -729,6 +718,40 @@
                 
                 <div class="surahs-grid" id="surahsGrid">
                     <!-- السور تظهر هنا -->
+                </div>
+                
+                <!-- مشغل القرآن -->
+                <div class="card" style="text-align: center; margin-top: 20px;">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fas fa-play"></i> مشغل القرآن</h3>
+                    <div id="audioPlayer" style="display: none;">
+                        <div style="margin-bottom: 15px;">
+                            <div id="currentSurahName" style="font-size: 1.3rem; color: var(--gold); margin-bottom: 5px;"></div>
+                            <div id="currentReciter" style="color: #aaa; margin-bottom: 10px;"></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px; justify-content: center;">
+                            <button class="counter-btn" onclick="prevSurah()" style="width: 50px; height: 50px;">
+                                <i class="fas fa-backward"></i>
+                            </button>
+                            <button class="counter-btn" onclick="togglePlay()" id="playBtn" style="width: 70px; height: 70px; background: var(--gold); color: black;">
+                                <i class="fas fa-play" id="playIcon"></i>
+                            </button>
+                            <button class="counter-btn" onclick="nextSurah()" style="width: 50px; height: 50px;">
+                                <i class="fas fa-forward"></i>
+                            </button>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <button class="btn" onclick="stopAudio()" style="margin-right: 10px;">
+                                <i class="fas fa-stop"></i> إيقاف
+                            </button>
+                            <button class="btn" style="background: transparent; border: 2px solid var(--gold); color: var(--text);" onclick="changeReciter()">
+                                <i class="fas fa-user"></i> تغيير القارئ
+                            </button>
+                        </div>
+                    </div>
+                    <div id="noAudio" style="color: #aaa; padding: 20px;">
+                        <i class="fas fa-headphones-alt" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                        <p>اضغط على أي سورة للاستماع</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -783,7 +806,7 @@
                     <button class="btn" onclick="resetTasbih()">
                         <i class="fas fa-redo"></i> إعادة تعيين
                     </button>
-                    <button class="btn" style="margin-right: 10px; background: transparent; border: 2px solid var(--gold); color: var(--text);" onclick="playClickSound()">
+                    <button class="btn" style="margin-right: 10px; background: transparent; border: 2px solid var(--gold); color: var(--text);" onclick="playTasbihSound()">
                         <i class="fas fa-volume-up"></i> صوت النقر
                     </button>
                 </div>
@@ -897,6 +920,17 @@
                             <span class="slider"></span>
                         </label>
                     </div>
+                    
+                    <div class="control-row">
+                        <div class="control-label">
+                            <i class="fas fa-quran"></i>
+                            <span>صوت القرآن</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="quranSoundToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
                 
                 <!-- الخلفيات -->
@@ -947,10 +981,10 @@
     </div>
 
     <!-- عناصر صوتية -->
-    <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
-    <audio id="rainSound" loop src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1244.mp3" preload="auto"></audio>
-    <audio id="birdsSound" loop src="https://assets.mixkit.co/sfx/preview/mixkit-birds-chirping-near-the-river-2464.mp3" preload="auto"></audio>
-    <audio id="prayerSound" src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" preload="auto"></audio>
+    <audio id="tasbihSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+    <audio id="rainSound" loop preload="auto"></audio>
+    <audio id="birdsSound" loop preload="auto"></audio>
+    <audio id="quranAudio" preload="none"></audio>
 
     <script>
         // ==================== المتغيرات ====================
@@ -961,7 +995,19 @@
             clickSound: true,
             rainSound: false,
             birdsSound: false,
+            quranSound: true,
             background: 'none'
+        };
+        
+        let currentAudio = {
+            playing: false,
+            currentSurah: null,
+            reciters: [
+                { id: 'ar.alafasy', name: 'مشاري العفاسي' },
+                { id: 'ar.abdulsamad', name: 'عبد الباسط عبد الصمد' },
+                { id: 'ar.husary', name: 'محمود خليل الحصري' }
+            ],
+            currentReciter: 0
         };
         
         // ==================== تهيئة التطبيق ====================
@@ -1034,7 +1080,7 @@
             surahs.forEach(surah => {
                 const card = document.createElement('div');
                 card.className = 'surah-card';
-                card.onclick = () => playSurah(surah.id);
+                card.onclick = () => playSurahAudio(surah);
                 
                 card.innerHTML = `
                     <div class="surah-number">${surah.id}</div>
@@ -1049,19 +1095,118 @@
             });
         }
         
-        function playSurah(surahId) {
-            if (settings.clickSound) {
-                playClickSound();
+        function playSurahAudio(surah) {
+            if (!settings.quranSound) {
+                showNotification('تنبيه', 'صوت القرآن معطل من الإعدادات');
+                return;
             }
             
-            showNotification('جاري التشغيل', 'سيبدأ تشغيل السورة قريباً');
+            currentAudio.currentSurah = surah;
             
-            // تشغيل تلاوة للسورة (استخدام مقطع صوتي افتراضي)
-            const audio = document.getElementById('prayerSound');
+            // تحديث واجهة المشغل
+            document.getElementById('audioPlayer').style.display = 'block';
+            document.getElementById('noAudio').style.display = 'none';
+            document.getElementById('currentSurahName').textContent = `سورة ${surah.name_arabic}`;
+            document.getElementById('currentReciter').textContent = `القارئ: ${currentAudio.reciters[currentAudio.currentReciter].name}`;
+            
+            // تشغيل السورة
+            const audioUrl = `https://cdn.islamic.network/quran/audio/128/${currentAudio.reciters[currentAudio.currentReciter].id}/${surah.id}.mp3`;
+            const audio = document.getElementById('quranAudio');
+            audio.src = audioUrl;
+            audio.play();
+            
+            currentAudio.playing = true;
+            updatePlayButton();
+            
+            showNotification('جاري التشغيل', `سورة ${surah.name_arabic}`);
+        }
+        
+        function togglePlay() {
+            const audio = document.getElementById('quranAudio');
+            
+            if (currentAudio.playing) {
+                audio.pause();
+            } else {
+                if (audio.src) {
+                    audio.play();
+                } else if (currentAudio.currentSurah) {
+                    playSurahAudio(currentAudio.currentSurah);
+                    return;
+                } else {
+                    showNotification('تنبيه', 'اختر سورة أولاً');
+                    return;
+                }
+            }
+            
+            currentAudio.playing = !currentAudio.playing;
+            updatePlayButton();
+        }
+        
+        function updatePlayButton() {
+            const playIcon = document.getElementById('playIcon');
+            const playBtn = document.getElementById('playBtn');
+            
+            if (currentAudio.playing) {
+                playIcon.className = 'fas fa-pause';
+                playBtn.style.background = 'var(--gold)';
+                playBtn.style.color = 'black';
+            } else {
+                playIcon.className = 'fas fa-play';
+                playBtn.style.background = 'rgba(22, 22, 22, 0.95)';
+                playBtn.style.color = 'var(--text)';
+            }
+        }
+        
+        function stopAudio() {
+            const audio = document.getElementById('quranAudio');
+            audio.pause();
             audio.currentTime = 0;
-            audio.play().catch(e => {
-                showNotification('تنبيه', 'اضغط على زر التشغيل للاستماع');
-            });
+            currentAudio.playing = false;
+            updatePlayButton();
+        }
+        
+        function changeReciter() {
+            currentAudio.currentReciter = (currentAudio.currentReciter + 1) % currentAudio.reciters.length;
+            
+            if (currentAudio.currentSurah) {
+                document.getElementById('currentReciter').textContent = 
+                    `القارئ: ${currentAudio.reciters[currentAudio.currentReciter].name}`;
+                
+                // إذا كان هناك سورة مشغلة، إعادة تشغيلها بالقارئ الجديد
+                if (currentAudio.playing) {
+                    playSurahAudio(currentAudio.currentSurah);
+                }
+            }
+            
+            showNotification('تم', `تم تغيير القارئ إلى ${currentAudio.reciters[currentAudio.currentReciter].name}`);
+        }
+        
+        function prevSurah() {
+            if (currentAudio.currentSurah && currentAudio.currentSurah.id > 1) {
+                // جلب السورة السابقة
+                fetch('https://api.quran.com/api/v4/chapters')
+                    .then(response => response.json())
+                    .then(data => {
+                        const prevSurah = data.chapters.find(s => s.id === currentAudio.currentSurah.id - 1);
+                        if (prevSurah) {
+                            playSurahAudio(prevSurah);
+                        }
+                    });
+            }
+        }
+        
+        function nextSurah() {
+            if (currentAudio.currentSurah && currentAudio.currentSurah.id < 114) {
+                // جلب السورة التالية
+                fetch('https://api.quran.com/api/v4/chapters')
+                    .then(response => response.json())
+                    .then(data => {
+                        const nextSurah = data.chapters.find(s => s.id === currentAudio.currentSurah.id + 1);
+                        if (nextSurah) {
+                            playSurahAudio(nextSurah);
+                        }
+                    });
+            }
         }
         
         // ==================== وظائف الأذكار ====================
@@ -1136,7 +1281,7 @@
         
         function completeAzkar() {
             if (settings.clickSound) {
-                playClickSound();
+                playTasbihSound();
             }
             showNotification('مبارك', 'أحسنت! ثوابك عند الله');
         }
@@ -1145,7 +1290,7 @@
         function incrementTasbih() {
             tasbihCount++;
             if (settings.clickSound) {
-                playClickSound();
+                playTasbihSound();
             }
             updateTasbihDisplay();
             
@@ -1158,7 +1303,7 @@
             tasbihCount += amount;
             if (tasbihCount < 0) tasbihCount = 0;
             if (settings.clickSound) {
-                playClickSound();
+                playTasbihSound();
             }
             updateTasbihDisplay();
         }
@@ -1166,7 +1311,7 @@
         function resetTasbih() {
             tasbihCount = 0;
             if (settings.clickSound) {
-                playClickSound();
+                playTasbihSound();
             }
             updateTasbihDisplay();
             showNotification('تم', 'تم إعادة تعيين المسبحة');
@@ -1176,15 +1321,15 @@
             document.getElementById('counter').textContent = tasbihCount;
         }
         
-        function playClickSound() {
-            const audio = document.getElementById('clickSound');
+        function playTasbihSound() {
+            const audio = document.getElementById('tasbihSound');
             audio.currentTime = 0;
             audio.play().catch(e => console.log('Sound play failed'));
         }
         
         // ==================== وظائف الصلاة ====================
         function updatePrayerTimes() {
-            // أوقات افتراضية (يمكن استبدالها بـ API)
+            // أوقات افتراضية
             const times = {
                 fajr: "05:30",
                 dhuhr: "12:30",
@@ -1210,12 +1355,12 @@
                 card.classList.remove('current');
             });
             
-            // تحديد الصلاة الحالية (مثال مبسط)
+            // تحديد الصلاة الحالية
             const prayerTimes = {
-                fajr: 5 * 60 + 30,    // 05:30
-                dhuhr: 12 * 60 + 30,  // 12:30
-                asr: 15 * 60 + 45,    // 15:45
-                maghrib: 18 * 60 + 20 // 18:20
+                fajr: 5 * 60 + 30,
+                dhuhr: 12 * 60 + 30,
+                asr: 15 * 60 + 45,
+                maghrib: 18 * 60 + 20
             };
             
             if (currentTime >= prayerTimes.fajr && currentTime < prayerTimes.dhuhr) {
@@ -1268,10 +1413,9 @@
         
         function loadFonts() {
             const fonts = [
-                { id: 'amiri', name: 'أميري', font: 'Amiri' },
-                { id: 'tajawal', name: 'تاجوال', font: 'Tajawal' },
-                { id: 'lateef', name: 'لطيف', font: 'Lateef' },
-                { id: 'scheherazade', name: 'شهرزاد', font: 'Scheherazade' }
+                { id: 'amiri', name: 'أميري', font: 'Amiri, serif' },
+                { id: 'tajawal', name: 'تاجوال', font: 'Tajawal, sans-serif' },
+                { id: 'lateef', name: 'لطيف', font: 'Lateef, serif' }
             ];
             
             const grid = document.getElementById('fontsGrid');
@@ -1311,19 +1455,12 @@
                 option.className = `setting-option ${settings.background === bg.id ? 'active' : ''}`;
                 option.onclick = () => selectBackground(bg.id);
                 
-                if (bg.id !== 'none') {
-                    option.innerHTML = `
-                        <div class="bg-preview" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');"></div>
-                        <div>${bg.name}</div>
-                    `;
-                } else {
-                    option.innerHTML = `
-                        <div class="option-icon">
-                            <i class="${bg.icon}"></i>
-                        </div>
-                        <div>${bg.name}</div>
-                    `;
-                }
+                option.innerHTML = `
+                    <div class="option-icon">
+                        <i class="${bg.icon}"></i>
+                    </div>
+                    <div>${bg.name}</div>
+                `;
                 
                 grid.appendChild(option);
             });
@@ -1333,7 +1470,11 @@
             settings.theme = themeId;
             
             // إزالة كل الثيمات
-            document.body.classList.remove('theme-gold', 'theme-green', 'theme-blue', 'theme-purple', 'theme-red', 'theme-white');
+            const themes = ['gold', 'green', 'blue', 'purple', 'red', 'white'];
+            themes.forEach(theme => {
+                document.body.classList.remove(`theme-${theme}`);
+            });
+            
             // إضافة الثيم الجديد
             document.body.classList.add(`theme-${themeId}`);
             
@@ -1354,8 +1495,7 @@
             const fontFamilies = {
                 'amiri': 'Amiri, serif',
                 'tajawal': 'Tajawal, sans-serif',
-                'lateef': 'Lateef, serif',
-                'scheherazade': 'Scheherazade, serif'
+                'lateef': 'Lateef, serif'
             };
             
             document.documentElement.style.setProperty('--font-family', fontFamilies[fontId]);
@@ -1374,9 +1514,15 @@
             settings.background = bgId;
             
             // إزالة كل الخلفيات
-            document.body.classList.remove('bg-none', 'bg-mosque', 'bg-nature', 'bg-night', 'bg-gradient');
+            const backgrounds = ['none', 'mosque', 'nature', 'night', 'gradient'];
+            backgrounds.forEach(bg => {
+                document.body.classList.remove(`bg-${bg}`);
+            });
+            
             // إضافة الخلفية الجديدة
-            document.body.classList.add(`bg-${bgId}`);
+            if (bgId !== 'none') {
+                document.body.classList.add(`bg-${bgId}`);
+            }
             
             // تحديث الواجهة
             document.querySelectorAll('#backgroundsGrid .setting-option').forEach(option => {
@@ -1398,7 +1544,8 @@
             settings.rainSound = this.checked;
             const audio = document.getElementById('rainSound');
             if (this.checked) {
-                audio.play();
+                audio.src = 'https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1244.mp3';
+                audio.play().catch(e => console.log('Rain sound failed'));
             } else {
                 audio.pause();
                 audio.currentTime = 0;
@@ -1410,11 +1557,17 @@
             settings.birdsSound = this.checked;
             const audio = document.getElementById('birdsSound');
             if (this.checked) {
-                audio.play();
+                audio.src = 'https://assets.mixkit.co/sfx/preview/mixkit-birds-chirping-near-the-river-2464.mp3';
+                audio.play().catch(e => console.log('Birds sound failed'));
             } else {
                 audio.pause();
                 audio.currentTime = 0;
             }
+            saveSettings();
+        });
+        
+        document.getElementById('quranSoundToggle').addEventListener('change', function() {
+            settings.quranSound = this.checked;
             saveSettings();
         });
         
@@ -1425,6 +1578,7 @@
                 clickSound: true,
                 rainSound: false,
                 birdsSound: false,
+                quranSound: true,
                 background: 'none'
             };
             
@@ -1436,6 +1590,7 @@
             document.getElementById('clickSoundToggle').checked = true;
             document.getElementById('rainSoundToggle').checked = false;
             document.getElementById('birdsSoundToggle').checked = false;
+            document.getElementById('quranSoundToggle').checked = true;
             
             // إيقاف الأصوات
             document.getElementById('rainSound').pause();
@@ -1452,23 +1607,30 @@
         function loadSettings() {
             const saved = localStorage.getItem('raadSettings');
             if (saved) {
-                settings = JSON.parse(saved);
-                
-                // تطبيق الإعدادات
-                selectTheme(settings.theme);
-                selectFont(settings.font);
-                selectBackground(settings.background);
-                
-                document.getElementById('clickSoundToggle').checked = settings.clickSound;
-                document.getElementById('rainSoundToggle').checked = settings.rainSound;
-                document.getElementById('birdsSoundToggle').checked = settings.birdsSound;
-                
-                // تشغيل الأصوات المفعّلة
-                if (settings.rainSound) {
-                    document.getElementById('rainSound').play();
-                }
-                if (settings.birdsSound) {
-                    document.getElementById('birdsSound').play();
+                try {
+                    settings = JSON.parse(saved);
+                    
+                    // تطبيق الإعدادات
+                    selectTheme(settings.theme);
+                    selectFont(settings.font);
+                    selectBackground(settings.background);
+                    
+                    document.getElementById('clickSoundToggle').checked = settings.clickSound;
+                    document.getElementById('rainSoundToggle').checked = settings.rainSound;
+                    document.getElementById('birdsSoundToggle').checked = settings.birdsSound;
+                    document.getElementById('quranSoundToggle').checked = settings.quranSound;
+                    
+                    // تشغيل الأصوات المفعّلة
+                    if (settings.rainSound) {
+                        document.getElementById('rainSound').src = 'https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1244.mp3';
+                        document.getElementById('rainSound').play().catch(e => console.log('Rain sound failed'));
+                    }
+                    if (settings.birdsSound) {
+                        document.getElementById('birdsSound').src = 'https://assets.mixkit.co/sfx/preview/mixkit-birds-chirping-near-the-river-2464.mp3';
+                        document.getElementById('birdsSound').play().catch(e => console.log('Birds sound failed'));
+                    }
+                } catch (e) {
+                    console.log('Error loading settings:', e);
                 }
             }
         }
@@ -1493,7 +1655,7 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: var(--card);
+                background: rgba(22, 22, 22, 0.95);
                 border: 2px solid var(--gold);
                 border-radius: 10px;
                 padding: 15px 25px;
