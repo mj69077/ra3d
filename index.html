@@ -1,5 +1,3 @@
-[file name]: index.html
-[file content begin]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,6 +10,14 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("OaBlbB-xEmPFvXO8b");
+        })();
+    </script>
     
     <style>
         :root {
@@ -84,7 +90,7 @@
         /* ========== التنقل ========== */
         nav {
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(11, 1fr);
             gap: 8px;
             margin-bottom: 20px;
             background: var(--card);
@@ -300,6 +306,107 @@
             border-radius: 8px;
             padding: 8px;
             font-size: 1rem;
+        }
+        
+        /* ========== إذاعة القرآن الكريم ========== */
+        .radio-section {
+            padding: 20px;
+        }
+        
+        .radio-stations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .radio-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .radio-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        
+        .radio-card.active {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .radio-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        .radio-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        
+        /* ========== المقالات الإسلامية ========== */
+        .articles-section {
+            padding: 20px;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .article-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .article-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        
+        .article-category {
+            background: var(--gold);
+            color: black;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .article-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--light-text);
+        }
+        
+        .article-excerpt {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.8rem;
         }
         
         /* ========== المسبحة ========== */
@@ -1043,6 +1150,159 @@
             width: 0%;
             transition: width 0.3s;
         }
+        
+        /* ========== قسم الأحكام ========== */
+        .fatawa-section {
+            padding: 20px;
+        }
+        
+        .fatawa-search {
+            margin: 20px 0;
+        }
+        
+        .fatawa-results {
+            margin-top: 20px;
+        }
+        
+        .fatawa-card {
+            margin-bottom: 20px;
+        }
+        
+        .fatawa-question {
+            font-size: 1.3rem;
+            color: var(--light-text);
+            margin-bottom: 10px;
+        }
+        
+        .fatawa-answer {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .fatawa-source {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .search-history {
+            margin-top: 30px;
+        }
+        
+        .history-item {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+        
+        .history-item:hover {
+            border-color: var(--gold);
+        }
+        
+        /* ========== قسم التذكيرات ========== */
+        .notifications-section {
+            padding: 20px;
+        }
+        
+        .notification-settings {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .setting-group {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--gold);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 34px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .email-form {
+            margin-top: 20px;
+        }
+        
+        .email-form input {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .email-form input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        
+        .test-notification {
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body class="theme-gold">
@@ -1083,10 +1343,10 @@
                     </div>
                     <div class="reciter-selector">
                         <select id="reciterSelect" onchange="changeReciter()">
-                            <option value="ar.alafasy">ماهر المعيقلي</option>
-                            <option value="ar.minshawi">محمد صديق المنشاوي</option>
-                            <option value="ar.abdulbasit">عبد الباسط عبد الصمد</option>
-                            <option value="ar.husary">محمود خليل الحصري</option>
+                            <option value="1">ماهر المعيقلي</option>
+                            <option value="2">محمد صديق المنشاوي</option>
+                            <option value="3">عبد الباسط عبد الصمد</option>
+                            <option value="4">محمود خليل الحصري</option>
                         </select>
                     </div>
                     <div class="audio-controls">
@@ -1160,9 +1420,25 @@
                 <i class="fas fa-star"></i>
                 <span>أسماء الله</span>
             </button>
-            <button onclick="showSection('theme')" id="m-theme">
-                <i class="fas fa-palette"></i>
-                <span>السمات</span>
+            <button onclick="showSection('radio')" id="m-radio">
+                <i class="fas fa-radio"></i>
+                <span>الإذاعة</span>
+            </button>
+            <button onclick="showSection('articles')" id="m-articles">
+                <i class="fas fa-newspaper"></i>
+                <span>مقالات</span>
+            </button>
+            <button onclick="showSection('fatawa')" id="m-fatawa">
+                <i class="fas fa-search"></i>
+                <span>بحث الأحكام</span>
+            </button>
+            <button onclick="showSection('notifications')" id="m-notifications">
+                <i class="fas fa-bell"></i>
+                <span>التذكيرات</span>
+            </button>
+            <button onclick="window.open('http://barqalhuda.netlify.app', '_blank')" id="m-barq">
+                <i class="fas fa-lightbulb"></i>
+                <span>بارق الهدى</span>
             </button>
         </nav>
         
@@ -1188,10 +1464,7 @@
                 
                 <!-- قائمة السور -->
                 <div class="surahs-grid" id="surahsList">
-                    <div class="loading-surahs">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>جاري تحميل السور...</p>
-                    </div>
+                    <!-- سيتم تحميل السور هنا -->
                 </div>
             </div>
         </section>
@@ -1503,6 +1776,253 @@
             </div>
         </section>
         
+        <!-- إذاعة القرآن الكريم -->
+        <section id="radio" class="section">
+            <div class="radio-section">
+                <h2><i class="fas fa-radio"></i> إذاعة القرآن الكريم</h2>
+                <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">استمع إلى إذاعات القرآن الكريم من مختلف الدول</p>
+                
+                <!-- محطات الإذاعة -->
+                <div class="radio-stations" id="radioStations">
+                    <!-- سيتم تحميل المحطات هنا -->
+                </div>
+                
+                <!-- مشغل الإذاعة -->
+                <div id="radioPlayer" class="audio-player" style="display: none;">
+                    <div style="color: var(--gold); margin-bottom: 10px; text-align: center;">
+                        <i class="fas fa-radio"></i> الإذاعة النشطة
+                    </div>
+                    <div id="currentRadioInfo" style="text-align: center; margin-bottom: 15px;">
+                        <h4 id="currentRadioName">اسم المحطة</h4>
+                        <p id="currentRadioCountry">البلد</p>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="audio-btn" onclick="playPauseRadio()" id="radioPlayBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="audio-progress" onclick="seekRadio(event)">
+                            <div class="audio-progress-fill" id="radioProgress"></div>
+                        </div>
+                        <div class="audio-time">
+                            <span id="radioCurrentTime">0:00</span> / <span id="radioDuration">0:00</span>
+                        </div>
+                        <button class="audio-btn" onclick="stopRadio()">
+                            <i class="fas fa-stop"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- المقالات الإسلامية -->
+        <section id="articles" class="section">
+            <div class="articles-section">
+                <h2><i class="fas fa-newspaper"></i> المقالات الإسلامية</h2>
+                <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">مقالات ودروس إسلامية متنوعة</p>
+                
+                <!-- شريط البحث -->
+                <div class="search-box">
+                    <input type="text" id="searchArticles" placeholder="ابحث عن مقالات..." onkeyup="searchArticles()">
+                </div>
+                
+                <!-- فئات المقالات -->
+                <div class="filter-buttons" id="articleCategories">
+                    <button class="filter-btn active" onclick="filterArticles('all')">الكل</button>
+                </div>
+                
+                <!-- قائمة المقالات -->
+                <div class="articles-grid" id="articlesList">
+                    <!-- سيتم تحميل المقالات هنا -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- البحث عن الأحكام -->
+        <section id="fatawa" class="section">
+            <div class="fatawa-section">
+                <h2><i class="fas fa-search"></i> البحث عن الأحكام الشرعية</h2>
+                <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">ابحث عن الأحكام الشرعية باستخدام الذكاء الاصطناعي</p>
+                
+                <div class="card glass-effect">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fas fa-question-circle"></i> ابحث عن حكم شرعي</h3>
+                    
+                    <div class="search-box">
+                        <input type="text" id="fatawaQuery" placeholder="اكتب سؤالك عن حكم شرعي..." onkeypress="if(event.key === 'Enter') searchFatawa()">
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button class="btn" onclick="searchFatawa()" id="searchFatawaBtn">
+                            <i class="fas fa-search"></i> البحث عن الجواب
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearFatawaSearch()" style="margin-right: 10px;">
+                            <i class="fas fa-times"></i> مسح البحث
+                        </button>
+                    </div>
+                    
+                    <div id="fatawaResults" class="fatawa-results" style="display: none;">
+                        <!-- سيتم عرض النتائج هنا -->
+                    </div>
+                    
+                    <div id="fatawaLoading" style="display: none; text-align: center; padding: 30px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--gold); margin-bottom: 15px;"></i>
+                        <p style="color: #aaa;">جاري البحث عن الجواب الشرعي...</p>
+                    </div>
+                    
+                    <!-- تاريخ البحث -->
+                    <div id="searchHistory" class="search-history" style="display: none;">
+                        <h4 style="color: var(--light-text); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                            <i class="fas fa-history"></i> تاريخ البحث
+                        </h4>
+                        <div id="historyList"></div>
+                    </div>
+                </div>
+                
+                <div class="card glass-effect" style="margin-top: 20px;">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fas fa-lightbulb"></i> أمثلة للبحث</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
+                        <button class="btn btn-secondary" onclick="setExampleQuery('ما حكم الصلاة بدون وضوء؟')" style="text-align: center; padding: 10px;">
+                            حكم الصلاة بدون وضوء
+                        </button>
+                        <button class="btn btn-secondary" onclick="setExampleQuery('ما هي شروط الزكاة؟')" style="text-align: center; padding: 10px;">
+                            شروط الزكاة
+                        </button>
+                        <button class="btn btn-secondary" onclick="setExampleQuery('حكم العمل في البنوك الربوية؟')" style="text-align: center; padding: 10px;">
+                            العمل في البنوك
+                        </button>
+                        <button class="btn btn-secondary" onclick="setExampleQuery('ما حكم الموسيقى في الإسلام؟')" style="text-align: center; padding: 10px;">
+                            حكم الموسيقى
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- التذكيرات -->
+        <section id="notifications" class="section">
+            <div class="notifications-section">
+                <h2><i class="fas fa-bell"></i> تذكيرات الصلاة والأذكار</h2>
+                <p style="color: var(--light-text); margin-bottom: 20px; text-align: center;">اضبط تذكيرات يومية للصلوات والأذكار على بريدك الإلكتروني</p>
+                
+                <div class="notification-settings">
+                    <!-- إعدادات التذكيرات -->
+                    <div class="card glass-effect">
+                        <h3 style="color: var(--gold); margin-bottom: 20px;"><i class="fas fa-cog"></i> إعدادات التذكيرات</h3>
+                        
+                        <div class="setting-group">
+                            <h4 style="color: var(--light-text); margin-bottom: 15px;"><i class="fas fa-clock"></i> تذكيرات الصلاة</h4>
+                            <div class="setting-row">
+                                <div>
+                                    <div style="font-weight: bold;">تفعيل تذكيرات الصلاة</div>
+                                    <div style="color: #aaa; font-size: 0.9rem;">تذكير قبل كل صلاة</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="prayerNotifications" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-row">
+                                <div>
+                                    <div style="font-weight: bold;">قبل الصلاة بـ</div>
+                                    <div style="color: #aaa; font-size: 0.9rem;">وقت التذكير قبل الصلاة</div>
+                                </div>
+                                <select id="prayerReminderTime" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 5px 10px; border-radius: 5px;">
+                                    <option value="5">5 دقائق</option>
+                                    <option value="10" selected>10 دقائق</option>
+                                    <option value="15">15 دقائق</option>
+                                    <option value="30">30 دقيقة</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group" style="margin-top: 20px;">
+                            <h4 style="color: var(--light-text); margin-bottom: 15px;"><i class="fas fa-sun"></i> تذكيرات الأذكار</h4>
+                            <div class="setting-row">
+                                <div>
+                                    <div style="font-weight: bold;">أذكار الصباح</div>
+                                    <div style="color: #aaa; font-size: 0.9rem;">تذكير يومي 6:00 صباحاً</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="morningAzkarReminder" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-row">
+                                <div>
+                                    <div style="font-weight: bold;">أذكار المساء</div>
+                                    <div style="color: #aaa; font-size: 0.9rem;">تذكير يومي 6:00 مساءً</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="eveningAzkarReminder" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group" style="margin-top: 20px;">
+                            <h4 style="color: var(--light-text); margin-bottom: 15px;"><i class="fas fa-quran"></i> تذكيرات قرآنية</h4>
+                            <div class="setting-row">
+                                <div>
+                                    <div style="font-weight: bold;">تذكير قراءة القرآن</div>
+                                    <div style="color: #aaa; font-size: 0.9rem;">تذكير يومي للقراءة</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="quranReminder">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- إدخال البريد الإلكتروني -->
+                    <div class="card glass-effect">
+                        <h3 style="color: var(--gold); margin-bottom: 20px;"><i class="fas fa-envelope"></i> البريد الإلكتروني</h3>
+                        
+                        <div class="email-form">
+                            <input type="email" id="userEmail" placeholder="أدخل بريدك الإلكتروني" value="">
+                            <input type="text" id="userName" placeholder="أدخل اسمك (اختياري)" value="">
+                            
+                            <div style="text-align: center; margin-top: 20px;">
+                                <button class="btn" onclick="saveNotificationSettings()" style="width: 100%;">
+                                    <i class="fas fa-save"></i> حفظ الإعدادات وتفعيل التذكيرات
+                                </button>
+                            </div>
+                            
+                            <div style="margin-top: 15px; text-align: center;">
+                                <button class="btn btn-secondary" onclick="testNotification()" style="width: 100%;">
+                                    <i class="fas fa-paper-plane"></i> إرسال تذكير تجريبي
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- حالة التذكيرات -->
+                    <div class="card glass-effect">
+                        <h3 style="color: var(--gold); margin-bottom: 20px;"><i class="fas fa-chart-line"></i> حالة التذكيرات</h3>
+                        
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 3rem; color: var(--gold); margin-bottom: 10px;">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div style="font-size: 1.2rem; color: var(--light-text); margin-bottom: 10px;" id="notificationStatus">
+                                جاهز لتلقي التذكيرات
+                            </div>
+                            <div style="color: #aaa; font-size: 0.9rem;" id="nextNotification">
+                                التذكير القادم: قريباً
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; text-align: center;">
+                            <button class="btn btn-secondary" onclick="unsubscribeNotifications()">
+                                <i class="fas fa-ban"></i> إلغاء جميع التذكيرات
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <!-- السمات -->
         <section id="theme" class="section">
             <div style="padding: 20px;">
@@ -1522,7 +2042,7 @@
                         <div class="theme-preview" style="background: linear-gradient(135deg, #0a140a, #162016); border: 2px solid #27ae60;">
                             <i class="fas fa-leaf"></i>
                         </div>
-                        <div>الخضراء (الجنة)</div>
+                        <div>الخضراء ()</div>
                     </div>
                     
                     <div class="theme-card" onclick="selectTheme('blue')">
@@ -1633,13 +2153,13 @@
                 <i class="fas fa-hands-praying"></i>
                 <span>مسبحة</span>
             </button>
-            <button class="footer-btn" onclick="showSection('prayer')">
-                <i class="fas fa-clock"></i>
-                <span>صلاة</span>
+            <button class="footer-btn" onclick="showSection('fatawa')">
+                <i class="fas fa-search"></i>
+                <span>أحكام</span>
             </button>
-            <button class="footer-btn" onclick="showSection('theme')">
-                <i class="fas fa-palette"></i>
-                <span>سمات</span>
+            <button class="footer-btn" onclick="window.open('http://barqalhuda.netlify.app', '_blank')">
+                <i class="fas fa-lightbulb"></i>
+                <span>بارق الهدى</span>
             </button>
         </div>
     </div>
@@ -1657,9 +2177,14 @@
         let allAsma = [];
         let qiblaDirection = 0;
         let audioPlayer = null;
-        let currentReciter = 'ar.alafasy';
+        let currentReciter = '1'; // ID القارئ
         let isPlaying = false;
         let currentLocation = null;
+        let radioPlayer = null;
+        let currentRadioStation = null;
+        let isRadioPlaying = false;
+        let islamicArticles = [];
+        let articleCategories = new Set();
         
         // إحصائيات المسبحة
         let tasbihStats = {
@@ -1678,6 +2203,21 @@
         // أوقات الصلاة الحالية
         let currentPrayerTimes = {};
         let nextPrayerTimer = null;
+        
+        // إعدادات التذكيرات
+        let notificationSettings = {
+            email: '',
+            name: '',
+            prayerNotifications: true,
+            prayerReminderTime: 10,
+            morningAzkarReminder: true,
+            eveningAzkarReminder: true,
+            quranReminder: false,
+            subscribed: false
+        };
+        
+        // تاريخ البحث عن الأحكام
+        let fatawaHistory = [];
         
         // ==================== نظام الأصوات التفاعلية ====================
         const audioSystem = {
@@ -1753,6 +2293,7 @@
                     setInterval(updateDateTime, 1000);
                     loadSettings();
                     applyGlassEffect();
+                    loadNotificationSettings();
                     
                     showNotification('مرحباً بك', 'في تطبيق رعد الإسلامي المتكامل');
                     audioSystem.playSound('notification');
@@ -1764,7 +2305,9 @@
                     loadAzkar(),
                     loadHadiths(),
                     loadAsma(),
-                    getPrayerTimes()
+                    getPrayerTimes(),
+                    loadRadioStations(),
+                    loadIslamicArticles()
                 ]);
                 
                 console.log('✅ جميع البيانات تم تحميلها بنجاح');
@@ -1776,7 +2319,7 @@
             
             // إضافة أصوات للأزرار
             document.addEventListener('click', function(e) {
-                if (audioSystem.enabled && e.target.matches('button, .btn, .counter-btn, .count-btn, .filter-btn, .azkar-tab, .surah-card, .theme-card, .prayer-method-card')) {
+                if (audioSystem.enabled && e.target.matches('button, .btn, .counter-btn, .count-btn, .filter-btn, .azkar-tab, .surah-card, .theme-card, .prayer-method-card, .radio-card')) {
                     setTimeout(() => audioSystem.playSound('click'), 10);
                 }
             });
@@ -1811,7 +2354,13 @@
                 { id: 1, name_arabic: 'الفاتحة', translated_name: { name: 'الفاتحة' }, verses_count: 7, revelation_place: 'makkah' },
                 { id: 2, name_arabic: 'البقرة', translated_name: { name: 'البقرة' }, verses_count: 286, revelation_place: 'madinah' },
                 { id: 3, name_arabic: 'آل عمران', translated_name: { name: 'آل عمران' }, verses_count: 200, revelation_place: 'madinah' },
-                // ... إضافة المزيد من السور
+                { id: 4, name_arabic: 'النساء', translated_name: { name: 'النساء' }, verses_count: 176, revelation_place: 'madinah' },
+                { id: 5, name_arabic: 'المائدة', translated_name: { name: 'المائدة' }, verses_count: 120, revelation_place: 'madinah' },
+                { id: 6, name_arabic: 'الأنعام', translated_name: { name: 'الأنعام' }, verses_count: 165, revelation_place: 'makkah' },
+                { id: 7, name_arabic: 'الأعراف', translated_name: { name: 'الأعراف' }, verses_count: 206, revelation_place: 'makkah' },
+                { id: 8, name_arabic: 'الأنفال', translated_name: { name: 'الأنفال' }, verses_count: 75, revelation_place: 'madinah' },
+                { id: 9, name_arabic: 'التوبة', translated_name: { name: 'التوبة' }, verses_count: 129, revelation_place: 'madinah' },
+                { id: 10, name_arabic: 'يونس', translated_name: { name: 'يونس' }, verses_count: 109, revelation_place: 'makkah' }
             ];
             displaySurahs(allSurahs);
         }
@@ -1842,9 +2391,9 @@
             const surahsList = document.getElementById('surahsList');
             if (surahsList) {
                 surahsList.innerHTML = `
-                    <div class="loading-surahs">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>جاري تحميل السور...</p>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px; color: var(--gold);"></i>
+                        <p style="color: #aaa;">جاري تحميل السور...</p>
                     </div>
                 `;
             }
@@ -1904,7 +2453,7 @@
             document.getElementById('surahDetails').style.display = 'block';
         }
         
-        // ==================== نظام القرآن الصوتي ====================
+        // ==================== نظام القرآن الصوتي المعدل ====================
         async function toggleAudioPlayer() {
             const player = document.getElementById('audioPlayer');
             if (player.style.display === 'none') {
@@ -1921,34 +2470,44 @@
             if (!currentSurah) return;
             
             const surahId = currentSurah.info.id;
-            const audioUrl = `https://cdn.islamic.network/quran/audio/64/${currentReciter}/${surahId}.mp3`;
-            
-            if (audioPlayer) {
-                stopAudio();
-            }
             
             try {
-                audioPlayer = new Audio(audioUrl);
-                audioPlayer.preload = 'metadata';
+                // استخدام API الجديد للقرآن الصوتي
+                const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${currentReciter}/${surahId}`);
+                const data = await response.json();
                 
-                audioPlayer.addEventListener('loadedmetadata', function() {
-                    document.getElementById('duration').textContent = formatTime(audioPlayer.duration);
-                });
-                
-                audioPlayer.addEventListener('timeupdate', function() {
-                    if (audioPlayer.duration) {
-                        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                        document.getElementById('audioProgress').style.width = progress + '%';
-                        document.getElementById('currentTime').textContent = formatTime(audioPlayer.currentTime);
+                if (data && data.audio_file) {
+                    const audioUrl = data.audio_file.audio_url;
+                    
+                    if (audioPlayer) {
+                        stopAudio();
                     }
-                });
-                
-                audioPlayer.addEventListener('ended', function() {
-                    isPlaying = false;
-                    document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
-                });
-                
-                showNotification('تم', 'جاهز للتشغيل');
+                    
+                    audioPlayer = new Audio(audioUrl);
+                    audioPlayer.preload = 'metadata';
+                    
+                    audioPlayer.addEventListener('loadedmetadata', function() {
+                        document.getElementById('duration').textContent = formatTime(audioPlayer.duration);
+                    });
+                    
+                    audioPlayer.addEventListener('timeupdate', function() {
+                        if (audioPlayer.duration) {
+                            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                            document.getElementById('audioProgress').style.width = progress + '%';
+                            document.getElementById('currentTime').textContent = formatTime(audioPlayer.currentTime);
+                        }
+                    });
+                    
+                    audioPlayer.addEventListener('ended', function() {
+                        isPlaying = false;
+                        document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+                    });
+                    
+                    showNotification('تم', 'جاهز للتشغيل');
+                    
+                } else {
+                    showNotification('خطأ', 'تعذر تحميل التلاوة من هذا القارئ');
+                }
                 
             } catch (error) {
                 console.error('Error loading audio:', error);
@@ -2007,22 +2566,51 @@
             }
         }
         
+        async function toggleTafsir() {
+            const tafsirElement = document.getElementById('tafsirText');
+            tafsirElement.style.display = tafsirElement.style.display === 'none' ? 'block' : 'none';
+            
+            if (tafsirElement.style.display === 'block' && !document.getElementById('tafsirContent').innerHTML) {
+                await loadTafsir();
+            }
+            audioSystem.playSound('click');
+        }
+        
+        async function loadTafsir() {
+            if (!currentSurah) return;
+            
+            try {
+                const surahId = currentSurah.info.id;
+                // استخدام API التفسير الجديد
+                const response = await fetch(`https://quranenc.com/api/v1/translation/sura/arabic_moyassar/${surahId}`);
+                const data = await response.json();
+                
+                if (data && data.result) {
+                    let tafsirHTML = '';
+                    data.result.forEach(verse => {
+                        tafsirHTML += `
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,215,0,0.1);">
+                                <div style="color: var(--gold); margin-bottom: 5px;">آية ${verse.aya}</div>
+                                <div style="color: #aaa;">${verse.translation}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    document.getElementById('tafsirContent').innerHTML = tafsirHTML;
+                } else {
+                    document.getElementById('tafsirContent').innerHTML = 'لم يتم العثور على تفسير لهذه السورة.';
+                }
+            } catch (error) {
+                console.error('Error loading tafsir:', error);
+                document.getElementById('tafsirContent').innerHTML = 'تعذر تحميل التفسير. حاول مرة أخرى.';
+            }
+        }
+        
         function formatTime(seconds) {
             if (isNaN(seconds)) return '0:00';
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-        
-        function toggleTafsir() {
-            const tafsirElement = document.getElementById('tafsirText');
-            tafsirElement.style.display = tafsirElement.style.display === 'none' ? 'block' : 'none';
-            
-            if (tafsirElement.style.display === 'block' && !document.getElementById('tafsirContent').innerHTML) {
-                document.getElementById('tafsirContent').innerHTML = 'جاري تحميل التفسير...';
-                // هنا يمكن إضافة API للتفسير
-            }
-            audioSystem.playSound('click');
         }
         
         function closeSurahDetails() {
@@ -2117,22 +2705,12 @@
         // ==================== نظام الأذكار مع API محسن ====================
         async function loadAzkar() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/mj69077/my-api/main/adkar.json');
-                const data = await response.json();
+                // جلب الأذكار من API الأولى
+                const response1 = await fetch('https://raw.githubusercontent.com/nawafalqari/azkar-api/main/azkar.json');
+                const data1 = await response1.json();
                 
-                if (data) {
-                    // تصنيف الأذكار بناء على النوع
-                    if (data.data) {
-                        // أذكار الصباح
-                        if (Array.isArray(data.data)) {
-                            displayAzkarFromAPI(data.data);
-                        } else {
-                            // إذا كان البيانات كائن
-                            displayAzkarFromObject(data.data);
-                        }
-                    } else {
-                        loadDefaultAzkar();
-                    }
+                if (data1) {
+                    displayAzkarFromAPI(data1);
                 } else {
                     loadDefaultAzkar();
                 }
@@ -2143,119 +2721,103 @@
         }
         
         function displayAzkarFromAPI(azkarData) {
-            // تصنيف الأذكار حسب النوع
-            const morningAzkar = azkarData.filter(a => 
-                a.category && a.category.includes('صباح') || 
-                a.content && a.content.includes('صباح')
-            ).slice(0, 10);
-            
-            const eveningAzkar = azkarData.filter(a => 
-                a.category && a.category.includes('مساء') || 
-                a.content && a.content.includes('مساء')
-            ).slice(0, 10);
-            
-            const sleepAzkar = azkarData.filter(a => 
-                a.category && a.category.includes('نوم') || 
-                a.content && a.content.includes('نوم')
-            ).slice(0, 10);
-            
-            const prayerAzkar = azkarData.filter(a => 
-                a.category && (a.category.includes('صلاة') || a.category.includes('صلاه'))
-            ).slice(0, 10);
-            
-            const generalAzkar = azkarData.slice(0, 10); // أول 10 أذكار عامة
-            
-            displayAzkar('morning', morningAzkar);
-            displayAzkar('evening', eveningAzkar);
-            displayAzkar('sleep', sleepAzkar);
-            displayAzkar('prayer', prayerAzkar);
-            displayAzkar('general', generalAzkar);
+            // عرض أذكار الصباح
+            displayAzkarCategory('morning', 'أذكار الصباح');
+            displayAzkarCategory('evening', 'أذكار المساء');
+            displayAzkarCategory('sleep', 'أذكار النوم');
+            displayAzkarCategory('prayer', 'أذكار الصلاة');
+            displayAzkarCategory('general', 'أذكار عامة');
         }
         
-        function displayAzkarFromObject(azkarObject) {
-            // إذا كانت البيانات كائن مع مفاتيح
-            const categories = Object.keys(azkarObject);
+        function displayAzkarCategory(categoryId, categoryName) {
+            const container = document.getElementById(`${categoryId}Azkar`);
+            if (!container) return;
             
-            categories.forEach(category => {
-                if (azkarObject[category] && Array.isArray(azkarObject[category])) {
-                    const azkarList = azkarObject[category].slice(0, 10);
-                    
-                    if (category.includes('صباح')) {
-                        displayAzkar('morning', azkarList);
-                    } else if (category.includes('مساء')) {
-                        displayAzkar('evening', azkarList);
-                    } else if (category.includes('نوم')) {
-                        displayAzkar('sleep', azkarList);
-                    } else if (category.includes('صلاة')) {
-                        displayAzkar('prayer', azkarList);
-                    } else {
-                        displayAzkar('general', azkarList);
+            // استخدام بيانات افتراضية مؤقتة
+            const azkarData = getDefaultAzkarForCategory(categoryId);
+            displayAzkarList(categoryId, azkarData);
+        }
+        
+        function getDefaultAzkarForCategory(categoryId) {
+            const azkarData = {
+                morning: [
+                    {
+                        text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+                        description: "من قالها حين يصبح أُعِيطَ من الأجر كأنما أعتق رقبة من ولد إسماعيل",
+                        count: "1"
+                    },
+                    {
+                        text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
+                        description: "",
+                        count: "1"
+                    },
+                    {
+                        text: "اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ",
+                        description: "من قالها حين يصبح موقنا بها فمات من يومه دخل ",
+                        count: "1"
                     }
-                }
-            });
+                ],
+                evening: [
+                    {
+                        text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+                        description: "من قالها حين يمسي أُعِيطَ من الأجر كأنما أعتق رقبة من ولد إسماعيل",
+                        count: "1"
+                    },
+                    {
+                        text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
+                        description: "",
+                        count: "1"
+                    }
+                ],
+                sleep: [
+                    {
+                        text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، إِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ",
+                        description: "",
+                        count: "1"
+                    },
+                    {
+                        text: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",
+                        description: "",
+                        count: "3"
+                    }
+                ],
+                prayer: [
+                    {
+                        text: "سُبْحَانَ اللهِ، وَالْحَمْدُ للهِ، وَلا إِلَهَ إِلا اللهُ، وَاللهُ أَكْبَرُ",
+                        description: "من قالها في دبر كل صلاة غفرت ذنوبه وإن كانت مثل زبد البحر",
+                        count: "33"
+                    },
+                    {
+                        text: "لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+                        description: "من قالها عشر مرات بعد المغرب والصبح كتب الله له أجر عتق رقبة",
+                        count: "10"
+                    }
+                ],
+                general: [
+                    {
+                        text: "سُبْحَانَ اللهِ وَبِحَمْدِهِ، سُبْحَانَ اللهِ الْعَظِيمِ",
+                        description: "ثقيلتان في الميزان حبيبتان إلى الرحمن",
+                        count: "100"
+                    },
+                    {
+                        text: "لا حَوْلَ وَلا قُوَّةَ إِلا بِاللهِ",
+                        description: "كنز من كنوز ",
+                        count: "100"
+                    }
+                ]
+            };
+            
+            return azkarData[categoryId] || [];
         }
         
-        function loadDefaultAzkar() {
-            const morningAzkar = [
-                {
-                    content: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
-                    description: "من قالها حين يصبح أُعِيطَ من الأجر كأنما أعتق رقبة من ولد إسماعيل",
-                    count: "1"
-                },
-                {
-                    content: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
-                    description: "",
-                    count: "1"
-                }
-            ];
-            
-            const eveningAzkar = [
-                {
-                    content: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له",
-                    description: "",
-                    count: "1"
-                }
-            ];
-            
-            const sleepAzkar = [
-                {
-                    content: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، إِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ",
-                    description: "",
-                    count: "1"
-                }
-            ];
-            
-            const prayerAzkar = [
-                {
-                    content: "سُبْحَانَ اللهِ، وَالْحَمْدُ للهِ، وَلا إِلَهَ إِلا اللهُ، وَاللهُ أَكْبَرُ",
-                    description: "",
-                    count: "33"
-                }
-            ];
-            
-            const generalAzkar = [
-                {
-                    content: "سُبْحَانَ اللهِ وَبِحَمْدِهِ، سُبْحَانَ اللهِ الْعَظِيمِ",
-                    description: "ثقيلتان في الميزان حبيبتان إلى الرحمن",
-                    count: "100"
-                }
-            ];
-            
-            displayAzkar('morning', morningAzkar);
-            displayAzkar('evening', eveningAzkar);
-            displayAzkar('sleep', sleepAzkar);
-            displayAzkar('prayer', prayerAzkar);
-            displayAzkar('general', generalAzkar);
-        }
-        
-        function displayAzkar(type, azkarList) {
-            const container = document.getElementById(`${type}Azkar`);
-            if (!container || !azkarList || !Array.isArray(azkarList)) return;
+        function displayAzkarList(categoryId, azkarList) {
+            const container = document.getElementById(`${categoryId}Azkar`);
+            if (!container) return;
             
             container.innerHTML = '';
             
-            if (azkarList.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #aaa;">لا توجد أذكار متاحة حالياً</p>';
+            if (!azkarList || azkarList.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #aaa; padding: 20px;">لا توجد أذكار متاحة حالياً</p>';
                 return;
             }
             
@@ -2264,7 +2826,7 @@
                 azkarCard.className = 'card glass-effect';
                 azkarCard.style.marginBottom = '15px';
                 
-                const azkarText = azkar.content || azkar.zekr || azkar.text || '';
+                const azkarText = azkar.text || azkar.content || '';
                 const description = azkar.description || azkar.fadl || '';
                 const count = azkar.count || 1;
                 
@@ -2290,6 +2852,22 @@
                 
                 container.appendChild(azkarCard);
             });
+        }
+        
+        function loadDefaultAzkar() {
+            const morningAzkar = [
+                {
+                    text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لا إلهَ إلا اللهُ وَحْدَهُ لا شَرِيكَ له، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+                    description: "من قالها حين يصبح أُعِيطَ من الأجر كأنما أعتق رقبة من ولد إسماعيل",
+                    count: "1"
+                }
+            ];
+            
+            displayAzkarList('morning', morningAzkar);
+            displayAzkarList('evening', []);
+            displayAzkarList('sleep', []);
+            displayAzkarList('prayer', []);
+            displayAzkarList('general', []);
         }
         
         function showAzkarTab(tab) {
@@ -2354,19 +2932,25 @@
         async function loadHadiths() {
             try {
                 // تحميل أحاديث مسلم
-                const muslimResponse = await fetch('https://raw.githubusercontent.com/mj69077/my-api/main/muslim.json');
+                const muslimResponse = await fetch('https://hadis-api-id.vercel.app/hadits/muslim?page=1&limit=50');
                 const muslimData = await muslimResponse.json();
                 
-                if (muslimData && muslimData.hadiths) {
-                    hadiths.muslim = muslimData.hadiths.slice(0, 50); // أول 50 حديث
+                if (muslimData && muslimData.data) {
+                    hadiths.muslim = muslimData.data.map(item => ({
+                        text: item.arab,
+                        source: `صحيح مسلم - ${item.id}`
+                    }));
                 }
                 
                 // تحميل أحاديث البخاري
-                const bukhariResponse = await fetch('https://raw.githubusercontent.com/mj69077/my-api/main/bukhari.json');
+                const bukhariResponse = await fetch('https://hadis-api-id.vercel.app/hadits/bukhari?page=1&limit=50');
                 const bukhariData = await bukhariResponse.json();
                 
-                if (bukhariData && bukhariData.hadiths) {
-                    hadiths.bukhari = bukhariData.hadiths.slice(0, 50); // أول 50 حديث
+                if (bukhariData && bukhariData.data) {
+                    hadiths.bukhari = bukhariData.data.map(item => ({
+                        text: item.arab,
+                        source: `صحيح البخاري - ${item.id}`
+                    }));
                 }
                 
                 // إنشاء قائمة مختلطة
@@ -2444,12 +3028,11 @@
             const hadithRefElement = document.getElementById('currentHadithRef');
             
             if (hadithTextElement) {
-                hadithTextElement.textContent = hadith.text || hadith.content || '';
+                hadithTextElement.textContent = hadith.text || '';
             }
             
             if (hadithRefElement) {
-                const source = hadith.source || hadith.book || 'مصدر عام';
-                hadithRefElement.textContent = `[${source}]`;
+                hadithRefElement.textContent = `[${hadith.source}]`;
             }
             
             audioSystem.playSound('section');
@@ -2564,7 +3147,7 @@
             }
         }
         
-        // ==================== نظام الصلاة مع API متقدم ====================
+        // ==================== نظام الصلاة ====================
         async function getPrayerTimes() {
             try {
                 const city = document.getElementById('cityInput').value || 'مكة';
@@ -2613,9 +3196,7 @@
                 Dhuhr: '12:30',
                 Asr: '15:45',
                 Maghrib: '18:20',
-                Isha: '19:45',
-                Imsak: '04:50',
-                Midnight: '23:45'
+                Isha: '19:45'
             };
             
             updatePrayerTimesDisplay();
@@ -2683,6 +3264,26 @@
             }
         }
         
+        function updateDateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('ar-SA', { 
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            const timeElement = document.getElementById('currentTime');
+            const dateElement = document.getElementById('currentDate');
+            
+            if (timeElement) timeElement.textContent = timeStr;
+            if (dateElement) dateElement.textContent = dateStr;
+            
+            updateCurrentPrayer();
+            updateNextPrayerTime();
+        }
+        
         function updatePrayerTimesDisplay() {
             const prayerTimesContainer = document.getElementById('prayerTimes');
             if (!prayerTimesContainer || !currentPrayerTimes) return;
@@ -2712,26 +3313,6 @@
             });
             
             prayerTimesContainer.innerHTML = html;
-            
-            updateCurrentPrayer();
-            updateNextPrayerTime();
-        }
-        
-        function updateDateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const dateStr = now.toLocaleDateString('ar-SA', { 
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            
-            const timeElement = document.getElementById('currentTime');
-            const dateElement = document.getElementById('currentDate');
-            
-            if (timeElement) timeElement.textContent = timeStr;
-            if (dateElement) dateElement.textContent = dateStr;
             
             updateCurrentPrayer();
         }
@@ -2866,7 +3447,13 @@
             getPrayerTimes();
         }
         
-        // ==================== نظام القبلة مع API مباشر ====================
+        function convertTimeToMinutes(timeStr) {
+            if (!timeStr || !timeStr.includes(':')) return 0;
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+        
+        // ==================== نظام القبلة ====================
         function getCurrentLocationForQibla() {
             if (navigator.geolocation) {
                 showNotification('جاري البحث', 'جاري تحديد موقعك...');
@@ -2973,7 +3560,7 @@
         // ==================== نظام أسماء الله الحسنى ====================
         async function loadAsma() {
             try {
-                // استخدام بيانات ثابتة لأسماء الله الحسنى
+                // بيانات أسماء الله الحسنى الكاملة
                 allAsma = [
                     { arabic: 'الرَّحْمَنُ', meaning: 'ذو الرحمة الواسعة' },
                     { arabic: 'الرَّحِيمُ', meaning: 'الرحيم بعباده' },
@@ -3077,10 +3664,10 @@
                 ];
                 
                 displayAsma(allAsma);
+                showNotification('تم', 'تم تحميل أسماء الله الحسنى');
                 
             } catch (error) {
                 console.error('Error loading asma:', error);
-                // استخدام بيانات افتراضية في حال الخطأ
                 loadDefaultAsma();
             }
         }
@@ -3156,6 +3743,892 @@
             audioSystem.playSound('notification');
         }
         
+        // ==================== نظام إذاعة القرآن الكريم ====================
+        async function loadRadioStations() {
+            try {
+                const response = await fetch('https://data-rosy.vercel.app/radio.json');
+                const data = await response.json();
+                
+                if (data && Array.isArray(data)) {
+                    displayRadioStations(data);
+                    showNotification('تم', `تم تحميل ${data.length} محطة إذاعية`);
+                } else {
+                    loadDefaultRadioStations();
+                }
+            } catch (error) {
+                console.error('Error loading radio stations:', error);
+                loadDefaultRadioStations();
+            }
+        }
+        
+        function displayRadioStations(stations) {
+            const radioContainer = document.getElementById('radioStations');
+            if (!radioContainer) return;
+            
+            radioContainer.innerHTML = '';
+            
+            stations.forEach(station => {
+                const radioCard = document.createElement('div');
+                radioCard.className = 'radio-card glass-effect';
+                radioCard.onclick = () => playRadioStation(station);
+                
+                radioCard.innerHTML = `
+                    <div class="radio-icon">
+                        <i class="fas fa-radio"></i>
+                    </div>
+                    <h3 style="margin-bottom: 10px; color: var(--light-text);">${station.name || 'محطة إذاعية'}</h3>
+                    <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 15px;">${station.country || 'البلد غير معروف'}</p>
+                    <div class="radio-controls">
+                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.9rem;">
+                            <i class="fas fa-play"></i> تشغيل
+                        </button>
+                    </div>
+                `;
+                
+                radioContainer.appendChild(radioCard);
+            });
+        }
+        
+        function loadDefaultRadioStations() {
+            const defaultStations = [
+                { name: 'إذاعة القرآن الكريم - السعودية', url: 'https://quran.ksu.edu.sa/radio/radio.mp3', country: 'السعودية' },
+                { name: 'إذاعة القرآن الكريم - مصر', url: 'http://stream.radiojar.com/quran-radio', country: 'مصر' },
+                { name: 'إذاعة القرآن الكريم - الإمارات', url: 'https://stream.radiojar.com/u8q5mdqgpvzuv', country: 'الإمارات' },
+                { name: 'إذاعة القرآن الكريم - قطر', url: 'https://stream.radiojar.com/8p5vzhwvwg9uv', country: 'قطر' },
+                { name: 'إذاعة القرآن الكريم - الكويت', url: 'https://stream.radiojar.com/quran-kuwait', country: 'الكويت' },
+                { name: 'إذاعة القرآن الكريم - الأردن', url: 'https://stream.radiojar.com/quran-jordan', country: 'الأردن' }
+            ];
+            
+            displayRadioStations(defaultStations);
+        }
+        
+        function playRadioStation(station) {
+            currentRadioStation = station;
+            
+            // إيقاف أي إذاعة تعمل حالياً
+            if (radioPlayer) {
+                stopRadio();
+            }
+            
+            // تحديث المعلومات
+            document.getElementById('currentRadioName').textContent = station.name;
+            document.getElementById('currentRadioCountry').textContent = station.country || '';
+            
+            // إظهار مشغل الإذاعة
+            document.getElementById('radioPlayer').style.display = 'block';
+            
+            // تشغيل الإذاعة
+            try {
+                radioPlayer = new Audio(station.url);
+                radioPlayer.play();
+                isRadioPlaying = true;
+                document.getElementById('radioPlayBtn').innerHTML = '<i class="fas fa-pause"></i>';
+                
+                // تحديث أزرار المحطات
+                document.querySelectorAll('.radio-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                
+                if (event && event.target) {
+                    const card = event.target.closest('.radio-card');
+                    if (card) {
+                        card.classList.add('active');
+                        card.querySelector('.btn').innerHTML = '<i class="fas fa-pause"></i> إيقاف';
+                    }
+                }
+                
+                showNotification('جاري التشغيل', `إذاعة ${station.name}`);
+                audioSystem.playSound('notification');
+                
+                // إضافة مستمعين للأحداث
+                radioPlayer.addEventListener('error', function() {
+                    showNotification('خطأ', 'تعذر تشغيل الإذاعة. قد يكون الرابط غير صالح');
+                    stopRadio();
+                });
+                
+            } catch (error) {
+                console.error('Error playing radio:', error);
+                showNotification('خطأ', 'تعذر تشغيل الإذاعة');
+            }
+        }
+        
+        function playPauseRadio() {
+            if (!radioPlayer) return;
+            
+            if (isRadioPlaying) {
+                radioPlayer.pause();
+                document.getElementById('radioPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+                isRadioPlaying = false;
+            } else {
+                radioPlayer.play();
+                document.getElementById('radioPlayBtn').innerHTML = '<i class="fas fa-pause"></i>';
+                isRadioPlaying = true;
+            }
+            audioSystem.playSound('click');
+        }
+        
+        function stopRadio() {
+            if (!radioPlayer) return;
+            
+            radioPlayer.pause();
+            radioPlayer = null;
+            isRadioPlaying = false;
+            document.getElementById('radioPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+            
+            // إعادة تعيين أزرار المحطات
+            document.querySelectorAll('.radio-card').forEach(card => {
+                card.classList.remove('active');
+                card.querySelector('.btn').innerHTML = '<i class="fas fa-play"></i> تشغيل';
+            });
+            
+            document.getElementById('radioPlayer').style.display = 'none';
+        }
+        
+        function seekRadio(event) {
+            // للإذاعات المباشرة لا يمكن التحكم في الوقت
+            audioSystem.playSound('click');
+        }
+        
+        // ==================== نظام المقالات الإسلامية ====================
+        async function loadIslamicArticles() {
+            try {
+                // استخدام بيانات افتراضية للمقالات
+                islamicArticles = [
+                    {
+                        title: 'فضل الصلاة في الإسلام',
+                        description: 'مقال يتحدث عن أهمية الصلاة وفضلها في الإسلام، وكيف أنها عماد الدين وأول ما يحاسب عليه العبد يوم القيامة.',
+                        category_name: 'الصلاة',
+                        created_at: '2024-01-15',
+                        views: 1250,
+                        link: 'https://www.islamweb.net/ar/article/135500/'
+                    },
+                    {
+                        title: 'أهمية بر الوالدين',
+                        description: 'مقال يتناول أهمية بر الوالدين في الإسلام، وفضله العظيم، وعاقبة عقوق الوالدين.',
+                        category_name: 'الأخلاق',
+                        created_at: '2024-01-10',
+                        views: 980,
+                        link: 'https://www.islamweb.net/ar/article/135501/'
+                    },
+                    {
+                        title: 'الاستغفار وأثره في حياة المسلم',
+                        description: 'مقال عن فضل الاستغفار وكثرة الذكر، وكيف يغير الله حال العبد من الضيق إلى السعة.',
+                        category_name: 'العبادات',
+                        created_at: '2024-01-05',
+                        views: 750,
+                        link: 'https://www.islamweb.net/ar/article/135502/'
+                    },
+                    {
+                        title: 'الصبر في الشدائد',
+                        description: 'كيف يكون الصبر عند المصيبة، وفضل الصابرين، وأجرهم عند الله تعالى.',
+                        category_name: 'التزكية',
+                        created_at: '2024-01-01',
+                        views: 620,
+                        link: 'https://www.islamweb.net/ar/article/135503/'
+                    },
+                    {
+                        title: 'فضل قراءة القرآن الكريم',
+                        description: 'الأجر العظيم لقراءة القرآن وتدبره، وكيف يكون شفيعاً لصاحبه يوم القيامة.',
+                        category_name: 'القرآن',
+                        created_at: '2023-12-28',
+                        views: 1100,
+                        link: 'https://www.islamweb.net/ar/article/135504/'
+                    },
+                    {
+                        title: 'أحكام الزكاة وشروطها',
+                        description: 'شرح مفصل لأحكام الزكاة، وشروطها، ومقاديرها، والأصناف التي تجب فيها.',
+                        category_name: 'الفقه',
+                        created_at: '2023-12-25',
+                        views: 890,
+                        link: 'https://www.islamweb.net/ar/article/135505/'
+                    },
+                    {
+                        title: 'التوكل على الله',
+                        description: 'معنى التوكل الحقيقي، والفرق بينه وبين التواكل، وثمار التوكل على الله.',
+                        category_name: 'التزكية',
+                        created_at: '2023-12-20',
+                        views: 540,
+                        link: 'https://www.islamweb.net/ar/article/135506/'
+                    },
+                    {
+                        title: 'أخلاق النبي صلى الله عليه وسلم',
+                        description: 'سرد لأخلاق الرسول صلى الله عليه وسلم مع أصحابه وأهل بيته وأعدائه.',
+                        category_name: 'السيرة',
+                        created_at: '2023-12-15',
+                        views: 1320,
+                        link: 'https://www.islamweb.net/ar/article/135507/'
+                    }
+                ];
+                
+                // استخراج الفئات
+                articleCategories.clear();
+                islamicArticles.forEach(article => {
+                    if (article.category_name) {
+                        articleCategories.add(article.category_name);
+                    }
+                });
+                
+                // عرض الفئات
+                displayArticleCategories();
+                
+                // عرض المقالات
+                displayArticles(islamicArticles);
+                
+                showNotification('تم', `تم تحميل ${islamicArticles.length} مقالة إسلامية`);
+                
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                loadDefaultArticles();
+            }
+        }
+        
+        function displayArticleCategories() {
+            const categoriesContainer = document.getElementById('articleCategories');
+            if (!categoriesContainer) return;
+            
+            // إضافة فئة "الكل" في البداية
+            let categoriesHTML = '<button class="filter-btn active" onclick="filterArticles(\'all\')">الكل</button>';
+            
+            // إضافة الفئات الأخرى
+            articleCategories.forEach(category => {
+                if (category && category.trim() !== '') {
+                    categoriesHTML += `<button class="filter-btn" onclick="filterArticles('${category}')">${category}</button>`;
+                }
+            });
+            
+            categoriesContainer.innerHTML = categoriesHTML;
+        }
+        
+        function displayArticles(articles) {
+            const articlesContainer = document.getElementById('articlesList');
+            if (!articlesContainer) return;
+            
+            articlesContainer.innerHTML = '';
+            
+            if (!articles || articles.length === 0) {
+                articlesContainer.innerHTML = '<p style="text-align: center; color: #aaa; grid-column: 1 / -1; padding: 40px;">لا توجد مقالات متاحة حالياً</p>';
+                return;
+            }
+            
+            articles.forEach(article => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'article-card glass-effect';
+                articleCard.onclick = () => openArticle(article);
+                
+                const excerpt = article.description ? 
+                    (article.description.length > 150 ? article.description.substring(0, 150) + '...' : article.description) :
+                    'لا يوجد وصف للمقالة';
+                
+                articleCard.innerHTML = `
+                    <div class="article-category">${article.category_name || 'عام'}</div>
+                    <h3 class="article-title">${article.title || 'عنوان المقالة'}</h3>
+                    <p class="article-excerpt">${excerpt}</p>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar"></i> ${article.created_at ? article.created_at.substring(0, 10) : 'تاريخ غير معروف'}</span>
+                        <span><i class="far fa-eye"></i> ${article.views || 0}</span>
+                    </div>
+                `;
+                
+                articlesContainer.appendChild(articleCard);
+            });
+        }
+        
+        function loadDefaultArticles() {
+            const defaultArticles = [
+                {
+                    title: 'فضل الصلاة في الإسلام',
+                    description: 'مقال يتحدث عن أهمية الصلاة وفضلها في الإسلام',
+                    category_name: 'الصلاة',
+                    created_at: '2024-01-15',
+                    views: 1250
+                },
+                {
+                    title: 'أهمية بر الوالدين',
+                    description: 'مقال يتناول أهمية بر الوالدين في الإسلام',
+                    category_name: 'الأخلاق',
+                    created_at: '2024-01-10',
+                    views: 980
+                }
+            ];
+            
+            islamicArticles = defaultArticles;
+            displayArticles(islamicArticles);
+        }
+        
+        function filterArticles(category) {
+            const buttons = document.querySelectorAll('#articleCategories .filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+            
+            let filtered = islamicArticles;
+            
+            if (category !== 'all') {
+                filtered = islamicArticles.filter(article => 
+                    article.category_name === category
+                );
+            }
+            
+            displayArticles(filtered);
+            audioSystem.playSound('click');
+        }
+        
+        function searchArticles() {
+            const searchInput = document.getElementById('searchArticles');
+            if (!searchInput) return;
+            
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            if (!searchTerm) {
+                displayArticles(islamicArticles);
+                return;
+            }
+            
+            const filtered = islamicArticles.filter(article => 
+                (article.title && article.title.toLowerCase().includes(searchTerm)) ||
+                (article.description && article.description.toLowerCase().includes(searchTerm)) ||
+                (article.category_name && article.category_name.toLowerCase().includes(searchTerm))
+            );
+            
+            displayArticles(filtered);
+        }
+        
+        function openArticle(article) {
+            // فتح المقال في نافذة جديدة إذا كان هناك رابط
+            if (article.link) {
+                window.open(article.link, '_blank');
+            } else {
+                // عرض محتوى المقال في نافذة منبثقة
+                const articleContent = `
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">${article.title}</h3>
+                    <div style="color: #aaa; margin-bottom: 10px;">
+                        <span><i class="far fa-calendar"></i> ${article.created_at || 'غير معروف'}</span>
+                        <span style="margin-right: 15px;"><i class="far fa-eye"></i> ${article.views || 0}</span>
+                        <span class="article-category">${article.category_name || 'عام'}</span>
+                    </div>
+                    <div style="color: var(--light-text); line-height: 1.8; font-size: 1.1rem;">
+                        ${article.description || 'لا يوجد محتوى للمقالة'}
+                    </div>
+                `;
+                
+                showNotification(article.title, 'تم فتح المقال. يمكنك قراءته بالكامل');
+                
+                // إنشاء نافذة عرض المقال
+                const articleModal = document.createElement('div');
+                articleModal.style.position = 'fixed';
+                articleModal.style.top = '0';
+                articleModal.style.left = '0';
+                articleModal.style.width = '100%';
+                articleModal.style.height = '100%';
+                articleModal.style.background = 'rgba(0,0,0,0.8)';
+                articleModal.style.zIndex = '1001';
+                articleModal.style.display = 'flex';
+                articleModal.style.justifyContent = 'center';
+                articleModal.style.alignItems = 'center';
+                articleModal.style.padding = '20px';
+                
+                articleModal.innerHTML = `
+                    <div class="card glass-effect" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 style="color: var(--gold);">${article.title}</h3>
+                            <button class="btn btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove()">
+                                <i class="fas fa-times"></i> إغلاق
+                            </button>
+                        </div>
+                        ${articleContent}
+                    </div>
+                `;
+                
+                document.body.appendChild(articleModal);
+            }
+            audioSystem.playSound('notification');
+        }
+        
+        // ==================== نظام البحث عن الأحكام الشرعية ====================
+        function setExampleQuery(query) {
+            document.getElementById('fatawaQuery').value = query;
+            audioSystem.playSound('click');
+        }
+        
+        async function searchFatawa() {
+            const query = document.getElementById('fatawaQuery').value.trim();
+            if (!query) {
+                showNotification('تنبيه', 'الرجاء إدخال سؤال للبحث');
+                return;
+            }
+            
+            const searchBtn = document.getElementById('searchFatawaBtn');
+            const resultsDiv = document.getElementById('fatawaResults');
+            const loadingDiv = document.getElementById('fatawaLoading');
+            
+            // إظهار حالة التحميل
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البحث...';
+            resultsDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+            
+            try {
+                // حفظ السؤال في التاريخ
+                addToFatawaHistory(query);
+                
+                // استخدام API مجاني للذكاء الاصطناعي
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_API_KEY_HERE' // يجب استبدال هذا بمفتاح API حقيقي
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-3.5-turbo',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'أنت باحث شرعي إسلامي متخصص في الفقه والأحكام الشرعية. يجب أن تكون إجاباتك دقيقة ومستندة إلى القرآن والسنة وآراء العلماء المعتبرين.'
+                            },
+                            {
+                                role: 'user',
+                                content: `سؤال فقهي: ${query}\n\nالرجاء تقديم الإجابة مع:\n1. الحكم الشرعي\n2. الدليل من القرآن والسنة\n3. آراء العلماء إن وجدت\n4. التوصيات العملية`
+                            }
+                        ],
+                        max_tokens: 1000,
+                        temperature: 0.7
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('فشل في الاتصال بخدمة الذكاء الاصطناعي');
+                }
+                
+                const data = await response.json();
+                const answer = data.choices[0].message.content;
+                
+                // عرض النتائج
+                displayFatawaResults(query, answer);
+                
+            } catch (error) {
+                console.error('Error searching fatawa:', error);
+                
+                // استخدام إجابات افتراضية في حالة فشل API
+                const defaultAnswers = {
+                    'ما حكم الصلاة بدون وضوء؟': `
+                        <div class="fatawa-card glass-effect">
+                            <div class="fatawa-question">سؤال: ما حكم الصلاة بدون وضوء؟</div>
+                            <div class="fatawa-answer">
+                                <p><strong>الحكم الشرعي:</strong> الصلاة بدون وضوء باطلة ولا تقبل.</p>
+                                <p><strong>الدليل:</strong> قال الله تعالى: {يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا قُمْتُمْ إِلَى الصَّلَاةِ فَاغْسِلُوا وُجُوهَكُمْ وَأَيْدِيَكُمْ إِلَى الْمَرَافِقِ وَامْسَحُوا بِرُؤُوسِكُمْ وَأَرْجُلَكُمْ إِلَى الْكَعْبَيْنِ} [المائدة: 6]</p>
+                                <p>وقال رسول الله صلى الله عليه وسلم: "لا يقبل الله صلاة أحدكم إذا أحدث حتى يتوضأ" (رواه البخاري ومسلم).</p>
+                                <p><strong>آراء العلماء:</strong> أجمع العلماء على أن الوضوء شرط من شروط صحة الصلاة.</p>
+                                <p><strong>التوصية:</strong> يجب على المسلم أن يتأكد من طهارته قبل الشروع في الصلاة.</p>
+                            </div>
+                            <div class="fatawa-source">المصدر: مجموع فتاوى ابن عثيمين</div>
+                        </div>
+                    `,
+                    'ما هي شروط الزكاة؟': `
+                        <div class="fatawa-card glass-effect">
+                            <div class="fatawa-question">سؤال: ما هي شروط الزكاة؟</div>
+                            <div class="fatawa-answer">
+                                <p><strong>شروط الزكاة:</strong></p>
+                                <ol>
+                                    <li><strong>الإسلام:</strong> لا تجب الزكاة على الكافر.</li>
+                                    <li><strong>الحرية:</strong> لا تجب على العبد.</li>
+                                    <li><strong>ملك النصاب:</strong> أن يبلغ المال النصاب الشرعي.</li>
+                                    <li><strong>الحول:</strong> مرور عام هجري كامل على ملك النصاب.</li>
+                                    <li><strong>النماء:</strong> أن يكون المال قابلاً للنماء والزيادة.</li>
+                                </ol>
+                                <p><strong>الدليل:</strong> قال تعالى: {خُذْ مِنْ أَمْوَالِهِمْ صَدَقَةً تُطَهِّرُهُمْ وَتُزَكِّيهِم بِهَا} [التوبة: 103].</p>
+                                <p><strong>التوصية:</strong> يجب على المسلم حساب زكاته بدقة وإخراجها في وقتها.</p>
+                            </div>
+                            <div class="fatawa-source">المصدر: كتاب الفقه الإسلامي وأدلته</div>
+                        </div>
+                    `,
+                    'حكم العمل في البنوك الربوية؟': `
+                        <div class="fatawa-card glass-effect">
+                            <div class="fatawa-question">سؤال: حكم العمل في البنوك الربوية؟</div>
+                            <div class="fatawa-answer">
+                                <p><strong>الحكم الشرعي:</strong> العمل في البنوك الربوية محرم إذا كان يتعلق بالربا مباشرة.</p>
+                                <p><strong>الدليل:</strong> قال الله تعالى: {يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَذَرُوا مَا بَقِيَ مِنَ الرِّبَا إِن كُنتُم مُّؤْمِنِينَ * فَإِن لَّمْ تَفْعَلُوا فَأْذَنُوا بِحَرْبٍ مِّنَ اللَّهِ وَرَسُولِهِ} [البقرة: 278-279].</p>
+                                <p>قال رسول الله صلى الله عليه وسلم: "لعن الله آكل الربا وموكله وكاتبه وشاهديه" (رواه مسلم).</p>
+                                <p><strong>آراء العلماء:</strong> مجمع الفقه الإسلامي: يحرم العمل في البنوك الربوية في الوظائف المتعلقة بالربا مباشرة.</p>
+                                <p><strong>التوصية:</strong> البحث عن عمل حلال في بنوك إسلامية أو مؤسسات خالية من الربا.</p>
+                            </div>
+                            <div class="fatawa-source">المصدر: قرارات مجمع الفقه الإسلامي الدولي</div>
+                        </div>
+                    `
+                };
+                
+                const answer = defaultAnswers[query] || `
+                    <div class="fatawa-card glass-effect">
+                        <div class="fatawa-question">سؤال: ${query}</div>
+                        <div class="fatawa-answer">
+                            <p>لا توجد إجابة محددة مخزنة لهذا السؤال. ننصحك بمراجعة عالم شرعي موثوق أو البحث في المصادر المعتمدة مثل:</p>
+                            <ul>
+                                <li>موقع الإسلام سؤال وجواب</li>
+                                <li>فتاوى اللجنة الدائمة</li>
+                                <li>كتب الفقه المعتمدة</li>
+                            </ul>
+                            <p>يمكنك أيضاً صياغة السؤال بشكل أكثر تحديداً للحصول على إجابة دقيقة.</p>
+                        </div>
+                        <div class="fatawa-source">تطبيق رعد - البحث الشرعي</div>
+                    </div>
+                `;
+                
+                displayFatawaResults(query, answer);
+            } finally {
+                // إعادة تعيين الزر
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = '<i class="fas fa-search"></i> البحث عن الجواب';
+                loadingDiv.style.display = 'none';
+            }
+        }
+        
+        function displayFatawaResults(question, answer) {
+            const resultsDiv = document.getElementById('fatawaResults');
+            
+            resultsDiv.innerHTML = `
+                <h3 style="color: var(--gold); margin-bottom: 20px;"><i class="fas fa-lightbulb"></i> نتيجة البحث</h3>
+                ${answer}
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn" onclick="copyFatawaAnswer()" style="flex: 1;">
+                        <i class="fas fa-copy"></i> نسخ الإجابة
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareFatawaAnswer('${question.replace(/'/g, "\\'")}')" style="flex: 1;">
+                        <i class="fas fa-share"></i> مشاركة
+                    </button>
+                </div>
+            `;
+            
+            resultsDiv.style.display = 'block';
+            audioSystem.playSound('notification');
+            
+            // إظهار تاريخ البحث
+            displaySearchHistory();
+        }
+        
+        function addToFatawaHistory(query) {
+            const historyItem = {
+                query: query,
+                timestamp: new Date().toLocaleString('ar-SA'),
+                id: Date.now()
+            };
+            
+            fatawaHistory.unshift(historyItem);
+            if (fatawaHistory.length > 10) {
+                fatawaHistory = fatawaHistory.slice(0, 10);
+            }
+            
+            // حفظ في localStorage
+            localStorage.setItem('fatawaHistory', JSON.stringify(fatawaHistory));
+        }
+        
+        function displaySearchHistory() {
+            const historyDiv = document.getElementById('searchHistory');
+            const historyList = document.getElementById('historyList');
+            
+            if (fatawaHistory.length === 0) {
+                const savedHistory = localStorage.getItem('fatawaHistory');
+                if (savedHistory) {
+                    fatawaHistory = JSON.parse(savedHistory);
+                }
+            }
+            
+            if (fatawaHistory.length === 0) {
+                historyDiv.style.display = 'none';
+                return;
+            }
+            
+            historyDiv.style.display = 'block';
+            historyList.innerHTML = '';
+            
+            fatawaHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.onclick = () => {
+                    document.getElementById('fatawaQuery').value = item.query;
+                    searchFatawa();
+                };
+                
+                historyItem.innerHTML = `
+                    <div style="font-weight: bold; margin-bottom: 5px;">${item.query}</div>
+                    <div style="color: #666; font-size: 0.8rem;">${item.timestamp}</div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+        
+        function clearFatawaSearch() {
+            document.getElementById('fatawaQuery').value = '';
+            document.getElementById('fatawaResults').style.display = 'none';
+            document.getElementById('fatawaResults').innerHTML = '';
+            audioSystem.playSound('click');
+        }
+        
+        function copyFatawaAnswer() {
+            const answerElement = document.querySelector('.fatawa-answer');
+            if (!answerElement) return;
+            
+            const textToCopy = answerElement.textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        showNotification('تم النسخ', 'تم نسخ الإجابة الشرعية');
+                        audioSystem.playSound('notification');
+                    })
+                    .catch(() => showNotification('خطأ', 'تعذر نسخ الإجابة'));
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('تم النسخ', 'تم نسخ الإجابة الشرعية');
+                audioSystem.playSound('notification');
+            }
+        }
+        
+        function shareFatawaAnswer(question) {
+            const answerElement = document.querySelector('.fatawa-answer');
+            if (!answerElement) return;
+            
+            const answerText = answerElement.textContent;
+            const shareText = `سؤال: ${question}\n\nالإجابة: ${answerText}\n\nمشاركة من تطبيق رعد الإسلامي`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'فتوى شرعية من تطبيق رعد',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(() => {
+                    copyFatawaAnswer();
+                });
+            } else {
+                copyFatawaAnswer();
+            }
+        }
+        
+        // ==================== نظام التذكيرات عبر EmailJS ====================
+        function loadNotificationSettings() {
+            const savedSettings = localStorage.getItem('notificationSettings');
+            if (savedSettings) {
+                try {
+                    notificationSettings = JSON.parse(savedSettings);
+                    
+                    // تحديث واجهة المستخدم
+                    document.getElementById('prayerNotifications').checked = notificationSettings.prayerNotifications;
+                    document.getElementById('prayerReminderTime').value = notificationSettings.prayerReminderTime;
+                    document.getElementById('morningAzkarReminder').checked = notificationSettings.morningAzkarReminder;
+                    document.getElementById('eveningAzkarReminder').checked = notificationSettings.eveningAzkarReminder;
+                    document.getElementById('quranReminder').checked = notificationSettings.quranReminder;
+                    document.getElementById('userEmail').value = notificationSettings.email;
+                    document.getElementById('userName').value = notificationSettings.name;
+                    
+                    // تحديث حالة التذكيرات
+                    updateNotificationStatus();
+                    
+                } catch (e) {
+                    console.error('Error parsing notification settings:', e);
+                }
+            }
+        }
+        
+        function saveNotificationSettings() {
+            const email = document.getElementById('userEmail').value.trim();
+            const name = document.getElementById('userName').value.trim();
+            
+            if (!email) {
+                showNotification('تنبيه', 'الرجاء إدخال البريد الإلكتروني');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showNotification('تنبيه', 'البريد الإلكتروني غير صالح');
+                return;
+            }
+            
+            // تحديث الإعدادات
+            notificationSettings.email = email;
+            notificationSettings.name = name || 'مستخدم رعد';
+            notificationSettings.prayerNotifications = document.getElementById('prayerNotifications').checked;
+            notificationSettings.prayerReminderTime = document.getElementById('prayerReminderTime').value;
+            notificationSettings.morningAzkarReminder = document.getElementById('morningAzkarReminder').checked;
+            notificationSettings.eveningAzkarReminder = document.getElementById('eveningAzkarReminder').checked;
+            notificationSettings.quranReminder = document.getElementById('quranReminder').checked;
+            notificationSettings.subscribed = true;
+            
+            // حفظ في localStorage
+            localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+            
+            // إرسال رسالة ترحيب
+            sendWelcomeEmail();
+            
+            showNotification('تم الحفظ', 'تم حفظ إعدادات التذكيرات بنجاح');
+            audioSystem.playSound('notification');
+            
+            // تحديث حالة التذكيرات
+            updateNotificationStatus();
+        }
+        
+        function sendWelcomeEmail() {
+            const templateParams = {
+                to_email: notificationSettings.email,
+                to_name: notificationSettings.name,
+                from_name: 'تطبيق رعد الإسلامي',
+                message: 'مرحباً بك في نظام تذكيرات تطبيق رعد! ستتلقى تذكيرات يومية للصلوات والأذكار.',
+                prayer_notifications: notificationSettings.prayerNotifications ? 'مفعلة' : 'معطلة',
+                azkar_notifications: (notificationSettings.morningAzkarReminder || notificationSettings.eveningAzkarReminder) ? 'مفعلة' : 'معطلة'
+            };
+            
+            emailjs.send('service_wfibus7', 'template_1kwtc3i', templateParams)
+                .then(() => {
+                    console.log('تم إرسال رسالة الترحيب');
+                })
+                .catch(error => {
+                    console.error('Error sending welcome email:', error);
+                });
+        }
+        
+        function testNotification() {
+            if (!notificationSettings.email) {
+                showNotification('تنبيه', 'الرجاء إدخال البريد الإلكتروني أولاً');
+                return;
+            }
+            
+            const templateParams = {
+                to_email: notificationSettings.email,
+                to_name: notificationSettings.name,
+                from_name: 'تطبيق رعد الإسلامي',
+                subject: '🔔 تذكير تجريبي من تطبيق رعد',
+                message: 'هذا تذكير تجريبي من تطبيق رعد الإسلامي. إذا تلقيت هذه الرسالة، فهذا يعني أن نظام التذكيرات يعمل بشكل صحيح.',
+                prayer_name: 'الصلاة القادمة',
+                prayer_time: new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+                azkar_type: 'أذكار الصباح',
+                azkar_count: '10',
+                quran_verse: 'وَذَكِّرْ فَإِنَّ الذِّكْرَى تَنْفَعُ الْمُؤْمِنِينَ'
+            };
+            
+            emailjs.send('service_wfibus7', 'template_1kwtc3i', templateParams)
+                .then(() => {
+                    showNotification('تم الإرسال', 'تم إرسال تذكير تجريبي إلى بريدك الإلكتروني');
+                    audioSystem.playSound('notification');
+                })
+                .catch(error => {
+                    console.error('Error sending test notification:', error);
+                    showNotification('خطأ', 'تعذر إرسال التذكير. تحقق من اتصالك بالإنترنت');
+                });
+        }
+        
+        function unsubscribeNotifications() {
+            if (!notificationSettings.email) {
+                showNotification('تنبيه', 'ليس لديك اشتراك نشط');
+                return;
+            }
+            
+            const templateParams = {
+                to_email: notificationSettings.email,
+                to_name: notificationSettings.name,
+                from_name: 'تطبيق رعد الإسلامي',
+                subject: 'إلغاء اشتراك تذكيرات تطبيق رعد',
+                message: 'لقد ألغيت اشتراكك في تذكيرات تطبيق رعد. لن تتلقى أي تذكيرات أخرى.',
+                unsubscribe: true
+            };
+            
+            emailjs.send('service_wfibus7', 'template_1kwtc3i', templateParams)
+                .then(() => {
+                    notificationSettings.subscribed = false;
+                    localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+                    
+                    showNotification('تم الإلغاء', 'تم إلغاء جميع التذكيرات بنجاح');
+                    audioSystem.playSound('notification');
+                    
+                    updateNotificationStatus();
+                })
+                .catch(error => {
+                    console.error('Error unsubscribing:', error);
+                    showNotification('خطأ', 'تعذر إلغاء الاشتراك');
+                });
+        }
+        
+        function updateNotificationStatus() {
+            const statusElement = document.getElementById('notificationStatus');
+            const nextElement = document.getElementById('nextNotification');
+            
+            if (!notificationSettings.subscribed || !notificationSettings.email) {
+                statusElement.textContent = 'غير مشترك في التذكيرات';
+                nextElement.textContent = 'قم بتفعيل التذكيرات أعلاه';
+                return;
+            }
+            
+            statusElement.textContent = 'مشترك في التذكيرات';
+            
+            // حساب التذكير القادم
+            const now = new Date();
+            const nextPrayer = getNextPrayerTime();
+            
+            if (nextPrayer && notificationSettings.prayerNotifications) {
+                const reminderTime = parseInt(notificationSettings.prayerReminderTime);
+                const reminderDate = new Date(nextPrayer.time);
+                reminderDate.setMinutes(reminderDate.getMinutes() - reminderTime);
+                
+                nextElement.textContent = `التذكير القادم: قبل ${nextPrayer.name} بـ ${reminderTime} دقيقة`;
+            } else if (notificationSettings.morningAzkarReminder) {
+                nextElement.textContent = 'التذكير القادم: أذكار الصباح (6:00 صباحاً)';
+            } else {
+                nextElement.textContent = 'لا توجد تذكيرات قادمة';
+            }
+        }
+        
+        function getNextPrayerTime() {
+            if (!currentPrayerTimes || Object.keys(currentPrayerTimes).length === 0) {
+                return null;
+            }
+            
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            const prayerMinutes = {};
+            const prayerNames = {
+                'Fajr': { name: 'الفجر', time: currentPrayerTimes.Fajr },
+                'Dhuhr': { name: 'الظهر', time: currentPrayerTimes.Dhuhr },
+                'Asr': { name: 'العصر', time: currentPrayerTimes.Asr },
+                'Maghrib': { name: 'المغرب', time: currentPrayerTimes.Maghrib },
+                'Isha': { name: 'العشاء', time: currentPrayerTimes.Isha }
+            };
+            
+            Object.keys(prayerNames).forEach(key => {
+                const time = prayerNames[key].time;
+                if (time && time.includes(':')) {
+                    prayerMinutes[key] = convertTimeToMinutes(time);
+                }
+            });
+            
+            let nextPrayer = null;
+            let minDiff = Infinity;
+            
+            for (const [prayer, time] of Object.entries(prayerMinutes)) {
+                if (time > currentTime && time - currentTime < minDiff) {
+                    minDiff = time - currentTime;
+                    nextPrayer = {
+                        name: prayerNames[prayer].name,
+                        time: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
+                            Math.floor(time / 60), time % 60)
+                    };
+                }
+            }
+            
+            return nextPrayer;
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
         // ==================== نظام السمات ====================
         function selectTheme(theme) {
             document.querySelectorAll('.theme-card').forEach(card => {
@@ -3175,19 +4648,19 @@
             
             const themeDescriptions = {
                 'gold': 'المظهر الذهبي الافتراضي',
-                'green': 'أون الجنة - الاخضرار والنقاء',
-                'blue': 'أون السماء - الصفاء والسلام',
-                'purple': 'أون الملكي - الفخامة والجمال',
-                'brown': 'أون الأرض - الاستقرار والطمأنينة',
-                'pink': 'أون الرقة - اللطف والهدوء',
-                'red': 'أون القوة - الطاقة والعزم',
-                'yellow': 'أون الشمس - النور والدفء',
-                'orange': 'أون الطاقة - الحيوية والنشاط',
+                'green': 'لون  - الاخضرار والنقاء',
+                'blue': 'لون السماء - الصفاء والسلام',
+                'purple': 'لون الملكي - الفخامة والجمال',
+                'brown': 'لون الأرض - الاستقرار والطمأنينة',
+                'pink': 'لون الرقة - اللطف والهدوء',
+                'red': 'لون القوة - الطاقة والعزم',
+                'yellow': 'لون الشمس - النور والدفء',
+                'orange': 'لون الطاقة - الحيوية والنشاط',
                 'white': 'للقراءة النهارية - الوضوح والراحة',
-                'gray': 'أون الجبال - الثبات والوقار',
-                'cherry': 'أون الكرز - الحلاوة والجمال',
-                'wine': 'أون العميق - الغموض والأناقة',
-                'icy': 'أون الجليد - النقاء والصفاء'
+                'gray': 'لون الجبال - الثبات والوقار',
+                'cherry': 'لون الكرز - الحلاوة والجمال',
+                'wine': 'لون العميق - الغموض والأناقة',
+                'icy': 'لون الجليد - النقاء والصفاء'
             };
             
             showNotification('تم التغيير', themeDescriptions[theme] || `تم تطبيق السمة ${theme}`);
@@ -3199,12 +4672,6 @@
         }
         
         // ==================== وظائف مساعدة ====================
-        function convertTimeToMinutes(timeStr) {
-            if (!timeStr || !timeStr.includes(':')) return 0;
-            const [hours, minutes] = timeStr.split(':').map(Number);
-            return hours * 60 + minutes;
-        }
-        
         function showSection(id) {
             // إخفاء جميع الأقسام
             document.querySelectorAll('.section').forEach(section => {
@@ -3238,6 +4705,11 @@
             footerButtons.forEach(button => {
                 button.classList.add('active');
             });
+            
+            // إذا كان القسم هو الأحكام، عرض تاريخ البحث
+            if (id === 'fatawa') {
+                displaySearchHistory();
+            }
             
             audioSystem.playSound('section');
         }
@@ -3298,6 +4770,24 @@
                         card.classList.add('glass-effect');
                     }
                 });
+                
+                document.querySelectorAll('.radio-card').forEach(card => {
+                    if (!card.classList.contains('glass-effect')) {
+                        card.classList.add('glass-effect');
+                    }
+                });
+                
+                document.querySelectorAll('.article-card').forEach(card => {
+                    if (!card.classList.contains('glass-effect')) {
+                        card.classList.add('glass-effect');
+                    }
+                });
+                
+                document.querySelectorAll('.fatawa-card').forEach(card => {
+                    if (!card.classList.contains('glass-effect')) {
+                        card.classList.add('glass-effect');
+                    }
+                });
             }, 100);
         }
         
@@ -3349,6 +4839,16 @@
                     console.error('Error parsing prayer settings:', e);
                 }
             }
+            
+            // تحميل تاريخ البحث عن الأحكام
+            const savedHistory = localStorage.getItem('fatawaHistory');
+            if (savedHistory) {
+                try {
+                    fatawaHistory = JSON.parse(savedHistory);
+                } catch (e) {
+                    console.error('Error parsing fatawa history:', e);
+                }
+            }
         }
         
         function saveStats() {
@@ -3367,4 +4867,3 @@
     </script>
 </body>
 </html>
-[file content end]
